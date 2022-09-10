@@ -6,6 +6,16 @@ const { upload } = require("./computationalUnit/fileupload");
 app.use(express.urlencoded());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
+const {Sequelize} = require('sequelize')
+
+const sequelize = require("./utils/database");
+
+try {
+  sequelize.authenticate();
+  console.log('Connection has been established successfully.');
+} catch (error) {
+  console.error('Unable to connect to the database:', error);
+}
 
 app.get("/", (req, res) => {
   res.send("We're are ONLINE!!");
