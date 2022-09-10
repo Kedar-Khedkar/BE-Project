@@ -1,18 +1,17 @@
-const { Sequelize, DataTypes } = require("sequelize");
+const { sequelize, Sequelize } = require("../utils/database");
 
-const sequelize = new Sequelize("mysql");
-const User = sequelize.define("User", {
+const User = sequelize.define("user", {
   PRN: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     primaryKey: true,
   },
   email: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: false,
     unique: true,
   },
   fullname: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: false,
   },
 });
