@@ -1,15 +1,18 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const morgan = require("morgan");
+const fs = require("fs");
+
 const { upload } = require("./computationalUnit/fileupload");
 const { extractUsers } = require("./computationalUnit/extractExcel");
-const fs = require("fs");
+const { sequelize, Sequelize } = require("./utils/database");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-const { sequelize, Sequelize } = require("./utils/database");
+morgan("dev");
 
 try {
   sequelize.authenticate();
