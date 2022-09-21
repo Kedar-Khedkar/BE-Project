@@ -15,7 +15,7 @@ const PasswordReset = React.lazy(() =>
   import("./component/Login & Registration/ResetPassword")
 );
 const UserAdd = React.lazy(() =>
-  import("./component/Login & Registration/AddUser")
+  import("./component/Add User/AddUser")
 );
 // const DropzoneBox = React.lazy(() =>
 //   import("./component/Drop zone/Dropzone")
