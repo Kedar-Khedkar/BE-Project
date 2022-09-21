@@ -1,0 +1,53 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+:root{
+    --bs-body-font-family:'Poppins', sans-serif;
+}
+.dark {
+    
+    // $enable-gradients: true;
+
+    /* redefine theme colors for dark theme */
+    $primary: #7827e7;
+    $secondary: #a94ff5;
+    $success: #222222;
+    $dark: #24263a;
+    $input-border-color:#7827e7;
+    $theme-colors: (
+        "primary": $primary,
+        "secondary": $secondary,
+        "success": $success,
+        "danger": $danger,
+        "info": $indigo,
+        "dark": $dark,
+        "light": #aaa,
+
+    );
+    $heading-font-family: 'Poppins', sans-serif;
+    $body-font-family: 'Poppins', sans-serif;
+    $font-family-base:'Poppins', sans-serif;
+    /* redefine theme color variables */
+    @each $color, $value in $theme-colors {
+        --#{$variable-prefix}#{$color}: #{$value};
+    }
+    
+    $theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
+    
+    @each $color, $value in $theme-colors-rgb {
+        --#{$variable-prefix}#{$color}-rgb: #{$value};
+    }
+
+    $body-color: #ffffff;
+    $body-bg: #14142b;
+    $nav-pills-link-active-bg: $secondary;
+    $nav-pills-link-active-color:  #ffffff;
+    --#{$variable-prefix}body-color: #{$body-color};
+    --#{$variable-prefix}body-bg: #{$body-bg};
+      
+    @import "~bootstrap/scss/bootstrap.scss";
+    
+    
+}
+
