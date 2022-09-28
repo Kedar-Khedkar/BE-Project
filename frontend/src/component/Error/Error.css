@@ -1,31 +1,4 @@
-/* @media only screen and (min-width: 992px) {
-    .error-image {
-        margin-left: 100px;
-        width: 800px;
-        margin-top: 20px;
-        
-    }
-}
 
-@media only screen and (max-width: 900px) {
-    
-    
-    .error-image {  
-        margin-top: 100px;
-    }
-    .error-text{
-        margin-top: 25px;
-    }
-} */
-/* @media only screen and (min-width: 600px) {
-    .error-image {
-        margin-left: 10px;
-        width: 800px;
-        margin-top: 20px;
-        
-    }
-} */
-/* Extra small devices (phones, 600px and down) iphones */
 @media only screen and (max-width: 600px) {
     .error-image {
         margin-left: 10px;
@@ -65,12 +38,3 @@
     }
   } 
   
-  /* Extra large devices (large laptops and desktops, 1200px and up) */
-  /* @media only screen and (min-width: 1200px) {
-    .error-image {
-        margin-left: 10px;
-        width: 1500px;
-        margin-top: 200px;
-        
-    }
-  } */
