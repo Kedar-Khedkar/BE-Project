@@ -1,8 +1,9 @@
 import "./App.css";
 import "./index.css";
 import "./bootstrap.scss";
-import { BrowserRouter, Route, Redirect, Routes } from "react-router-dom";
-import React, { useEffect, useState, Suspense } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { Suspense } from "react";
+
 import { Container } from "react-bootstrap";
 // import Form from "./component/Login & Registration/Login";
 // import PasswordReset from "./component/Login & Registration/ResetPassword";
@@ -11,13 +12,14 @@ import { Container } from "react-bootstrap";
 
 // ------------------------------------Lazy Loading-----------------------------------
 const LoginForm = React.lazy(() =>
-  import("./component/Login & Registration/Login")
+import("./component/Login & Registration/Login")
 );
 const PasswordReset = React.lazy(() =>
-  import("./component/Login & Registration/ResetPassword")
+import("./component/Login & Registration/ResetPassword")
 );
 const UserAdd = React.lazy(() => import("./component/Add User/AddUser"));
 const ErrorPage = React.lazy(() => import("./component/Error/ErrorPage"));
+// ------------------------------------Lazy Loading-----------------------------------
 // const DropzoneBox = React.lazy(() =>
 //   import("./component/Drop zone/Dropzone")
 // );
