@@ -12,10 +12,10 @@ import { Container } from "react-bootstrap";
 
 // ------------------------------------Lazy Loading-----------------------------------
 const LoginForm = React.lazy(() =>
-import("./component/Login & Registration/Login")
+  import("./component/Login & Registration/Login")
 );
 const PasswordReset = React.lazy(() =>
-import("./component/Login & Registration/ResetPassword")
+  import("./component/Login & Registration/ResetPassword")
 );
 const UserAdd = React.lazy(() => import("./component/Add User/AddUser"));
 const ErrorPage = React.lazy(() => import("./component/Error/ErrorPage"));
