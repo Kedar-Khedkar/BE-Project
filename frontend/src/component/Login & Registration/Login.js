@@ -6,8 +6,7 @@ import {
   Button,
   Form,
   Image,
-  Card,
-  Nav,
+  Card, 
   Container,
 } from "react-bootstrap";
 // import collegeLogo from "../../assets/Images/collegeLogo.png";
@@ -39,18 +38,6 @@ export default function loginForm() {
 
                   <Col md>
                     <h2 className={"text-center"}>Log In</h2>
-                    <Nav justify variant="pills" defaultActiveKey="Faculty">
-                      <Nav.Item>
-                        <Nav.Link className="text-white" eventKey="Faculty">
-                          Faculty
-                        </Nav.Link>
-                      </Nav.Item>
-                      <Nav.Item>
-                        <Nav.Link className="text-white" eventKey="Student">
-                          Student
-                        </Nav.Link>
-                      </Nav.Item>
-                    </Nav>
                     <Form noValidate>
                       <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
