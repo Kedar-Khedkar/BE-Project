@@ -3,6 +3,7 @@ const app = express();
 const path = require("path");
 const morgan = require("morgan");
 const fs = require("fs");
+const ExpressError = require("./utils/ExpressError");
 
 const { upload } = require("./computationalUnit/fileupload");
 const { extractUsers } = require("./computationalUnit/extractExcel");
@@ -28,16 +29,21 @@ app.get("/", (req, res) => {
 
 app.post("/users/upload", upload.single("file"), async (req, res) => {
   const uploadPath = req.file.path;
-  try {
-    await extractUsers(uploadPath);
-    res.send("Added users successfully");
-  } catch (e) {
-    console.log(e);
-    res.send("Failed");
+  await extractUsers(uploadPath);
+  res.send("Added users successfully");
+  fs.unlink(uploadPath);
+});
+
+app.all("*", (req, res, next) => {
+  next(new ExpressError("Page Not Found", 404));
+});
+
+app.use((err, req, res, next) => {
+  const { statusCode = 500 } = err;
+  if (!err.message) {
+    err.message = "Something Went Wrong!";
   }
-  fs.unlink(uploadPath, (err) => {
-    console.log(err);
-  });
+  res.status(statusCode).render("err", { err });
 });
 
 app.listen(5000, () => {
