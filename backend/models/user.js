@@ -1,9 +1,14 @@
 const { sequelize, Sequelize } = require("../utils/database");
 
 const User = sequelize.define("user", {
-  PRN: {
-    type: Sequelize.STRING,
+  uid: {
+    type: Sequelize.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
+  },
+  role: {
+    type: Sequelize.STRING,
+    allowNull: false,
   },
   email: {
     type: Sequelize.STRING,
