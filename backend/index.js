@@ -3,6 +3,7 @@ const app = express();
 const path = require("path");
 const morgan = require("morgan");
 const fs = require("fs");
+const cors = require("cors")
 // const session = require("express-session");
 const ExpressError = require("./utils/ExpressError");
 const catchAsync = require("./utils/catchAsync");
@@ -13,9 +14,11 @@ const { sequelize, Sequelize } = require("./utils/database");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors())
+
 app.use(express.static(path.join(__dirname, "public")));
 
-morgan("dev");
+app.use(morgan("dev"));
 
 try {
   sequelize.authenticate();
