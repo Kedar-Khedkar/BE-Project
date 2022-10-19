@@ -3,7 +3,9 @@ const app = express();
 const path = require("path");
 const morgan = require("morgan");
 const fs = require("fs");
+// const session = require("express-session");
 const ExpressError = require("./utils/ExpressError");
+const catchAsync = require("./utils/catchAsync");
 
 const { upload } = require("./computationalUnit/fileupload");
 const { extractUsers } = require("./computationalUnit/extractExcel");
@@ -23,16 +25,42 @@ try {
 }
 sequelize.sync({ force: true });
 
-app.get("/", (req, res) => {
-  res.send("We're are ONLINE!!");
-});
+const { validateStudent, validateFaculty } = require("./middleware");
+const { User } = require("./models/user");
+app.post(
+  "/users/studentRegister",
+  validateStudent,
+  catchAsync(async (req, res) => {
+    const { user } = req.body;
+    await User.create(user);
+    res.send("Student added successfully!");
+  })
+);
 
-app.post("/users/upload", upload.single("file"), async (req, res) => {
-  const uploadPath = req.file.path;
-  await extractUsers(uploadPath);
-  res.send("Added users successfully");
-  fs.unlink(uploadPath);
-});
+app.post(
+  "/users/facultyRegister",
+  validateFaculty,
+  catchAsync(async (req, res) => {
+    const { user } = req.body;
+    await User.create(user);
+    res.send("Faculty added successfully!");
+  })
+);
+
+app.post(
+  "/users/upload",
+  upload.single("file"),
+  catchAsync(async (req, res) => {
+    const uploadPath = req.file.path;
+    const result = await extractUsers(uploadPath).then((result) => {
+      return result;
+    });
+    fs.unlink(uploadPath, (err) => {
+      if (err) next(err);
+    });
+    res.send(result);
+  })
+);
 
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));
@@ -40,10 +68,10 @@ app.all("*", (req, res, next) => {
 
 app.use((err, req, res, next) => {
   const { statusCode = 500 } = err;
-  if (!err.message) {
+  if (err.message == undefined) {
     err.message = "Something Went Wrong!";
   }
-  res.status(statusCode).render("err", { err });
+  res.status(statusCode).send(err.message);
 });
 
 app.listen(5000, () => {

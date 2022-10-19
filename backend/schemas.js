@@ -35,3 +35,25 @@ module.exports.userUploadSchema = Joi.object({
     .required()
     .escapeHTML(),
 }).required();
+
+module.exports.studentRegister = Joi.object({
+  user: Joi.object({
+    fullname: Joi.string().required().escapeHTML(),
+    email: Joi.string()
+      .email({ minDomainSegments: 2, tlds: { allow: ["com"] } })
+      .required()
+      .escapeHTML(),
+    role: Joi.string().valid("student").required().escapeHTML(),
+  }).required(),
+}).required();
+
+module.exports.facultyRegister = Joi.object({
+  user: Joi.object({
+    fullname: Joi.string().required().escapeHTML(),
+    email: Joi.string()
+      .email({ minDomainSegments: 2, tlds: { allow: ["com"] } })
+      .required()
+      .escapeHTML(),
+    role: Joi.string().valid("faculty").required().escapeHTML(),
+  }).required(),
+}).required();
