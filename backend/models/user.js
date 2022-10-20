@@ -1,7 +1,7 @@
 const { sequelize, Sequelize } = require("../utils/database");
 
 const User = sequelize.define("user", {
-  uid: {
+  id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
@@ -18,6 +18,12 @@ const User = sequelize.define("user", {
   fullname: {
     type: Sequelize.STRING,
     allowNull: false,
+  },
+  passHash: {
+    type: Sequelize.STRING,
+  },
+  passSalt: {
+    type: Sequelize.STRING,
   },
 });
 
