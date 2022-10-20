@@ -1,24 +1,28 @@
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
-let transporter = nodemailer.createTransport({
-    host: 'smtp.elasticemail.com',
-    port: 2525,
-    auth: {
-        user: "ddms@gmail.com",
-        pass: "45BE6C673FE3A81068EEBDBF17DD94770915"
-    }
-})
+const transporter = nodemailer.createTransport({
+  host: "smtp.elasticemail.com",
+  port: 2525,
+  auth: {
+    user: "ddms@gmail.com",
+    pass: "45BE6C673FE3A81068EEBDBF17DD94770915",
+  },
+});
 
-message = {
+const sendMail = (email, subject, msg) => {
+  message = {
     from: "mitalichougule21@gmail.com",
-    to: "terkar.piyush3@gmail.com",
-    subject: "Subject",
-    text: "Hello Piyush! This is DDMS"
-}
-transporter.sendMail(message, function(err, info) {
+    to: email,
+    subject: subject,
+    text: msg,
+  };
+  transporter.sendMail(message, function (err, info) {
     if (err) {
-      console.log(err)
+      console.log(err);
     } else {
-      console.log('Email sent: ' + info.res);
+      console.log("Email sent: " + info.res);
     }
-})
+  });
+};
+
+module.exports = { sendMail };
