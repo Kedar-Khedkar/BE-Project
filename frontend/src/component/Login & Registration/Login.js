@@ -8,7 +8,7 @@ import {
   Card,
   Container,
 } from "react-bootstrap";
-// import collegeLogo from "../../assets/Images/collegeLogo.png";
+
 import pattern2 from "../../assets/Images/ttten.svg";
 import loginImg from "../../assets/Images/login-animate.svg";
 
