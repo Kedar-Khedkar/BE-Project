@@ -30,7 +30,7 @@ export function LoadingPage() {
       fluid
       className={"jumbotron d-flex align-items-center min-vh-100"}
     >
-      <div class="continuous-4"></div>
+      <div className="continuous-4"></div>
     </Container>
   );
 }
