@@ -13,6 +13,8 @@ const bcrypt = require("bcrypt");
 const { sequelize, Sequelize } = require("./utils/database");
 const { User } = require("./models/user");
 const { Subject } = require("./models/subject");
+const { Faculty } = require("./models/faculty");
+const associations = require("./models/associations");
 
 const ExpressError = require("./utils/ExpressError");
 
