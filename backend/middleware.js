@@ -12,11 +12,15 @@ module.exports.validateStudent = (req, res, next) => {
 
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
-    // req.session.returnTo = req.originalUrl;
+    req.session.returnTo = req.originalUrl;
     req.flash("error", "You must be signed in");
-    res.redirect("/");
+    res
+      .status(401)
+      .send({ error: "You must be signed in", redirectLink: "/login" });
+  } else {
+    console.log(req.user);
+    next();
   }
-  next();
 };
 
 module.exports.validateFaculty = (req, res, next) => {

@@ -22,7 +22,9 @@ const register = (user, password) => {
 };
 
 const login = (req, res) => {
-  res.send(req.user);
+  const redirectUrl = req.session.returnTo || "/campgrounds";
+  delete req.session.returnTo;
+  res.send({ redirectLink: redirectUrl });
 };
 
 const logout = (req, res) => {

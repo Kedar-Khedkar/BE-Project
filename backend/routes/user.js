@@ -30,7 +30,7 @@ router
   .post(validateFaculty, catchAsync(user.facultyRegister));
 
 router.route("/upload").post(
-  isLoggedIn,
+  // isLoggedIn,
   upload.single("file"),
   catchAsync(async (req, res) => {
     const uploadPath = req.file.path;
