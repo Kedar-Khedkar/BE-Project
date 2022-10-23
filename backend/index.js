@@ -10,10 +10,14 @@ const LocalStrategy = require("passport-local");
 const flash = require("connect-flash");
 const bcrypt = require("bcrypt");
 
-const { User } = require("./models/user");
-const ExpressError = require("./utils/ExpressError");
 const { sequelize, Sequelize } = require("./utils/database");
+const { User } = require("./models/user");
+const { Subject } = require("./models/subject");
+
+const ExpressError = require("./utils/ExpressError");
+
 const userRoutes = require("./routes/user");
+const subjectRoutes = require("./routes/subject");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -101,6 +105,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/users", userRoutes);
+app.use("/subjects", subjectRoutes);
 
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));

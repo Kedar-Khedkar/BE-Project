@@ -57,3 +57,14 @@ module.exports.facultyRegister = Joi.object({
     role: Joi.string().valid("faculty").required().escapeHTML(),
   }).required(),
 }).required();
+
+module.exports.subjectSchema = Joi.object({
+  subject: Joi.object({
+    subCode: Joi.string().required().escapeHTML(),
+    subName: Joi.string().required().escapeHTML(),
+    pract: Joi.number().integer(),
+    oral: Joi.number().integer(),
+    termWork: Joi.number().integer(),
+    sem: Joi.number().integer().max(8).required(),
+  }),
+});
