@@ -3,6 +3,9 @@ const {
   facultyRegister,
   subjectSchema,
 } = require("./schemas");
+
+const { User } = require("./models/user");
+
 const ExpressError = require("./utils/ExpressError");
 module.exports.validateStudent = (req, res, next) => {
   const { error } = studentRegister.validate(req.body);
@@ -44,5 +47,35 @@ module.exports.validateSubject = (req, res, next) => {
     throw new ExpressError(msg, 400);
   } else {
     next();
+  }
+};
+
+module.exports.isFacultyOrAdmin = async (req, res, next) => {
+  const currentUser = req.user;
+  const user = await User.findOne({
+    where: {
+      id: currentUser.id,
+      fullname: currentUser.username,
+    },
+  });
+  if (user.role !== "student") {
+    next();
+  } else {
+    res.status(403).send({ error: "You Don't have the required permissions" });
+  }
+};
+
+module.exports.isAdmin = async (req, res, next) => {
+  const currentUser = req.user;
+  const user = await User.findOne({
+    where: {
+      id: currentUser.id,
+      fullname: currentUser.username,
+    },
+  });
+  if (user.role === "admin") {
+    next();
+  } else {
+    res.status(403).send({ error: "You Don't have the required permissions" });
   }
 };
