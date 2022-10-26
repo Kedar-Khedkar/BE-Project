@@ -20,6 +20,7 @@ const ExpressError = require("./utils/ExpressError");
 
 const userRoutes = require("./routes/user");
 const subjectRoutes = require("./routes/subject");
+const facultyRoutes = require("./routes/faculty");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -56,6 +57,7 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 sequelize.sync({ force: true });
+// sequelize.sync();
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -108,6 +110,7 @@ app.use((req, res, next) => {
 
 app.use("/users", userRoutes);
 app.use("/subjects", subjectRoutes);
+app.use("/faculty", facultyRoutes);
 
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));
