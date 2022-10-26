@@ -7,5 +7,5 @@ User.hasOne(Faculty, { foreignKey: { name: "userId", allowNull: false } });
 Faculty.belongsTo(User, { foreignKey: "userId" });
 
 //ONE-TO-MANY SUBJECT-FACULTY
-Subject.hasMany(Faculty);
+Subject.hasMany(Faculty, { foreignKey: { allowNull: false } });
 Faculty.belongsTo(Subject);
