@@ -1,6 +1,10 @@
 const { sequelize, Sequelize } = require("../utils/database");
 
 const Student = sequelize.define("Students", {
+  userId: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+  },
   rollno: {
     type: Sequelize.INTEGER,
     defaultValue: -1,
@@ -22,6 +26,6 @@ const Student = sequelize.define("Students", {
   },
 });
 
-Student.removeAttribute("id");
+// Student.removeAttribute("id");
 
 module.exports = { Student };

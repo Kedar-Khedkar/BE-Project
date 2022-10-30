@@ -1,7 +1,12 @@
 const { sequelize, Sequelize } = require("../utils/database");
 
-const Faculty = sequelize.define("Faculties", {});
+const Faculty = sequelize.define("Faculties", {
+  userId: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+  },
+});
 
-Faculty.removeAttribute("id");
+// Faculty.removeAttribute("id");
 
 module.exports = { Faculty };
