@@ -24,6 +24,10 @@ const Student = sequelize.define("Students", {
     defaultValue: "required",
     allowNull: false,
   },
+  curryear: {
+    type: Sequelize.INTEGER,
+    defaultValue: 2,
+  },
 });
 
 // Student.removeAttribute("id");
