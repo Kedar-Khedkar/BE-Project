@@ -22,6 +22,7 @@ const userRoutes = require("./routes/user");
 const subjectRoutes = require("./routes/subject");
 const facultyRoutes = require("./routes/faculty");
 const studentRoutes = require("./routes/student");
+const attendanceRoutes = require("./routes/attendance");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -113,6 +114,7 @@ app.use("/users", userRoutes);
 app.use("/subjects", subjectRoutes);
 app.use("/faculty", facultyRoutes);
 app.use("/student", studentRoutes);
+app.use("/attend", attendanceRoutes);
 
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));
