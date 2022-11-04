@@ -3,6 +3,7 @@ const { Faculty } = require("./faculty");
 const { Subject } = require("./subject");
 const { Student } = require("./student");
 const { Attendance } = require("./attendance");
+const {resetPassword} = require("./resetPassword")
 
 //ONE-TO-ONE USER-FACULTY
 User.hasOne(Faculty, { foreignKey: { name: "userId", allowNull: false } });

@@ -4,7 +4,7 @@ const catchAsync = require("../utils/catchAsync");
 const { isLoggedIn, isFacultyOrAdmin } = require("../middleware");
 const student = require("../controllers/student");
 const { upload } = require("../computationalUnit/fileupload");
-const { extractSeatnos } = require("../computationalUnit/mapSeatnos");
+// const { extractSeatnos } = require("../computationalUnit/mapSeatnos");
 const fs = require("fs");
 const { error } = require("console");
 

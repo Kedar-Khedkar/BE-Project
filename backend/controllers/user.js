@@ -2,6 +2,10 @@ const { User } = require("../models/user");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
 const { sendMail } = require("../utils/email");
+const { resetPassword } = require("../models/resetPassword");
+const crypto = require('crypto');
+const { sequelize, Sequelize } = require("../utils/database");
+const Op = Sequelize.Op;
 
 const genPassword = (len = 8) => {
   return uuid.v4().slice(0, len);
@@ -60,6 +64,80 @@ const facultyRegister = async (req, res) => {
   res.send("Faculty added successfully!");
 };
 
+const forgotPassword = async function(req,res,next){
+  const user = await User.findOne({where: {email: req.body.email}, attributes: ['email']});
+
+  if (user == null){
+    return res.json({status: 'No such user found'});
+  }
+  else{
+    const {email} = user;
+    await resetPassword.update({
+      used: 1
+    },
+    {
+      where: {
+        email: email
+      }
+    })
+    const randomSalt = crypto.randomBytes(64).toString('base64');
+    const expireDate = new Date(new Date().getTime() + (60 * 60 * 1000))
+        const {token} = await resetPassword.create({
+      email: req.body.email,
+      expiration: expireDate,
+      token: randomSalt,
+      used: 0
+    });
+    console.log(token)
+    sendMail(email, "Password Reset", 'Click this link: http://localhost:5000/users/reset-password?token='+encodeURIComponent(token)+'&email='+req.body.email);
+    return res.json({status: 'ok', token: token});
+  }
+}
+
+const reset_password = async function(req, res, next){
+  if (req.body.password1 != req.body.password2){
+    return res.json({status: 'error', message: 'passwords do not match. please try again'});
+  }
+  const record = await resetPassword.findOne({
+    where: {
+      email: req.body.email,
+      expiration: {[Op.gt]: Sequelize.fn('CURDATE')},
+      token: req.body.token,
+      used: 0
+    }
+  });
+
+  if (record == null){
+    return res.json({
+      status: 'error',
+      message: 'Token not found. Please try again'
+    });
+  }
+  const updaterecord = await resetPassword.update({
+    used: 1
+  },{
+  where: {
+    email: req.body.email
+  }
+  });
+
+    bcrypt.genSalt(10, function (err, salt) {
+      if (err) throw err;
+      bcrypt.hash(req.body.password1, salt, async function (err, hash) {
+        if (err) throw err;
+        await User.update({
+          passHash : hash,
+          passSalt : salt
+        },{
+          where: {
+            email:req.body.email
+        }}
+        )
+      });
+    });  
+    res.send({redirectLink: "/login"})
+}
+
 module.exports = {
   genPassword,
   register,
@@ -67,4 +145,6 @@ module.exports = {
   logout,
   studentRegister,
   facultyRegister,
+  reset_password,
+  forgotPassword
 };

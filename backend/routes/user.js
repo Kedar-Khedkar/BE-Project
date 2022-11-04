@@ -11,6 +11,8 @@ const {
   validateFaculty,
   isLoggedIn,
 } = require("../middleware");
+const { sequelize, Sequelize } = require("../utils/database");
+const Op = Sequelize.Op;
 
 router.route("/login").post(
   passport.authenticate("local", {
@@ -43,5 +45,10 @@ router.route("/upload").post(
     res.send(result);
   })
 );
+
+router.route("/forgotPassword")
+.post(catchAsync(user.forgotPassword))
+
+router.route("/reset-password").post(catchAsync(user.reset_password))
 
 module.exports = router;
