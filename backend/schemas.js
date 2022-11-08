@@ -33,7 +33,7 @@ module.exports.userUploadSchema = Joi.object({
     .pattern(/^[a-zA-Z]+\s[a-zA-Z]+$/, {
       name: "firstname<space>lastname [Alphabets Only]",
     }),
-  email: Joi.string().trim().email().required().escapeHTML(),
+  email: Joi.string().trim().lowercase().email().required().escapeHTML(),
   role: Joi.string()
     .trim()
     .valid("student", "admin", "faculty")
@@ -50,8 +50,13 @@ module.exports.studentRegister = Joi.object({
       .pattern(/^[a-zA-Z]+\s[a-zA-Z]+$/, {
         name: "firstname<space>lastname [Alphabets Only]",
       }),
-    email: Joi.string().trim().email().required().escapeHTML(),
-    role: Joi.string().trim().valid("student").required().escapeHTML(),
+    email: Joi.string().trim().lowercase().email().required().escapeHTML(),
+    role: Joi.string()
+      .trim()
+      .lowercase()
+      .valid("student")
+      .required()
+      .escapeHTML(),
   }).required(),
 }).required();
 
@@ -64,8 +69,13 @@ module.exports.facultyRegister = Joi.object({
       .pattern(/^[a-zA-Z]+\s[a-zA-Z]+$/, {
         name: "firstname<space>lastname [Alphabets Only]",
       }),
-    email: Joi.string().trim().email().required().escapeHTML(),
-    role: Joi.string().trim().valid("faculty").required().escapeHTML(),
+    email: Joi.string().trim().lowercase().email().required().escapeHTML(),
+    role: Joi.string()
+      .trim()
+      .lowercase()
+      .valid("faculty")
+      .required()
+      .escapeHTML(),
   }).required(),
 }).required();
 
@@ -91,10 +101,10 @@ module.exports.subjectSchema = Joi.object({
 });
 
 module.exports.forgotpassword = Joi.object({
-  email: Joi.string().trim().required().email().escapeHTML(),
+  email: Joi.string().trim().lowercase().required().email().escapeHTML(),
 });
 
 module.exports.resetpassword = Joi.object({
-  email: Joi.string().trim().required().email().escapeHTML(),
-  token: Joi.string().trim().required().escapeHTML(),
+  email: Joi.string().trim().lowercase().required().email().escapeHTML(),
+  token: Joi.string().trim().lowercase().required().escapeHTML(),
 });
