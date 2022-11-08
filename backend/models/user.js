@@ -9,15 +9,24 @@ const User = sequelize.define("Users", {
   role: {
     type: Sequelize.STRING,
     allowNull: false,
+    validate: {
+      isIn: [["student", "admin", "faculty"]],
+    },
   },
   email: {
     type: Sequelize.STRING,
     allowNull: false,
     unique: true,
+    validate: {
+      isEmail: true,
+    },
   },
   fullname: {
     type: Sequelize.STRING,
     allowNull: false,
+    validate: {
+      isAlpha: true,
+    },
   },
   passHash: {
     type: Sequelize.STRING,

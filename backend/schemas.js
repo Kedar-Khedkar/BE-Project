@@ -38,7 +38,10 @@ module.exports.userUploadSchema = Joi.object({
 
 module.exports.studentRegister = Joi.object({
   user: Joi.object({
-    fullname: Joi.string().required().escapeHTML(),
+    fullname: Joi.string()
+      .required()
+      .escapeHTML()
+      .pattern(/^[A-Za-z]+$/, { name: "Alphabets only" }),
     email: Joi.string()
       .email({ minDomainSegments: 2, tlds: { allow: ["com"] } })
       .required()
