@@ -41,7 +41,9 @@ module.exports.studentRegister = Joi.object({
     fullname: Joi.string()
       .required()
       .escapeHTML()
-      .pattern(/^[A-Za-z]+$/, { name: "Alphabets only" }),
+      .pattern(/^[a-zA-Z]+\s[a-zA-Z]+$/, {
+        name: "firstname<space>lastname [Alphabets Only]",
+      }),
     email: Joi.string()
       .email({ minDomainSegments: 2, tlds: { allow: ["com"] } })
       .required()
