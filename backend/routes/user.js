@@ -10,6 +10,8 @@ const {
   validateStudent,
   validateFaculty,
   isLoggedIn,
+  validateForgetRequest,
+  validateResetRequest,
 } = require("../middleware");
 const { sequelize, Sequelize } = require("../utils/database");
 const Op = Sequelize.Op;
@@ -46,9 +48,12 @@ router.route("/upload").post(
   })
 );
 
-router.route("/forgotPassword")
-.post(catchAsync(user.forgotPassword))
+router
+  .route("/forgotPassword")
+  .post(validateForgetRequest, catchAsync(user.forgotPassword));
 
-router.route("/reset-password").post(catchAsync(user.reset_password))
+router
+  .route("/reset-password")
+  .post(validateResetRequest, catchAsync(user.reset_password));
 
 module.exports = router;

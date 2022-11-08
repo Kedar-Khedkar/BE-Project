@@ -5,7 +5,8 @@ const extension = (joi) => ({
   type: "string",
   base: joi.string(),
   messages: {
-    "string.escapeHTML": "{{#label}} must not include HTML!",
+    "string.escapeHTML":
+      "WARNING: {{#label}} must not include HTML, This instance will be reported.",
   },
   rules: {
     escapeHTML: {
@@ -25,11 +26,13 @@ const extension = (joi) => ({
 const Joi = BaseJoi.extend(extension);
 
 module.exports.userUploadSchema = Joi.object({
-  fullname: Joi.string().required().escapeHTML(),
-  email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com"] } })
+  fullname: Joi.string()
     .required()
-    .escapeHTML(),
+    .escapeHTML()
+    .pattern(/^[a-zA-Z]+\s[a-zA-Z]+$/, {
+      name: "firstname<space>lastname [Alphabets Only]",
+    }),
+  email: Joi.string().email().required().escapeHTML(),
   role: Joi.string()
     .valid("student", "admin", "faculty")
     .required()
@@ -44,10 +47,7 @@ module.exports.studentRegister = Joi.object({
       .pattern(/^[a-zA-Z]+\s[a-zA-Z]+$/, {
         name: "firstname<space>lastname [Alphabets Only]",
       }),
-    email: Joi.string()
-      .email({ minDomainSegments: 2, tlds: { allow: ["com"] } })
-      .required()
-      .escapeHTML(),
+    email: Joi.string().email().required().escapeHTML(),
     role: Joi.string().valid("student").required().escapeHTML(),
   }).required(),
 }).required();
@@ -72,4 +72,13 @@ module.exports.subjectSchema = Joi.object({
     termWork: Joi.number().integer(),
     sem: Joi.number().integer().max(8).required(),
   }),
+});
+
+module.exports.forgotpassword = Joi.object({
+  email: Joi.string().required().email().escapeHTML(),
+});
+
+module.exports.resetpassword = Joi.object({
+  email: Joi.string().required().email().escapeHTML(),
+  token: Joi.string().required().escapeHTML(),
 });

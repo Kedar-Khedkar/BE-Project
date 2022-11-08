@@ -2,6 +2,8 @@ const {
   studentRegister,
   facultyRegister,
   subjectSchema,
+  forgotpassword,
+  resetpassword,
 } = require("./schemas");
 
 const { User } = require("./models/user");
@@ -32,6 +34,27 @@ module.exports.isLoggedIn = (req, res, next) => {
 
 module.exports.validateFaculty = (req, res, next) => {
   const { error } = facultyRegister.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+
+module.exports.validateForgetRequest = (req, res, next) => {
+  console.log(req.body);
+  const { error } = forgotpassword.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+
+module.exports.validateResetRequest = (req, res, next) => {
+  const { error } = resetpassword.validate(req.body);
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(msg, 400);
