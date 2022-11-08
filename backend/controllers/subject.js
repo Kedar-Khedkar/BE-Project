@@ -1,5 +1,4 @@
 const { Subject } = require("../models/subject");
-const { where } = require("sequelize");
 
 module.exports.createSubject = async (req, res) => {
   const { subject } = req.body;
@@ -15,7 +14,7 @@ module.exports.createSubject = async (req, res) => {
         res.redirect(`/subjects/${subject.subCode}`);
       })
       .catch((err) => {
-        res.status(500).send("Something went wrong");
+        res.status(500).send(err);
       });
   }
 };
@@ -30,7 +29,7 @@ module.exports.updateSubject = async (req, res) => {
   const { id } = req.params;
   await Subject.update({ ...req.body.subject }, { where: { subCode: id } })
     .then((result) => {
-      res.redirect(`/subjects/${id}`);
+      res.redirect(`/subjects/${req.body.subject.subCode}`);
     })
     .catch((err) => {
       res.status(500).send("Something went wrong");

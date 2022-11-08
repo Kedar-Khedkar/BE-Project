@@ -11,6 +11,10 @@ const Subject = sequelize.define("Subjects", {
   subName: {
     type: Sequelize.STRING,
     allowNull: false,
+    validate: {
+      is: /^(?![0-9]*$)[A-z- 0-9]+$/,
+      not: /^[ ]+$/,
+    },
   },
   pract: {
     type: Sequelize.INTEGER,
