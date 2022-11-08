@@ -67,7 +67,10 @@ module.exports.facultyRegister = Joi.object({
 
 module.exports.subjectSchema = Joi.object({
   subject: Joi.object({
-    subCode: Joi.string().required().escapeHTML(),
+    subCode: Joi.string()
+      .required()
+      .escapeHTML()
+      .pattern(/^[0-9]+$|^[0-9]+[A-Za-z]$/, { name: "subject code" }),
     subName: Joi.string().required().escapeHTML(),
     pract: Joi.number().integer(),
     oral: Joi.number().integer(),

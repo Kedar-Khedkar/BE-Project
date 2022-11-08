@@ -4,6 +4,9 @@ const Subject = sequelize.define("Subjects", {
   subCode: {
     type: Sequelize.STRING,
     primaryKey: true,
+    validate: {
+      is: /^[0-9]+$|^[0-9]+[A-Za-z]$/,
+    },
   },
   subName: {
     type: Sequelize.STRING,
