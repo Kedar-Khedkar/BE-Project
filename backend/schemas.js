@@ -54,11 +54,13 @@ module.exports.studentRegister = Joi.object({
 
 module.exports.facultyRegister = Joi.object({
   user: Joi.object({
-    fullname: Joi.string().required().escapeHTML(),
-    email: Joi.string()
-      .email({ minDomainSegments: 2, tlds: { allow: ["com"] } })
+    fullname: Joi.string()
       .required()
-      .escapeHTML(),
+      .escapeHTML()
+      .pattern(/^[a-zA-Z]+\s[a-zA-Z]+$/, {
+        name: "firstname<space>lastname [Alphabets Only]",
+      }),
+    email: Joi.string().email().required().escapeHTML(),
     role: Joi.string().valid("faculty").required().escapeHTML(),
   }).required(),
 }).required();
