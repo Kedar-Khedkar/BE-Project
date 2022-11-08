@@ -3,13 +3,21 @@ const { where } = require("sequelize");
 
 module.exports.createSubject = async (req, res) => {
   const { subject } = req.body;
-  await Subject.create(subject)
-    .then((result) => {
-      res.redirect(`/subjects/${subject.subCode}`);
-    })
-    .catch((err) => {
-      res.status(500).send("Something went wrong");
-    });
+  const prevSubject = await Subject.findOne({
+    where: { subCode: subject.subCode },
+    attrubutes: ["subcode"],
+  });
+  if (prevSubject) {
+    res.send(`Subject with subject code: ${subject.subCode}, already exists`);
+  } else {
+    await Subject.create(subject)
+      .then((result) => {
+        res.redirect(`/subjects/${subject.subCode}`);
+      })
+      .catch((err) => {
+        res.status(500).send("Something went wrong");
+      });
+  }
 };
 
 module.exports.showSubject = async (req, res) => {
