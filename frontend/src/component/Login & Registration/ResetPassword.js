@@ -101,6 +101,7 @@ export default function ResetPassword() {
                       <Form.Label>Old Password</Form.Label>
                       <Form.Control
                         placeholder="Enter old password"
+                        type="password"
                         name="old_password"
                         onChange={handleChange}
                         required
@@ -114,6 +115,7 @@ export default function ResetPassword() {
                       <Form.Label>New Password</Form.Label>
                       <Form.Control
                         placeholder="Enter New password"
+                        type="password"
                         name="new_password"
                         onChange={handleChange}
                         isInvalid={invalidity}
@@ -128,6 +130,7 @@ export default function ResetPassword() {
                       <Form.Label>Confirm New Password</Form.Label>
                       <Form.Control
                         placeholder="Enter new password again"
+                        type="password"
                         name="confirm_newpassword"
                         onChange={handleChange}
                         isInvalid={invalidity}
