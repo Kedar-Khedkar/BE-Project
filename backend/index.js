@@ -9,6 +9,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const flash = require("connect-flash");
 const bcrypt = require("bcrypt");
+const swaggerUi = require("swagger-ui-express");
 
 const { sequelize, Sequelize } = require("./utils/database");
 const { User } = require("./models/user");
@@ -49,7 +50,7 @@ const sessionConfig = {
   proxy: true,
   saveUninitialized: true,
   cookie: {
-    httpOnly: true,
+    // httpOnly: true,
     // secure: true,     UNCOMMENT BEFORE DEPLOYMENT
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -94,7 +95,12 @@ passport.use(
 
 passport.serializeUser(function (user, cb) {
   process.nextTick(function () {
-    cb(null, { id: user.id, username: user.fullname });
+    cb(null, {
+      id: user.id,
+      username: user.fullname,
+      role: user.role,
+      email: user.email,
+    });
   });
 });
 
@@ -115,6 +121,9 @@ app.use("/subjects", subjectRoutes);
 app.use("/faculty", facultyRoutes);
 app.use("/student", studentRoutes);
 app.use("/attend", attendanceRoutes);
+
+const documentation = require("./documentation/swagger_output.json");
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(documentation));
 
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));
