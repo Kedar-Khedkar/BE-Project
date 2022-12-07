@@ -8,10 +8,12 @@ import {
   Card,
   Container,
 } from "react-bootstrap";
-
+import TableGen from '../Table/Table'
 import pattern2 from "../../assets/Images/ttten.svg";
 import loginImg from "../../assets/Images/login-animate.svg";
-
+import errors from '../Table/List'
+import axios from 'axios';
+import Cookies from 'js-cookie'
 export default function LoginForm() {
   const initialValues = { email: "", password: "" };
   const [formValues, setFormValues] = useState(initialValues);
@@ -32,6 +34,15 @@ export default function LoginForm() {
     if (invalidity){
       setValidated(true);
     }
+    axios
+    .post("http://localhost:5000/users/login", formValues)
+    .then(function (response) {
+      console.log(response.data);
+      
+    })
+    .catch(function (error) {
+      console.log(error.response.data);
+    });
   };
 
   useEffect(() => {
@@ -139,6 +150,7 @@ export default function LoginForm() {
           </Card>
         </Container>
       </div>
+      {/* <TableGen errors={errors}/> */}
     </>
   );
 }
