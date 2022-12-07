@@ -26,7 +26,14 @@ const register = async (user, password) => {
 const login = (req, res) => {
   const redirectUrl = req.session.returnTo || "/dashboard";
   delete req.session.returnTo;
-  res.send({ redirectLink: redirectUrl });
+  res.send({
+    redirectLink: redirectUrl,
+    user: {
+      id: req.user.id,
+      fullname: req.user.fullname,
+      role: req.user.role,
+    },
+  });
 };
 
 const logout = (req, res) => {
