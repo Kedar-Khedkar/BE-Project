@@ -2,8 +2,18 @@ import React, { useState, useEffect } from "react";
 import pattern from "../../assets/Images/oooscillate.svg";
 import "./AddUser.scss";
 import axios from "axios";
-import { Card, Container, Row, Col, Nav, Form, Button } from "react-bootstrap";
+import {
+  Card,
+  Container,
+  Row,
+  Col,
+  Nav,
+  Form,
+  Button,
+  Modal,
+} from "react-bootstrap";
 import Dropzone from "../Drop zone/Dropzone";
+import ErrorModal from './Modal'
 function FacultyForm() {
   const [validated, setValidated] = useState(false);
   const [formErrors, setFormErrors] = useState({});
@@ -11,6 +21,10 @@ function FacultyForm() {
   const initialValues = { email: "", fullname: "" };
   const [formValues, setFormValues] = useState(initialValues);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,13 +42,13 @@ function FacultyForm() {
     const errors = {};
     const email_regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     const num_regex = /\d/;
-    if (!values.email) {
-      errors.email = "Email is required!";
-      setInvalidity(true);
-    } else if (!email_regex.test(values.email)) {
-      errors.email = "This is not a valid email format!";
-      setInvalidity(true);
-    }
+    // if (!values.email) {
+    //   errors.email = "Email is required!";
+    //   setInvalidity(true);
+    // } else if (!email_regex.test(values.email)) {
+    //   errors.email = "This is not a valid email format!";
+    //   setInvalidity(true);
+    // }
 
     if (!values.fullname) {
       errors.fullname = "Fullname is required!";
@@ -47,6 +61,7 @@ function FacultyForm() {
     return errors;
   };
 
+  let errorsMsg={} ;
   const handleFacultySubmit = (e) => {
     e.preventDefault();
     setFormErrors(validateForm(formValues));
@@ -64,12 +79,15 @@ function FacultyForm() {
         console.log(response.data);
       })
       .catch(function (error) {
+        setShow(true);
         console.log(error.response.data);
+        errorsMsg=error.response.data;
       });
   };
 
   return (
     <>
+      <ErrorModal show={show} onHide={handleClose} error={errorsMsg} />
       <Form noValidate onSubmit={handleFacultySubmit} validated={validated}>
         <Row>
           <Col md>
@@ -143,6 +161,7 @@ function FacultyForm() {
     </>
   );
 }
+
 function StudentForm() {
   const initialValues = { email: "", fullname: "" };
   const [formValues, setFormValues] = useState(initialValues);
@@ -293,6 +312,7 @@ function Forms() {
 
 export default function AddUser() {
   const [checked, setChecked] = useState(false);
+
   const handleChange = () => {
     setChecked(!checked);
   };

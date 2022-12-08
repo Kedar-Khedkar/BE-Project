@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
-
+import TableGen from "../Table/Table";
 import {
   Row,
   Form,
@@ -10,6 +10,7 @@ import {
   ToastContainer,
   Container,
 } from "react-bootstrap";
+import ErrorModal from "../Add User/Modal";
 
 const baseStyle = {
   flex: 1,
@@ -39,6 +40,12 @@ const rejectStyle = {
 };
 export default function Dropzone(props) {
   const [show, setShow] = useState(false);
+  // const initialErrorValue = [];
+  // const initialErrorValue = [];
+  const [showModal, setShowModal] = useState(false);
+  const [errors, setErrors] = useState(undefined);
+
+  // const handleShow = () => setShowModal(true);
   // const [variant,setVariant]=useState('dark')
   const {
     getRootProps,
@@ -83,6 +90,14 @@ export default function Dropzone(props) {
 
   const files = acceptedFiles.map((file) => file.path);
 
+  const handleErrors = (values) => {
+    setErrors(values);
+  };
+
+  const onConfirm = () => {
+    setErrors(undefined);
+  };
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     var formData = new FormData();
@@ -98,8 +113,11 @@ export default function Dropzone(props) {
         if (result.result === "SUCCESS") {
           console.log(result.msg);
         } else {
-          console.log(result.msg);
           console.log(result.errdata);
+
+          handleErrors(result.errdata);
+          // console.log('erros: ',errors);
+          setShowModal(true);
         }
       });
     // console.log(acceptedFiles[0]);
@@ -107,22 +125,27 @@ export default function Dropzone(props) {
   return (
     <>
       <Container className="mt-3 mb-3">
+        {errors && (
+          <ErrorModal show={showModal} onHide={onConfirm}>
+            
+            <TableGen errors={errors} />
+          </ErrorModal>
+        )}
         <Form onSubmit={handleSubmit}>
           <div {...getRootProps({ className: "dropzone", style })}>
             <input {...getInputProps()} />
             <div className="text-center mb-4 mt-4">
               <Button variant="primary" onClick={open} className={""}>
-                
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
                   height="20"
                   fill="currentColor"
-                  class="bi bi-cloud-upload-fill me-2"
+                  className="bi bi-cloud-upload-fill me-2"
                   viewBox="0 0 16 16"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M8 0a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 4.095 0 5.555 0 7.318 0 9.366 1.708 11 3.781 11H7.5V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11h4.188C14.502 11 16 9.57 16 7.773c0-1.636-1.242-2.969-2.834-3.194C12.923 1.999 10.69 0 8 0zm-.5 14.5V11h1v3.5a.5.5 0 0 1-1 0z"
                   />
                 </svg>
@@ -131,7 +154,7 @@ export default function Dropzone(props) {
             </div>
             <p className="text-center">or Drag files here</p>
           </div>
-        
+
           <div>
             <Row className="mt-3 ">
               <Button variant="primary" type="submit" role="submit">
