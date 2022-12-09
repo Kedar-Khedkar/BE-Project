@@ -13,6 +13,7 @@
     $primary: #7827e7;
     $secondary: #a94ff5;
     $success: #222222;
+    $danger: #e03a45;
     $dark: #24263a;
     $input-border-color:#7827e7;
     $theme-colors: (
@@ -27,7 +28,10 @@
     );
     $heading-font-family: 'Poppins', sans-serif;
     $body-font-family: 'Poppins', sans-serif;
-    $font-family-base:'Poppins', sans-serif;
+    $font-family-base:'Poppins', sans-serif; 
+    $modal-content-bg:  #24263a;
+    
+    $table-border-width: 2px;
     /* redefine theme color variables */
     @each $color, $value in $theme-colors {
         --#{$variable-prefix}#{$color}: #{$value};
