@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   Row,
   Col,
@@ -8,12 +8,15 @@ import {
   Card,
   Container,
 } from "react-bootstrap";
-import TableGen from '../Table/Table'
+import TableGen from "../Table/Table";
 import pattern2 from "../../assets/Images/ttten.svg";
 import loginImg from "../../assets/Images/login-animate.svg";
-import errors from '../Table/List'
-import axios from 'axios';
-import Cookies from 'js-cookie'
+import errors from "../Table/List";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useAuth } from "../context/UserContext";
+import { useNavigate, useLocation } from "react-router-dom";
+
 export default function LoginForm() {
   const initialValues = { email: "", password: "" };
   const [formValues, setFormValues] = useState(initialValues);
@@ -21,6 +24,11 @@ export default function LoginForm() {
   const [validated, setValidated] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [invalidity, setInvalidity] = useState(false);
+  const auth = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const redirectPath = location.state?.path || "/";
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,18 +39,20 @@ export default function LoginForm() {
     e.preventDefault();
     setFormErrors(validateForm(formValues));
     setIsSubmit(true);
-    if (invalidity){
+    if (invalidity) {
       setValidated(true);
     }
     axios
-    .post("http://localhost:5000/users/login", formValues)
-    .then(function (response) {
-      console.log(response.data);
-      
-    })
-    .catch(function (error) {
-      console.log(error.response.data);
-    });
+      .post("http://localhost:5000/users/login", formValues)
+      .then(function (response) {
+        console.log(response.data);
+        auth.login(response.data.user);
+        // console.log(Cookies.get())
+        navigate(redirectPath, { replace: true });
+      })
+      .catch(function (error) {
+        console.log(error.response.data);
+      });
   };
 
   useEffect(() => {
@@ -58,8 +68,7 @@ export default function LoginForm() {
     if (!values.email) {
       errors.email = "Email is required!";
       setInvalidity(true);
-    } 
-    else if (!email_regex.test(values.email)) {
+    } else if (!email_regex.test(values.email)) {
       errors.email = "This is not a valid email format!";
       setInvalidity(true);
     }
