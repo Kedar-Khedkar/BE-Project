@@ -6,7 +6,8 @@ const student = require("../controllers/student");
 const { upload } = require("../computationalUnit/fileupload");
 // const { extractSeatnos } = require("../computationalUnit/mapSeatnos");
 const fs = require("fs");
-const { error } = require("console");
+
+router.route("/search").get(student.search);
 
 router
   .route("/:id")
