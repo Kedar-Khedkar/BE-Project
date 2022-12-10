@@ -52,3 +52,9 @@ module.exports.markAttendance = async (req, res) => {
   });
   res.send(result);
 };
+
+module.exports.markMultiple = async (req, res) => {
+  const attendList = req.body;
+  const result = await Attendance.bulkCreate(attendList);
+  res.send(result);
+};
