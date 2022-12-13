@@ -25,7 +25,7 @@ const User = sequelize.define("Users", {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
-      is: /^[a-zA-Z]+\s[a-zA-Z]+$/,
+      // is: /^[a-zA-Z]+\s[a-zA-Z]+$/,
     },
   },
   passHash: {
