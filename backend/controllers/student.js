@@ -5,13 +5,13 @@ module.exports.getProfileData = async (req, res) => {
   const { id } = req.params;
   const user = await User.findOne({ where: { id: id } });
   if (user == undefined) {
-    res.send({ status: "error", data: null, err: "No such account" });
+    res.send({ status: "error", objects: null, err: "No such account" });
   } else {
     let { role } = user;
     if (role !== "student") {
       res.send({
         status: "fail",
-        data: null,
+        objects: null,
         err: `user: ${id} is not a student`,
       });
     } else {
@@ -24,7 +24,7 @@ module.exports.getProfileData = async (req, res) => {
         student[0].rollno === -1 || student[0].prn === "required" || student[1];
       res.send({
         status: "success",
-        data: { isFirstLogin: dataRequired, student: student[0] },
+        objects: { isFirstLogin: dataRequired, student: student[0] },
         err: null,
       });
     }
@@ -39,12 +39,12 @@ module.exports.updateProfileData = async (req, res) => {
     },
   });
   if (!role) {
-    res.send({ status: "error", data: null, err: "No such account" });
+    res.send({ status: "error", objects: null, err: "No such account" });
   }
   if (role !== "student") {
     res.status(403).send({
       status: "fail",
-      data: null,
+      objects: null,
       err: `userId: ${req.params.id} is not a student.`,
     });
   } else {
@@ -61,17 +61,17 @@ module.exports.deleteStudent = async (req, res) => {
     where: { userId: req.params.id },
   });
   if (!exists) {
-    res.send({ status: "error", data: null, err: "No such account" });
+    res.send({ status: "error", objects: null, err: "No such account" });
     return;
   }
   const result = await Student.destroy({
     where: { userId: req.params.id },
   });
-  if (result === 1) res.send({ status: "success", data: null, err: null });
+  if (result === 1) res.send({ status: "success", objects: null, err: null });
   else
     res
       .status(500)
-      .send({ status: "error", data: null, err: "Something went wrong" });
+      .send({ status: "error", objects: null, err: "Something went wrong" });
 };
 
 module.exports.search = async (req, res) => {
@@ -87,5 +87,5 @@ module.exports.search = async (req, res) => {
       attributes: ["fullname"],
     },
   });
-  res.send({ status: "success", data: students, err: null });
+  res.send({ status: "success", objects: students, err: null });
 };

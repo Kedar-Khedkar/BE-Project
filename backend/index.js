@@ -74,7 +74,7 @@ passport.use(
       if (user === null) {
         return done(null, false, {
           status: "fail",
-          data: null,
+          objects: null,
           err: "User not found",
         });
       }
@@ -83,14 +83,14 @@ passport.use(
         if (err) {
           return done(err, {
             status: "fail",
-            data: null,
+            objects: null,
             err: "Incorrect username or password",
           });
         }
         if (res === false) {
           return done(null, false, {
             status: "fail",
-            data: null,
+            objects: null,
             err: "Incorrect username or password",
           });
         } else {
@@ -144,7 +144,7 @@ app.use((err, req, res, next) => {
   }
   res
     .status(statusCode)
-    .send({ status: "error", data: null, err: err.message });
+    .send({ status: "error", objects: null, err: err.message });
 });
 
 app.listen(5000, () => {

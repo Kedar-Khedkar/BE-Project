@@ -8,13 +8,13 @@ const genResult = async (successCount, lastprocessed, errorValues) => {
   let result = {};
   if (errorValues.length == 0) {
     result.status = "success";
-    result.data = {
+    result.objects = {
       msg: `${successCount} users successfully added out of ${lastprocessed} users.`,
     };
     result.err = null;
   } else {
     result.status = "fail";
-    result.data = errorValues;
+    result.objects = errorValues;
     result.err = `${successCount} users successfully added out of ${lastprocessed} users.`;
   }
   return result;

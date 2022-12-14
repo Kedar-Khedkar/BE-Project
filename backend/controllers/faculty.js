@@ -5,7 +5,7 @@ module.exports.getClaimedSubjects = async (req, res) => {
     where: { userId: req.user.id },
     include: ["Subject"],
   });
-  res.send({ status: "success", data: facultySubjects, err: null });
+  res.send({ status: "success", objects: facultySubjects, err: null });
 };
 
 module.exports.claimSubjects = async (req, res) => {
@@ -23,7 +23,7 @@ module.exports.claimSubjects = async (req, res) => {
       console.log(err);
     });
   }
-  res.send({ status: "success", data: null, err: null });
+  res.send({ status: "success", objects: null, err: null });
 };
 
 module.exports.unclaimSubject = async (req, res) => {
@@ -35,7 +35,7 @@ module.exports.unclaimSubject = async (req, res) => {
   if (!exists) {
     res.send({
       status: "error",
-      data: null,
+      objects: null,
       err: `You don't own subject: ${subcode}`,
     });
     return;
@@ -44,6 +44,6 @@ module.exports.unclaimSubject = async (req, res) => {
     where: { userId: id, SubjectSubCode: subcode },
   });
   if (result === 1) {
-    res.send({ status: "success", data: null, err: null });
-  } else res.send({ status: "fail", data: null, err: "Failed to delete." });
+    res.send({ status: "success", objects: null, err: null });
+  } else res.send({ status: "fail", objects: null, err: "Failed to delete." });
 };

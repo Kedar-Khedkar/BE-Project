@@ -9,7 +9,7 @@ module.exports.createSubject = async (req, res) => {
   if (prevSubject) {
     res.send({
       status: "error",
-      data: null,
+      objects: null,
       err: `Subject with subject code: ${subject.subCode}, already exists`,
     });
   } else {
@@ -29,11 +29,11 @@ module.exports.showSubject = async (req, res) => {
   if (!subject) {
     res.send({
       status: "error",
-      data: null,
+      objects: null,
       err: `subject:${id} doesn't exists`,
     });
   } else {
-    res.send({ status: "success", data: subject, err: null });
+    res.send({ status: "success", objects: subject, err: null });
   }
 };
 
@@ -44,7 +44,7 @@ module.exports.updateSubject = async (req, res) => {
       res.redirect(`/subjects/${req.body.subject.subCode}`);
     })
     .catch((err) => {
-      res.status(500).send({ status: "error", data: null, err: err });
+      res.status(500).send({ status: "error", objects: null, err: err });
     });
 };
 
@@ -54,7 +54,7 @@ module.exports.deleteSubject = async (req, res) => {
   if (!exists) {
     res.send({
       status: "error",
-      data: null,
+      objects: null,
       err: `subject:${id} doesn't exists`,
     });
     return;
@@ -64,9 +64,9 @@ module.exports.deleteSubject = async (req, res) => {
       subCode: id,
     },
   });
-  if (result === 1) res.send({ status: "success", data: null, err: null });
+  if (result === 1) res.send({ status: "success", objects: null, err: null });
   else
     res
       .status(500)
-      .send({ status: "error", data: null, err: "Something went wrong" });
+      .send({ status: "error", objects: null, err: "Something went wrong" });
 };
