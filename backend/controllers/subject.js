@@ -7,7 +7,11 @@ module.exports.createSubject = async (req, res) => {
     attrubutes: ["subcode"],
   });
   if (prevSubject) {
-    res.send(`Subject with subject code: ${subject.subCode}, already exists`);
+    res.send({
+      status: "error",
+      data: null,
+      err: `Subject with subject code: ${subject.subCode}, already exists`,
+    });
   } else {
     await Subject.create(subject)
       .then((result) => {
@@ -22,7 +26,15 @@ module.exports.createSubject = async (req, res) => {
 module.exports.showSubject = async (req, res) => {
   const { id } = req.params;
   const subject = await Subject.findOne({ where: { subCode: id } });
-  res.send(subject);
+  if (!subject) {
+    res.send({
+      status: "error",
+      data: null,
+      err: `subject:${id} doesn't exists`,
+    });
+  } else {
+    res.send({ status: "success", data: subject, err: null });
+  }
 };
 
 module.exports.updateSubject = async (req, res) => {
@@ -32,17 +44,29 @@ module.exports.updateSubject = async (req, res) => {
       res.redirect(`/subjects/${req.body.subject.subCode}`);
     })
     .catch((err) => {
-      res.status(500).send("Something went wrong");
+      res.status(500).send({ status: "error", data: null, err: err });
     });
 };
 
 module.exports.deleteSubject = async (req, res) => {
   const { id } = req.params;
+  const exists = await Subject.findOne({ where: { subCode: id } });
+  if (!exists) {
+    res.send({
+      status: "error",
+      data: null,
+      err: `subject:${id} doesn't exists`,
+    });
+    return;
+  }
   const result = await Subject.destroy({
     where: {
       subCode: id,
     },
   });
-  if (result === 1) res.send("Deleted");
-  else res.status(500).send("Something went wrong");
+  if (result === 1) res.send({ status: "success", data: null, err: null });
+  else
+    res
+      .status(500)
+      .send({ status: "error", data: null, err: "Something went wrong" });
 };

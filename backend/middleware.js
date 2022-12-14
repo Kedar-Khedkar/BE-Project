@@ -23,9 +23,11 @@ module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.session.returnTo = req.originalUrl;
     req.flash("error", "You must be signed in");
-    res
-      .status(401)
-      .send({ error: "You must be signed in", redirectLink: "/login" });
+    res.status(401).send({
+      status: "error",
+      err: "You must be signed in",
+      data: { redirectLink: "/login" },
+    });
   } else {
     console.log(req.user);
     next();
@@ -84,7 +86,11 @@ module.exports.isFacultyOrAdmin = async (req, res, next) => {
   if (user.role !== "student") {
     next();
   } else {
-    res.status(403).send({ error: "You Don't have the required permissions" });
+    res.status(403).send({
+      status: "error",
+      data: null,
+      err: "You Don't have the required permissions",
+    });
   }
 };
 
@@ -99,6 +105,10 @@ module.exports.isAdmin = async (req, res, next) => {
   if (user.role === "admin") {
     next();
   } else {
-    res.status(403).send({ error: "You Don't have the required permissions" });
+    res.status(403).send({
+      status: "error",
+      data: null,
+      err: "You Don't have the required permissions",
+    });
   }
 };

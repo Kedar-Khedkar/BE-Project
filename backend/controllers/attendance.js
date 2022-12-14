@@ -34,7 +34,7 @@ module.exports.readAttendance = async (req, res) => {
       },
     ],
   });
-  res.send(result);
+  res.send({ status: "success", data: result, err: null });
 };
 
 module.exports.markAttendance = async (req, res) => {
@@ -44,13 +44,15 @@ module.exports.markAttendance = async (req, res) => {
     attributes: ["userId"],
     where: { rollno: rollno },
   });
-  console.log(userId);
+  if (!userId) {
+    res.send({ status: "error", data: null, err: "No such student" });
+  }
   const result = await Attendance.create({
     presentee: presentee,
     StudentUserId: userId,
     SubjectSubCode: subCode,
   });
-  res.send(result);
+  res.send({ status: "success", data: result, err: null });
 };
 
 module.exports.markMultiple = async (req, res) => {

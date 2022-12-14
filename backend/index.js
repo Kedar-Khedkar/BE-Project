@@ -73,17 +73,25 @@ passport.use(
       const user = await User.findOne({ where: { email: username } });
       if (user === null) {
         return done(null, false, {
-          message: "User not found",
+          status: "fail",
+          data: null,
+          err: "User not found",
         });
       }
       console.log(user.passHash);
       bcrypt.compare(password, user.passHash, (err, res) => {
         if (err) {
-          return done(err);
+          return done(err, {
+            status: "fail",
+            data: null,
+            err: "Incorrect username or password",
+          });
         }
         if (res === false) {
           return done(null, false, {
-            message: "Incorrect username or password.",
+            status: "fail",
+            data: null,
+            err: "Incorrect username or password",
           });
         } else {
           return done(null, user);
@@ -134,7 +142,9 @@ app.use((err, req, res, next) => {
   if (err.message == undefined) {
     err.message = "Something Went Wrong!";
   }
-  res.status(statusCode).send(err.message);
+  res
+    .status(statusCode)
+    .send({ status: "error", data: null, err: err.message });
 });
 
 app.listen(5000, () => {

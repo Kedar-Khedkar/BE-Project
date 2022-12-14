@@ -5,33 +5,45 @@ module.exports.getClaimedSubjects = async (req, res) => {
     where: { userId: req.user.id },
     include: ["Subject"],
   });
-  res.send(facultySubjects);
+  res.send({ status: "success", data: facultySubjects, err: null });
 };
 
 module.exports.claimSubjects = async (req, res) => {
   const { subIds } = req.body;
   const { id } = req.user;
-  const err = subIds.forEach(async (subid) => {
-    const result = await Faculty.findOrCreate({
+  for (let idx = 0; idx < subIds.length; idx++) {
+    let subid = subIds[idx];
+    await Faculty.findOrCreate({
       where: { userId: id, SubjectSubCode: subid },
       default: {
         userId: id,
         SubjectSubCode: subid,
       },
     }).catch((err) => {
-      return { err: true };
+      console.log(err);
     });
-  });
-  res.send("success");
+  }
+  res.send({ status: "success", data: null, err: null });
 };
 
 module.exports.unclaimSubject = async (req, res) => {
   const { id } = req.user;
   const subcode = req.params.id;
+  const exists = await Faculty.findOne({
+    where: { userId: id, SubjectSubCode: subcode },
+  });
+  if (!exists) {
+    res.send({
+      status: "error",
+      data: null,
+      err: `You don't own subject: ${subcode}`,
+    });
+    return;
+  }
   const result = await Faculty.destroy({
     where: { userId: id, SubjectSubCode: subcode },
   });
   if (result === 1) {
-    res.send("success");
-  } else res.send("Failed to delete");
+    res.send({ status: "success", data: null, err: null });
+  } else res.send({ status: "fail", data: null, err: "Failed to delete." });
 };
