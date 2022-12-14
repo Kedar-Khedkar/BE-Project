@@ -3,8 +3,9 @@ const { Faculty } = require("./faculty");
 const { Subject } = require("./subject");
 const { Student } = require("./student");
 const { Attendance } = require("./attendance");
-const {resetPassword} = require("./resetPassword")
+const { resetPassword } = require("./resetPassword");
 
+/* Creating the relationships between the tables. */
 //ONE-TO-ONE USER-FACULTY
 User.hasOne(Faculty, { foreignKey: { name: "userId", allowNull: false } });
 Faculty.belongsTo(User, { foreignKey: "userId" });

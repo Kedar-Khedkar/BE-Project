@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 
+/* Creating a transporter object which is used to send mail. */
 const transporter = nodemailer.createTransport({
   host: "smtp.elasticemail.com",
   port: 2525,
@@ -10,6 +11,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendMail = (email, subject, msg) => {
+  /* This is the function which is used to send mail. */
   message = {
     from: "mitalichougule21@gmail.com",
     to: email,

@@ -4,6 +4,10 @@ const seedUsers = require("./seedUsers");
 const seedSubjects = require("./seedSubjects");
 
 const connection = async () => {
+  /**
+   * It tries to connect to the database, and if it succeeds, it prints a message to the console. If it
+   * fails, it prints an error message
+   */
   try {
     await sequelize.authenticate();
     console.log("[*]Connection has been established successfully.");
@@ -11,7 +15,9 @@ const connection = async () => {
     console.error("Unable to connect to the database:", error);
   }
 };
+
 const main = async () => {
+  /* Creating the database and populating it with data. */
   await sequelize.sync({ force: true });
   await seedUsers.createUsers(seedUsers.facultyData);
   console.log("[+]added faculties");
@@ -26,6 +32,7 @@ const main = async () => {
 };
 
 connection().then(() => {
+  /* Closing the database connection. */
   main().then(async () => {
     console.log("[*]Success!");
     console.log("[*]Closing Database connection ...");

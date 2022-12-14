@@ -3,6 +3,8 @@ const { Student } = require("../models/student");
 const { User } = require("../models/user");
 
 module.exports.createUsers = async (dataArray) => {
+  /* Creating a salt and hash for each user and then creating the user
+  from the data array*/
   for (let i = 0; i < dataArray.length; i++) {
     dataArray[i].passSalt = bcrypt.genSaltSync(10);
     dataArray[i].passHash = bcrypt.hashSync("password", dataArray[i].passSalt);
@@ -11,6 +13,7 @@ module.exports.createUsers = async (dataArray) => {
 };
 
 module.exports.associateStudentData = async (dataArray) => {
+  /* This is creating a student object from dataArray and then creating a student in the database. */
   for (let i = 0; i < dataArray.length; i++) {
     let student = {
       userId: 10 + i,
@@ -21,6 +24,7 @@ module.exports.associateStudentData = async (dataArray) => {
   }
 };
 
+/* This is an array of objects. Each object is a faculty member. */
 module.exports.facultyData = [
   {
     fullname: "Rupali Chopade",
@@ -87,6 +91,7 @@ module.exports.facultyData = [
   },
 ];
 
+/* This is an array of objects. Each object is a student. */
 module.exports.studentData = [
   {
     fullname: "LOLE PADMAJA MANISH",

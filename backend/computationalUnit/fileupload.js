@@ -1,6 +1,7 @@
 var multer = require("multer");
 var path = require("path");
 
+/* Creating a storage object that will be used by multer to store the file. */
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "public/uploads/");

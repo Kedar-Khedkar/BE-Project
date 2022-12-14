@@ -25,6 +25,7 @@ const facultyRoutes = require("./routes/faculty");
 const studentRoutes = require("./routes/student");
 const attendanceRoutes = require("./routes/attendance");
 
+/* These are middlewares. */
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
@@ -32,6 +33,8 @@ app.use(morgan("dev"));
 
 app.use(express.static(path.join(__dirname, "public")));
 
+/* This is a try catch block. It is used to check if the connection to the database is successful or
+not. */
 try {
   sequelize.authenticate();
   console.log("Connection has been established successfully.");
@@ -43,6 +46,7 @@ const store = new sessionStore({
   db: sequelize,
 });
 
+/* This is the configuration for the session. */
 const sessionConfig = {
   secret: "Ganpati Bappa Morya!",
   store: store,
@@ -62,6 +66,7 @@ app.use(flash());
 // sequelize.sync({ force: true });
 sequelize.sync();
 
+/* This is the configuration for the passport.js. */
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(
@@ -101,6 +106,7 @@ passport.use(
   )
 );
 
+/* This is a function that is used to serialize the user. */
 passport.serializeUser(function (user, cb) {
   process.nextTick(function () {
     cb(null, {
@@ -124,6 +130,7 @@ app.use((req, res, next) => {
   next();
 });
 
+/* This is a middleware. It is used to route the requests to the respective routes. */
 app.use("/users", userRoutes);
 app.use("/subjects", subjectRoutes);
 app.use("/faculty", facultyRoutes);
@@ -133,10 +140,12 @@ app.use("/attend", attendanceRoutes);
 const documentation = require("./documentation/swagger_output.json");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(documentation));
 
+/* This is a middleware. It is used to handle the errors. */
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));
 });
 
+/* This is a middleware. It is used to handle the errors. */
 app.use((err, req, res, next) => {
   const { statusCode = 500 } = err;
   if (err.message == undefined) {

@@ -6,6 +6,7 @@ const faculty = require("../controllers/faculty");
 
 router.use(isLoggedIn, isFacultyOrAdmin);
 
+/* Defining the routes for the faculty. */
 router.route("/").get(catchAsync(faculty.getClaimedSubjects));
 
 router.route("/claimSubjects").post(catchAsync(faculty.claimSubjects));

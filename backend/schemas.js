@@ -2,6 +2,17 @@ const BaseJoi = require("joi");
 const sanitizeHtml = require("sanitize-html");
 
 const extension = (joi) => ({
+  /**
+   * It takes a Joi instance as an argument, and returns an object that defines a new Joi type called
+   * "string", which is based on the existing Joi string type, and which adds a new rule called
+   * "escapeHTML" that uses the sanitize-html library to remove any HTML tags from the string
+   *
+   * Args:
+   *   joi: The Joi instance.
+   *
+   * Returns:
+   *   A function that returns an object.
+   */
   type: "string",
   base: joi.string(),
   messages: {
@@ -26,6 +37,7 @@ const extension = (joi) => ({
 const Joi = BaseJoi.extend(extension);
 
 module.exports.userUploadSchema = Joi.object({
+  /* A validation schema for user upload. */
   fullname: Joi.string()
     .trim()
     .required()
@@ -42,6 +54,7 @@ module.exports.userUploadSchema = Joi.object({
 }).required();
 
 module.exports.studentRegister = Joi.object({
+  /* A validation schema for student register. */
   user: Joi.object({
     fullname: Joi.string()
       .trim()
@@ -61,6 +74,7 @@ module.exports.studentRegister = Joi.object({
 }).required();
 
 module.exports.facultyRegister = Joi.object({
+  /* A validation schema for faculty register. */
   user: Joi.object({
     fullname: Joi.string()
       .trim()
@@ -80,6 +94,7 @@ module.exports.facultyRegister = Joi.object({
 }).required();
 
 module.exports.subjectSchema = Joi.object({
+  /* A validation schema for subject. */
   subject: Joi.object({
     subCode: Joi.string()
       .trim()
@@ -101,10 +116,12 @@ module.exports.subjectSchema = Joi.object({
 });
 
 module.exports.forgotpassword = Joi.object({
+  /* A validation schema for email. */
   email: Joi.string().trim().lowercase().required().email().escapeHTML(),
 });
 
 module.exports.resetpassword = Joi.object({
+  /* A validation schema for email and token. */
   email: Joi.string().trim().lowercase().required().email().escapeHTML(),
   token: Joi.string().trim().lowercase().required().escapeHTML(),
 });

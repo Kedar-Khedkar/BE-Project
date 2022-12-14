@@ -8,6 +8,7 @@ const {
 } = require("../middleware");
 const subject = require("../controllers/subject");
 
+/* This is a route for creating a subject. */
 router
   .route("/create")
   .post(
@@ -17,6 +18,7 @@ router
     catchAsync(subject.createSubject)
   );
 
+/* This is a route for updating and deleting a subject. */
 router
   .route("/:id")
   .get(catchAsync(subject.showSubject))
