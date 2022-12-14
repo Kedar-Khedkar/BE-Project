@@ -60,8 +60,8 @@ module.exports.validateForgetRequest = (req, res, next) => {
   }
 };
 
-m; /* This is a middleware function that validates the reset password form. */
-odule.exports.validateResetRequest = (req, res, next) => {
+ /* This is a middleware function that validates the reset password form. */
+module.exports.validateResetRequest = (req, res, next) => {
   const { error } = resetpassword.validate(req.body);
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
