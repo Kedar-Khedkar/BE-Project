@@ -38,11 +38,10 @@ router.route("/upload").post(
   upload.single("file"),
   catchAsync(async (req, res) => {
     const uploadPath = req.file.path;
-    const result = await extractUsers(uploadPath).then((result) => {
-      return result;
-    });
+    const result = await extractUsers(uploadPath);
     fs.unlink(uploadPath, (err) => {
       if (err) next(err);
+      return;
     });
     res.send(result);
   })
