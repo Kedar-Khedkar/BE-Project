@@ -6,6 +6,7 @@ import React, { Suspense } from "react";
 
 import { Container } from "react-bootstrap";
 import { RequireAuth } from "./component/ProtectedRoute/RequireAuth";
+import Notify from "./component/Toast/Notify";
 
 // ------------------------------------Lazy Loading-----------------------------------
 const LoginForm = React.lazy(() =>
@@ -16,7 +17,7 @@ const PasswordReset = React.lazy(() =>
 );
 const UserAdd = React.lazy(() => import("./component/Add User/AddUser"));
 const ErrorPage = React.lazy(() => import("./component/Error/ErrorPage"));
-const Attendance = React.lazy(() => import("./component/Attendance/Attendance"));
+const Attendance = React.lazy(() => import("./component/Attendance/Layout"))
 
 // ------------------------------------Lazy Loading-----------------------------------
 // const DropzoneBox = React.lazy(() =>
@@ -38,13 +39,15 @@ function App() {
   return (
     <Suspense fallback={<LoadingPage />}>
       <div className="App">
+      <Notify/>
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<LoginForm />} />
             <Route path="/" element={<LoginForm />} />
             <Route path="/reset-password" element={<PasswordReset />} />
             <Route path="/add-user" element={<UserAdd />} />
-            <Route path="/attendance" element={<RequireAuth><Attendance /></RequireAuth>} />
+            {/* <Route path="/attendance" element={<RequireAuth><Attendance /></RequireAuth>} /> */}
+            <Route path="/attendance" element={<Attendance />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </BrowserRouter>

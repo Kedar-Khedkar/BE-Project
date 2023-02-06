@@ -11,6 +11,7 @@ import {
   Container,
 } from "react-bootstrap";
 import ErrorModal from "../Add User/Modal";
+import { useNotify } from "../context/ToastContext";
 
 const baseStyle = {
   flex: 1,
@@ -38,8 +39,12 @@ const acceptStyle = {
 const rejectStyle = {
   borderColor: "#ff1744",
 };
+
 export default function Dropzone(props) {
   const [show, setShow] = useState(false);
+  const notify = useNotify();
+  
+  let data={}
   // const initialErrorValue = [];
   // const initialErrorValue = [];
   const [showModal, setShowModal] = useState(false);
@@ -69,7 +74,10 @@ export default function Dropzone(props) {
       "application/vnd.oasis.opendocument.spreadsheet": [".ods"],
     },
     onDropAccepted: (Notification) => {
-      setShow(true);
+      // setShow(true);
+      notification()
+      notify.addData(data)
+      notify.showController(true);
 
       // setVariant('dark')
     },
@@ -98,6 +106,11 @@ export default function Dropzone(props) {
     setErrors(undefined);
   };
   
+  const notification = () => { 
+    data.body=`${files}uploaded successfully`
+   }
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     var formData = new FormData();
@@ -108,18 +121,28 @@ export default function Dropzone(props) {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then(function (response) {
-        const result = response.data;
-        if (result.result === "SUCCESS") {
-          console.log(result.msg);
-        } else {
-          console.log(result.errdata);
+      // .then(function (response) {
+      //   const result = response.data;
+      //   if (result.result === "SUCCESS") {
+      //     console.log(result.msg);
+      //   } else {
+      //     console.log(result.errdata);
 
-          handleErrors(result.errdata);
-          // console.log('erros: ',errors);
+      //     handleErrors(result.errdata);
+      //     // console.log('erros: ',errors);
+      //     setShowModal(true);
+      //   }
+      // });
+      .then(function(response){
+        if(response.data.status==="success"){
+          console.log(response.data.data)
+        }
+        else{
+          console.log(response.data.err)
+          handleErrors(response.data.err)
           setShowModal(true);
         }
-      });
+      })
     // console.log(acceptedFiles[0]);
   };
   return (
@@ -165,9 +188,9 @@ export default function Dropzone(props) {
         </Form>
       </Container>
 
-      <ToastContainer position="bottom-end">
+      {/* <ToastContainer position="bottom-end">
         <Toast
-          onClose={() => setShow(false)}
+          onClose={() => notify.showController(false)}
           show={show}
           delay={3000}
           autohide
@@ -184,7 +207,7 @@ export default function Dropzone(props) {
           </Toast.Header>
           <Toast.Body>{files} uploaded successfully</Toast.Body>
         </Toast>
-      </ToastContainer>
+      </ToastContainer> */}
     </>
   );
 }
