@@ -5,6 +5,7 @@ const { Student } = require("./student");
 const { Attendance } = require("./attendance");
 const { resetPassword } = require("./resetPassword");
 const { Mark } = require("./mark");
+const { unitTest } = require("./unitTest");
 
 /* Creating the relationships between the tables. */
 //ONE-TO-ONE USER-FACULTY
@@ -28,3 +29,6 @@ Attendance.belongsTo(Student);
 
 Student.hasMany(Mark);
 Mark.belongsTo(Subject);
+
+Student.hasMany(unitTest);
+unitTest.belongsTo(Subject);
