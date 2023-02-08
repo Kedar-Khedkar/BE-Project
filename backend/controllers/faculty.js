@@ -1,14 +1,24 @@
 const { Faculty } = require("../models/faculty");
+const { Subject } = require("../models/subject");
 
 module.exports.getClaimedSubjects =
   /* A function that is called when a user makes a get request to the
 route api/faculty/. It finds all the subjects that the
 user has claimed and sends them back to the user. */
   async (req, res) => {
-    const facultySubjects = await Faculty.findAll({
-      where: { userId: req.user.id },
-      include: ["Subject"],
-    });
+    const filter = req.query;
+    let facultySubjects;
+    if (filter.sem) {
+      facultySubjects = await Faculty.findAll({
+        where: { userId: req.user.id },
+        include: { model: Subject, where: { sem: filter.sem } },
+      });
+    } else {
+      facultySubjects = await Faculty.findAll({
+        where: { userId: req.user.id },
+        include: ["Subject"],
+      });
+    }
     res.send({ status: "success", objects: facultySubjects, err: null });
   };
 
