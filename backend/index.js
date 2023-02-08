@@ -1,23 +1,24 @@
 const express = require("express");
-const app = express();
-const path = require("path");
 const morgan = require("morgan");
 const cors = require("cors");
 const session = require("express-session");
-const sessionStore = require("connect-session-sequelize")(session.Store);
-const passport = require("passport");
-const LocalStrategy = require("passport-local");
 const flash = require("connect-flash");
-const bcrypt = require("bcrypt");
+
+const sessionStore = require("connect-session-sequelize")(session.Store);
+const ExpressError = require("./utils/ExpressError");
+
+const app = express();
 const swaggerUi = require("swagger-ui-express");
+const passport = require("passport");
+const path = require("path");
+const auth = require("./Auth/passportConfig");
 
 const { sequelize, Sequelize } = require("./utils/database");
 const { User } = require("./models/user");
 const { Subject } = require("./models/subject");
 const { Faculty } = require("./models/faculty");
 const associations = require("./models/associations");
-
-const ExpressError = require("./utils/ExpressError");
+const documentation = require("./documentation/swagger_output.json");
 
 const userRoutes = require("./routes/user");
 const subjectRoutes = require("./routes/subject");
@@ -25,16 +26,17 @@ const facultyRoutes = require("./routes/faculty");
 const studentRoutes = require("./routes/student");
 const attendanceRoutes = require("./routes/attendance");
 
-/* These are middlewares. */
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(morgan("dev"));
-
 app.use(express.static(path.join(__dirname, "public")));
 
-/* This is a try catch block. It is used to check if the connection to the database is successful or
-not. */
 try {
   sequelize.authenticate();
   console.log("Connection has been established successfully.");
@@ -46,7 +48,6 @@ const store = new sessionStore({
   db: sequelize,
 });
 
-/* This is the configuration for the session. */
 const sessionConfig = {
   secret: "Ganpati Bappa Morya!",
   store: store,
@@ -66,63 +67,10 @@ app.use(flash());
 // sequelize.sync({ force: true });
 sequelize.sync();
 
-/* This is the configuration for the passport.js. */
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(
-  new LocalStrategy(
-    {
-      usernameField: "email",
-    },
-    async function verify(username, password, done) {
-      const user = await User.findOne({ where: { email: username } });
-      if (user === null) {
-        return done(null, false, {
-          status: "fail",
-          objects: null,
-          err: "User not found",
-        });
-      }
-      console.log(user.passHash);
-      bcrypt.compare(password, user.passHash, (err, res) => {
-        if (err) {
-          return done(err, {
-            status: "fail",
-            objects: null,
-            err: "Incorrect username or password",
-          });
-        }
-        if (res === false) {
-          return done(null, false, {
-            status: "fail",
-            objects: null,
-            err: "Incorrect username or password",
-          });
-        } else {
-          return done(null, user);
-        }
-      });
-    }
-  )
-);
+auth(passport);
 
-/* This is a function that is used to serialize the user. */
-passport.serializeUser(function (user, cb) {
-  process.nextTick(function () {
-    cb(null, {
-      id: user.id,
-      username: user.fullname,
-      role: user.role,
-      email: user.email,
-    });
-  });
-});
-
-passport.deserializeUser(function (user, cb) {
-  process.nextTick(function () {
-    return cb(null, user);
-  });
-});
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
@@ -130,22 +78,17 @@ app.use((req, res, next) => {
   next();
 });
 
-/* This is a middleware. It is used to route the requests to the respective routes. */
 app.use("/users", userRoutes);
 app.use("/subjects", subjectRoutes);
 app.use("/faculty", facultyRoutes);
 app.use("/student", studentRoutes);
 app.use("/attend", attendanceRoutes);
-
-const documentation = require("./documentation/swagger_output.json");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(documentation));
 
-/* This is a middleware. It is used to handle the errors. */
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));
 });
 
-/* This is a middleware. It is used to handle the errors. */
 app.use((err, req, res, next) => {
   const { statusCode = 500 } = err;
   if (err.message == undefined) {
