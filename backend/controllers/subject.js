@@ -77,3 +77,14 @@ module.exports.deleteSubject =
         .status(500)
         .send({ status: "error", objects: null, err: "Something went wrong" });
   };
+
+module.exports.getAll = async (req, res) => {
+  const filter = req.query;
+  let subjects;
+  if (filter.sem) {
+    subjects = await Subject.findAll({ where: { sem: filter.sem } });
+  } else {
+    subjects = await Subject.findAll();
+  }
+  res.send({ status: "success", objects: subjects, err: null });
+};

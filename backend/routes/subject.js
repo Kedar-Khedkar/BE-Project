@@ -18,6 +18,8 @@ router
     catchAsync(subject.createSubject)
   );
 
+router.route("/all").get(catchAsync(subject.getAll));
+
 /* This is a route for updating and deleting a subject. */
 router
   .route("/:id")
@@ -29,5 +31,4 @@ router
     catchAsync(subject.updateSubject)
   )
   .delete(isLoggedIn, isFacultyOrAdmin, catchAsync(subject.deleteSubject));
-
 module.exports = router;
