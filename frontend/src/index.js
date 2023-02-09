@@ -3,21 +3,21 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
-import { AuthProvider } from "./component/context/UserContext";
-import { NotifyProvider } from "./component/context/ToastContext";
+// import { AuthProvider } from "./component/context/UserContext";
+// import { NotifyProvider } from "./component/context/ToastContext";
 // import * as serviceWorker from './serviceWorker';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <AuthProvider>
-      <NotifyProvider>
+    {/* <AuthProvider>
+      <NotifyProvider> */}
         <App />
-      </NotifyProvider>
-    </AuthProvider>
+      {/* </NotifyProvider>
+    </AuthProvider> */}
   </React.StrictMode>
 );
 

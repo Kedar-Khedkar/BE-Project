@@ -175,33 +175,45 @@ import {
   Group,
   Button,
 } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import React, { useState } from "react";
 import axios from "axios";
 export default function AuthenticationTitle() {
-  const initialValues = { email: "", password: "" };
-  const [formValues, setFormValues] = useState(initialValues);
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    console.log(e.target);
-    setFormValues({ ...formValues, [name]: value });
-    console.log(formValues);
-  };
-  const handleSubmit = () => {
-    axios
-      .post("http://localhost:5000/users/login", formValues, {
-        withCredentials: true,
-      })
-      .then(function (response) {
-        console.log(response);
-        // auth.login(response.data.user);
-        // console.log(Cookies.get())
-        // navigate(redirectPath, { replace: true });
-      })
-      .catch(function (error) {
-        console.log(error.response.data);
-      });
-  };
+  const form = useForm({
+    initialValues: { password: "", email: "" },
 
+    // functions will be used to validate values at corresponding key
+    validate: {
+      password: (value) =>
+        value.length < 2 ? "Name must have at least 2 letters" : null,
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+    },
+  });
+  // const initialValues = { email: "", password: "" };
+  //   const [formValues, setFormValues] = useState(initialValues);
+  //   const handleChange = (e) => {
+  //     const { name, value } = e.target;
+  //     console.log(e.target);
+  //     setFormValues({ ...formValues, [name]: value });
+  //     console.log(formValues);
+  //   };
+    const handleSubmit = (event, values) =>{
+  axios
+  .post("http://localhost:5000/users/login", form.values, {
+    withCredentials: true,
+  })
+  .then(function (response) {
+    console.log(response);
+    // auth.login(response.data.user);
+    // console.log(Cookies.get())
+    // navigate(redirectPath, { replace: true });
+  })
+  .catch(function (error) {
+    console.log(error.response.data);
+  });
+};
+
+  
   return (
     <Container size={420} my={40}>
       <Title
@@ -221,35 +233,34 @@ export default function AuthenticationTitle() {
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput
-          label="Email"
-          placeholder="you@mantine.dev"
-          name="email"
-          value={formValues.email}
-          onChange={handleChange}
-          required
-        />
-        <PasswordInput
-          label="Password"
-          placeholder="Your password"
-          name="password"
-          value={formValues.password}
-          onChange={handleChange}
-          required
-          mt="md"
-        />
-        <Group position="apart" mt="lg">
-          <Anchor
-            onClick={(event) => event.preventDefault()}
-            href="#"
-            size="sm"
-          >
-            Forgot password?
-          </Anchor>
-        </Group>
-        <Button fullWidth mt="xl" onClick={handleSubmit}>
-          Sign in
-        </Button>
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+          <TextInput
+            label="email"
+            placeholder="email"
+            withAsterisk
+            {...form.getInputProps("email")}
+          />
+
+          <PasswordInput
+            label="password"
+            placeholder="password"
+            withAsterisk
+            {...form.getInputProps("password")}
+          />
+
+          <Group position="apart" mt="lg">
+            <Anchor
+              onClick={(event) => event.preventDefault()}
+              href="#"
+              size="sm"
+            >
+              Forgot password?
+            </Anchor>
+          </Group>
+          <Button fullWidth mt="xl" type="submit">
+            Sign in
+          </Button>
+        </form>
       </Paper>
     </Container>
   );
