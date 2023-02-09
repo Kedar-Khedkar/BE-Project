@@ -25,6 +25,7 @@ const subjectRoutes = require("./routes/subject");
 const facultyRoutes = require("./routes/faculty");
 const studentRoutes = require("./routes/student");
 const attendanceRoutes = require("./routes/attendance");
+const markRoutes = require("./routes/mark");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -83,6 +84,9 @@ app.use("/subjects", subjectRoutes);
 app.use("/faculty", facultyRoutes);
 app.use("/student", studentRoutes);
 app.use("/attend", attendanceRoutes);
+app.use("/marks", markRoutes);
+
+const documentation = require("./documentation/swagger_output.json");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(documentation));
 
 app.all("*", (req, res, next) => {
