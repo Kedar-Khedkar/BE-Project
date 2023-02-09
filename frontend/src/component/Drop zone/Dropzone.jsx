@@ -44,7 +44,7 @@
 // export default function Dropzone(props) {
 //   const [show, setShow] = useState(false);
 //   const notify = useNotify();
-  
+
 //   let data={}
 //   // const initialErrorValue = [];
 //   // const initialErrorValue = [];
@@ -107,11 +107,10 @@
 //   const onConfirm = () => {
 //     setErrors(undefined);
 //   };
-  
-//   const notification = () => { 
+
+//   const notification = () => {
 //     data.body=`${files}uploaded successfully`
 //    }
-
 
 //   const handleSubmit = (e) => {
 //     e.preventDefault();
@@ -153,7 +152,7 @@
 //       <Container className="mt-3 mb-3">
 //         {errors && (
 //           <ErrorModal show={showModal} onHide={onConfirm}>
-            
+
 //             <TableGen errors={errors} />
 //           </ErrorModal>
 //         )}
@@ -215,3 +214,47 @@
 //     </>
 //   );
 // }
+  
+
+import { Text } from "@mantine/core";
+import { Dropzone, MS_EXCEL_MIME_TYPE } from "@mantine/dropzone";
+import axios from 'axios';
+
+
+export default function DropzoneButton() {
+  return (
+    <>
+      <Dropzone
+       
+        onDrop={(files) => axios.post("http://localhost:5000/users/upload", files).then((response) => {console.log(response.files)})}
+        onReject={(files) => console.log('rejected files', files)}
+        accept={MS_EXCEL_MIME_TYPE}
+        sx={(theme) => ({
+          minHeight: 120,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          border: 0,
+          backgroundColor:
+            theme.colorScheme === "dark"
+              ? theme.colors.dark[6]
+              : theme.colors.gray[0],
+
+          "&[data-accept]": {
+            color: theme.white,
+            backgroundColor: theme.colors.blue[6],
+          },
+
+          "&[data-reject]": {
+            color: theme.white,
+            backgroundColor: theme.colors.red[6],
+          },
+        })}
+      >
+        <Text align="center">Drop images here</Text>
+      </Dropzone>
+    </>
+  );
+}
+
+
