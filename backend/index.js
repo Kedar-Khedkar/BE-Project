@@ -86,7 +86,6 @@ app.use("/student", studentRoutes);
 app.use("/attend", attendanceRoutes);
 app.use("/marks", markRoutes);
 
-const documentation = require("./documentation/swagger_output.json");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(documentation));
 
 app.all("*", (req, res, next) => {
