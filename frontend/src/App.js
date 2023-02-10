@@ -3,6 +3,8 @@ import "./index.css";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React, { Suspense } from "react";
+import { ForgotPassword } from "./component/Login & Registration/Forget-Password";
+import { ResetPassword } from "./component/Login & Registration/ResetPassword";
 
 // import { Container } from "react-bootstrap";
 // import { RequireAuth } from "./component/ProtectedRoute/RequireAuth";
@@ -45,7 +47,8 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/" element={<LoginForm />} />
-          {/* <Route path="/reset-password" element={<PasswordReset />} /> */}
+          { <Route path="/forgot-password" element={<ForgotPassword />} />}
+            {<Route path="/reset-password" element={<ResetPassword/>}/>}
           <Route path="/add-user" element={<UserAdd />} />
           {/* <Route path="/attendance" element={<RequireAuth><Attendance /></RequireAuth>} /> */}
           <Route path="/attendance" element={<Attendance />} />

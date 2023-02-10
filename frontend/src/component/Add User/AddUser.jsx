@@ -381,7 +381,7 @@ import {
 import { useState } from "react";
 
 import { useForm } from "@mantine/form";
-import useradd from "../../assets/Images/person-plus-fill.svg";
+//import useradd from "../../assets/Images/person-plus-fill.svg";
 function FacultyForm() {
   
   const form = useForm({

@@ -1,156 +1,64 @@
-import React, { useState, useEffect } from "react";
-import pattern from "../../assets/Images/ssscribble.svg";
 import {
-  Row,
-  Col,
+  createStyles,
+  Paper,
+  Title,
+  Text,
+  TextInput,
   Button,
-  Form,
-  Image,
-  Card,
   Container,
-} from "react-bootstrap";
-import passwordImg from "../../assets/Images/reset-password-animate.svg";
-export default function ResetPassword() {
-  const [validated, setValidated] = useState(false);
-  const initialValues = {
-    old_password: "",
-    new_password: "",
-    confirm_newpassword: "",
-  };
-  const [formValues, setformValues] = useState(initialValues);
-  const [isSubmit, setIsSubmit] = useState(false);
-  const [formErrors, setFormErrors] = useState({});
-  const [invalidity, setInvalidity] = useState(false);
-      
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setformValues({ ...formValues, [name]: value });
-  };
+  Group,
+  Anchor,
+  Center,
+  Box,
+} from '@mantine/core';
+//import { IconArrowLeft } from '@tabler/icons';
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setFormErrors(validateForm(formValues));
-    setIsSubmit(true);
-    if (invalidity) {
-      setValidated(true);
-    }
-    console.log(formValues);
-  };
+const useStyles = createStyles((theme) => ({
+  title: {
+    fontSize: 26,
+    fontWeight: 900,
+    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+  },
 
-  useEffect(() => {
-    console.log(formErrors);
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log(formValues);
-    }
-  }, [formErrors]);
+  controls: {
+    [theme.fn.smallerThan('xs')]: {
+      flexDirection: 'column-reverse',
+    },
+  },
 
-  const validateForm = (values) => {
-    const errors = {};
+  control: {
+    [theme.fn.smallerThan('xs')]: {
+      width: '100%',
+      textAlign: 'center',
+    },
+  },
+}));
 
-    if (!values.new_password) {
-      errors.new_password = "New Password is required";
-      setInvalidity(true);
-    } else if (values.new_password.length < 4) {
-      errors.new_password = "New Password must be more than 4 characters";
-      setInvalidity(true);
-    } else if (values.new_password.length > 10) {
-      errors.new_password =
-        "New Password cannot exceed more than 10 characters";
-      setInvalidity(true);
-    }
-    if (!values.confirm_newpassword) {
-      errors.confirm_newpassword = "Confirm New Password is required";
-      setInvalidity(true);
-    } else if (values.new_password !== values.confirm_newpassword) {
-      errors.confirm_newpassword =
-        "Confirm New Password and New Password must be same";
-      setInvalidity(true);
-    }
-    return errors;
-  };
+export function ResetPassword() {
+  const { classes } = useStyles();
 
   return (
-    <div
-      style={{ backgroundImage: `url(${pattern})`, backgroundSize: "cover" }}
-    >
-      <Container
-        fluid
-        className={"jumbotron d-flex align-items-center min-vh-100"}
-      >
-        <Card style={{ width: "50rem" }} bg={"dark"} className={" mx-auto "}>
-          <Card.Body>
-            <Container>
-              <Row>
-                <Col md>
-                  <Image
-                    className={"d-none d-md-block  "}
-                    src={passwordImg}
-                    alt="Login Ilustration "
-                  ></Image>
-                </Col>
+    <Container size={460} my={30}>
+      <Title className={classes.title} align="center">
+        Reset Password
+      </Title>
+      <Text color="dimmed" size="sm" align="center">
+        Enter new password
+      </Text>
 
-                <Col md>
-                  <h2 className={"text-center"}>Reset Password</h2>
-
-                  <Form
-                    noValidate
-                    validated={validated}
-                    onSubmit={handleSubmit}
-                  >
-                    <Form.Group className="mb-3">
-                      <Form.Label>Old Password</Form.Label>
-                      <Form.Control
-                        placeholder="Enter old password"
-                        type="password"
-                        name="old_password"
-                        onChange={handleChange}
-                        required
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {formErrors.old_password}
-                      </Form.Control.Feedback>
-                    </Form.Group>
-
-                    <Form.Group className="mb-3">
-                      <Form.Label>New Password</Form.Label>
-                      <Form.Control
-                        placeholder="Enter New password"
-                        type="password"
-                        name="new_password"
-                        onChange={handleChange}
-                        isInvalid={invalidity}
-                        required
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {formErrors.new_password}
-                      </Form.Control.Feedback>
-                    </Form.Group>
-
-                    <Form.Group className="mb-3">
-                      <Form.Label>Confirm New Password</Form.Label>
-                      <Form.Control
-                        placeholder="Enter new password again"
-                        type="password"
-                        name="confirm_newpassword"
-                        onChange={handleChange}
-                        isInvalid={invalidity}
-                        required
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {formErrors.confirm_newpassword}
-                      </Form.Control.Feedback>
-                    </Form.Group>
-
-                    <Button variant="primary" type="submit">
-                      Reset Password
-                    </Button>
-                  </Form>
-                </Col>
-              </Row>
-            </Container>
-          </Card.Body>
-        </Card>
-      </Container>
-    </div>
+      <Paper withBorder shadow="md" p={30} radius="md" mt="xl">
+        <TextInput label="New Password" placeholder="Enter new password" required />
+        <TextInput mt="sm" label="Confirm New Password" placeholder="Enter new password again" required />
+        <Group position="apart" mt="lg" className={classes.controls}>
+          <Anchor color="dimmed" size="sm" className={classes.control}>
+            <Center inline>
+              {/* <IconArrowLeft size={12} stroke={1.5} /> */}
+              {/* <Box ml={5}>Back to login page</Box> */}
+            </Center>
+          </Anchor>
+          <Button className={classes.control}>Reset password</Button>
+        </Group>
+      </Paper>
+    </Container>
   );
 }
