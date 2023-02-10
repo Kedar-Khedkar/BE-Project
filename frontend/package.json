@@ -14,7 +14,7 @@
     "@mantine/modals": "^5.10.3",
     "@mantine/notifications": "^5.10.3",
     "@mantine/nprogress": "^5.10.3",
-    "@tabler/icons": "^2.2.0",
+    "@tabler/icons": "^2.3.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
