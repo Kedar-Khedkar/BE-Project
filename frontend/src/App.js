@@ -17,7 +17,7 @@ const LoginForm = React.lazy(() =>
 // );
 const UserAdd = React.lazy(() => import("./component/Add User/AddUser"));
 // const ErrorPage = React.lazy(() => import("./component/Error/ErrorPage"));
-// const Attendance = React.lazy(() => import("./component/Attendance/Layout"))
+const Attendance = React.lazy(() => import("./component/Attendance/Layout"));
 // const Subject = React.lazy(() => import("./component/Subjects/subject"))
 
 // ------------------------------------Lazy Loading-----------------------------------
@@ -39,21 +39,21 @@ const UserAdd = React.lazy(() => import("./component/Add User/AddUser"));
 function App() {
   return (
     // <Suspense fallback={<LoadingPage />}>
-      <div className="App">
+    <div className="App">
       {/* <Notify/> */}
-        <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/" element={<LoginForm />} />
-            {/* <Route path="/reset-password" element={<PasswordReset />} /> */}
-            <Route path="/add-user" element={<UserAdd />} />
-            {/* <Route path="/attendance" element={<RequireAuth><Attendance /></RequireAuth>} /> */}
-            {/* <Route path="/attendance" element={<Attendance />} />
-            <Route path="/claim-subject" element={<Subject />} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/" element={<LoginForm />} />
+          {/* <Route path="/reset-password" element={<PasswordReset />} /> */}
+          <Route path="/add-user" element={<UserAdd />} />
+          {/* <Route path="/attendance" element={<RequireAuth><Attendance /></RequireAuth>} /> */}
+          <Route path="/attendance" element={<Attendance />} />
+          {/* <Route path="/claim-subject" element={<Subject />} />
             <Route path="*" element={<ErrorPage />} /> */}
-          </Routes>
-        </BrowserRouter>
-      </div>
+        </Routes>
+      </BrowserRouter>
+    </div>
     // </Suspense>
   );
 }

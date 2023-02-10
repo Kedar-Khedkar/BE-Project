@@ -1,140 +1,122 @@
-// /* A React component. */
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
-// import { Table, Container, Button, Dropdown } from "react-bootstrap";
-// export default function TableAttendance(props) {
-//   const [attendList, setattendList] = useState([]);
+import { useState } from "react";
 
-//   /* Setting the state of the component to the props passed to it. */
-//   useEffect(() => {
-//     axios
-//       .get("http://localhost:5000/student/search?curryear=2&curr_sem=3")
-//       .then((res) => {
-//         console.log(res.data.objects);
-//         setattendList(res.data.objects);
-//       });
-//     axios.get("http://localhost:5000/faculty?sem=3")
-//     .then((res)=>{
-//       console.log(res.data.objects)
-//     })
-//   }, []);
-//   // console.log(attendList);
+import {
+  createStyles,
+  Table,
+  Checkbox,
+  ScrollArea,
+  Group,
+  Avatar,
+  Text,
+  Button,
+} from "@mantine/core";
+import axios from "axios";
 
-//   /**
-//    * If the checkbox is checked, then set the presentee property of the user to true.
-   
-//    * If the checkbox is unchecked, then set the presentee property of the user to false.
-   
-//    * If the checkbox is the "allSelect" checkbox, then set the presentee property of all
-//    users to true.
-  
-//    * If the checkbox is the "allSelect" checkbox, then set the presentee property of all users to
-//    * false.
-//    */
-//   const handleChange = (e) => {
-//     const { name, checked } = e.target;
-//     if (name === "allSelect") {
-//       let tempUser = attendList.map((user) => {
-//         return { ...user, presentee: checked };
-//       });
-//       setattendList(tempUser);
-//     } else {
-//       /* Mapping the array of objects and returning a new array of objects. */
-//       let tempUser = attendList.map((user) =>
-//         user.User.fullname === name ? { ...user, presentee: checked } : user
-//       );
-//       setattendList(tempUser);
-//       // console.log(tempUser);
-//     }
-//   };
-//   /**
-//    * It takes an array of objects and sends it to the backend.
-//    */
-//   const handleClick = () => {
-//     let presenteeList = [];
-//     attendList.forEach((student) => {
-//       let presenteeElement = {};
-//       if (!student.presentee) {
-//         presenteeElement.presentee = false;
-//       } else {
-//         presenteeElement.presentee = true;
-//       }
-//       presenteeElement.createdAt = student.date;
-//       presenteeElement.SubjectSubCode = student.SubjectSubCode;
-//       presenteeElement.StudentUserId = student.userId;
-//       presenteeList.push(presenteeElement);
-//     });
-//     // attendList.forEach((student) => {
-//     //   delete student.name;
-//     //   delete student.rollno;
-//     //   delete student.date;
-//     //   if (!student.presentee) {
-//     //     student.presentee = false;
-//     //   }
-//     // });
-//     console.log("[*]", presenteeList);
-//     axios
-//       .post("http://localhost:5000/attend/multiple", presenteeList)
-//       .then((response) => {
-//         console.log(response);
-//       });
-//     setattendList([]);
-//   };
-//   return (
-//     <>
-//       <Container>
-//         <Table striped bordered hover responsive>
-//           <thead>
-//             <tr>
-//               <th>
-//                 <input
-//                   type="checkbox"
-//                   className="form-check-input"
-//                   name="allSelect"
-//                   // checked={
-//                   //   attendList.filter((user) => user?.presentee !== true).length < 1
-//                   // }
-//                   /* Checking if all the users are present or not. If all the users are present, then
-//                   it will be true, else it will be false. */
-//                   checked={!attendList.some((user) => user?.presentee !== true)}
-//                   onChange={handleChange}
-//                 />
-//               </th>
-//               <th>Name</th>
-//               <th>Roll No</th>
-//               <th>Subject Code</th>
-//               <th>Date</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {attendList.map((user, i) => {
-//               return (
-//                 <tr key={i}>
-//                   <td>
-//                     <input
-//                       type="checkbox"
-//                       className="form-check-input"
-//                       name={user.User.fullname}
-//                       /* Checking if the user is present or not. If the user is present, then it will
-//                       be true, else it will be false. */
-//                       checked={user?.presentee || false}
-//                       onChange={handleChange}
-//                     />
-//                   </td>
+const useStyles = createStyles((theme) => ({
+  rowSelected: {
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.fn.rgba(theme.colors[theme.primaryColor][7], 0.2)
+        : theme.colors[theme.primaryColor][0],
+  },
+}));
 
-//                   <td>{user.User.fullname}</td>
-//                   <td>{user.rollno}</td>
-//                   <td>{user.SubjectSubCode}</td>
-//                   <td>{user.date}</td>
-//                 </tr>
-//               );
-//             })}
-//           </tbody>
-//         </Table>
-//         <Button variant="primary" onClick={handleClick}>
-//           Primary
-//         </Button>
-//       </Container>
-//     </>
-//   );
-// }
+export default function TableSelection({ data, subCode }) {
+  let presenteeList = [];
+  data.forEach((obj) => {
+    let attendObj = {};
+    attendObj.StudentUserId = obj.userId;
+    attendObj.presentee = false;
+    attendObj.SubjectSubCode = subCode;
+    presenteeList.push(attendObj);
+  });
+  const { classes, cx } = useStyles();
+  const [btnState, setBtnState] = useState(false);
+  const [selection, setSelection] = useState([]);
+
+  const toggleRow = (id) => {
+    setSelection((current) =>
+      current.includes(id)
+        ? current.filter((item) => item !== id)
+        : [...current, id]
+    );
+  };
+  const toggleAll = () =>
+    setSelection((current) =>
+      current.length === data.length ? [] : data.map((item) => item.userId)
+    );
+
+  const markAttendance = () => {
+    if (presenteeList.length === 0) {
+      setBtnState(false);
+      return;
+    }
+    setBtnState(true);
+    presenteeList.forEach((obj) => {
+      if (selection.includes(obj.StudentUserId)) {
+        obj.presentee = true;
+      } else {
+        obj.presentee = false;
+      }
+    });
+    axios
+      .post("http://localhost:5000/attend/multiple", presenteeList, {
+        withCredentials: true,
+      })
+      .then((res) => console.log(res));
+    setBtnState(false);
+  };
+
+  const rows = data.map((item) => {
+    const selected = selection.includes(item.userId);
+    return (
+      <tr key={item.userId} className={cx({ [classes.rowSelected]: selected })}>
+        <td>
+          <Checkbox
+            checked={selection.includes(item.userId)}
+            onChange={(e) => toggleRow(item.userId)}
+            transitionDuration={0}
+          />
+        </td>
+        <td>
+          <Group spacing="sm">
+            <Avatar size={26} src={item.avatar} radius={26} />
+            <Text size="sm" weight={500}>
+              {item.User.fullname}
+            </Text>
+          </Group>
+        </td>
+        <td>{item.rollno}</td>
+        {/* <td>{currdate}</td> */}
+      </tr>
+    );
+  });
+
+  return (
+    <ScrollArea>
+      <Table sx={{ minWidth: 800 }} verticalSpacing="sm">
+        <thead>
+          <tr>
+            <th style={{ width: 40 }}>
+              <Checkbox
+                onChange={toggleAll}
+                checked={selection.length === data.length}
+                indeterminate={
+                  selection.length > 0 && selection.length !== data.length
+                }
+                transitionDuration={0}
+              />
+            </th>
+            <th>Name</th>
+            <th>Roll No.</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </Table>
+      <Button size="lg" mt={40} onClick={markAttendance} loading={btnState}>
+        Mark Attendance
+      </Button>
+    </ScrollArea>
+  );
+}
