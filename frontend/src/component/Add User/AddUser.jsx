@@ -15,7 +15,6 @@
 // import Dropzone from "../Drop zone/Dropzone";
 // import ErrorModal from './Modal'
 
-
 // function FacultyForm() {
 //   const [validated, setValidated] = useState(false);
 //   const [formErrors, setFormErrors] = useState({});
@@ -80,7 +79,7 @@
 //       .then(function (response) {
 //         console.log(response.data);
 //       })
-    
+
 //       // .catch(function (error) {
 //       //   setShow(true);
 //       //   console.log(error.response.data);
@@ -90,7 +89,7 @@
 
 //   return (
 //     <>
-   
+
 //       <ErrorModal show={show} onHide={handleClose} error={errorsMsg} />
 //       <Form noValidate onSubmit={handleFacultySubmit} validated={validated}>
 //         <Row>
@@ -365,3 +364,214 @@
 //     </>
 //   );
 // }
+
+import {
+  Text,
+  Paper,
+  Space,
+  Container,
+  SimpleGrid,
+  TextInput,
+  NumberInput,
+  Button,
+  Switch,
+  SegmentedControl,
+  Stack,
+} from "@mantine/core";
+import { useState } from "react";
+
+import { useForm } from "@mantine/form";
+import useradd from "../../assets/Images/person-plus-fill.svg";
+function FacultyForm() {
+  
+  const form = useForm({
+    initialValues: {  email: "",name:"",phone:0, facultyid:"" },
+
+    // functions will be used to validate values at corresponding key
+    validate: {
+      phone: (value)=>(value.length===10?null :"Invalid phone number") ,
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      name: (value) => ( (typeof value === 'string') ? null : "Invalid name"),
+    },
+  });
+
+  return (
+    <>
+      <form >
+        <Container>
+          <Space h="xs" />
+          <SimpleGrid
+            cols={2}
+            breakpoints={[{ maxWidth: 980, cols: 1, spacing: "md" }]}
+          >
+            <div>
+              <TextInput placeholder="Your name" label="Name" withAsterisk />
+            </div>
+            <div>
+              <TextInput
+                placeholder="dev@mmcoe.edu.in"
+                label="Email"
+                withAsterisk
+              />
+            </div>
+            <div>
+              <TextInput
+                placeholder="Faculty Id"
+                label="Faculty Id"
+                withAsterisk
+              />
+            </div>
+
+            <div>
+              <NumberInput
+                placeholder="00000000000"
+                label="Phone"
+                hideControls
+                withAsterisk
+              />
+            </div>
+          </SimpleGrid>
+          <Space h="md" />
+          <Button
+            fullWidth
+            component="a"
+            href="#"
+            variant="outline"
+            // leftIcon={ }
+          >
+            Add User
+          </Button>
+        </Container>
+      </form>
+    </>
+  );
+}
+function StudentForm() {
+  const form = useForm({
+    initialValues: {  email: "",name:"",phone:0, faculty:"",parentsphone:0,rollnumber:0,batch:"",prnnumber:"" },
+
+    // functions will be used to validate values at corresponding key
+    validate: {
+      phone: (value)=>(value.length===10?null :"Invalid phone number") ,
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      name: (value) => ( (typeof value === 'string') ? null : "Invalid name"),
+    },
+  });
+  return (
+    <>
+      <Container>
+        <Space h="xs" />
+        <SimpleGrid
+          cols={2}
+          breakpoints={[{ maxWidth: 980, cols: 1, spacing: "md" }]}
+        >
+          <div>
+            <TextInput placeholder="Your name" label="Name" withAsterisk />
+          </div>
+          <div>
+            <TextInput
+              placeholder="dev@mmcoe.edu.in"
+              label="Email"
+              withAsterisk
+            />
+          </div>
+          <div>
+            <NumberInput
+              placeholder="0000000000"
+              label="Phone"
+              hideControls
+              withAsterisk
+            />
+          </div>
+          <div>
+            <NumberInput
+              placeholder="0000000000"
+              label="Parents Phone number"
+              hideControls
+              withAsterisk
+            />
+          </div>
+          <div>
+            <TextInput placeholder="batch" label="Batch" withAsterisk />
+          </div>
+          <div>
+            <NumberInput
+              placeholder=""
+              label="Roll number"
+              hideControls
+              withAsterisk
+            />
+          </div>
+          <div>
+            <TextInput placeholder="prn " label="PRN number" withAsterisk />
+          </div>
+        </SimpleGrid>
+        <Space h="md" />
+        <Container  size={500} px={0}>
+
+        <Button
+          fullWidth
+          component="a"
+          href="#"
+          variant="outline"
+          // leftIcon={ }
+          >
+          Add User
+        </Button>
+          </Container>
+      </Container>
+    </>
+  );
+}
+
+function Forms() {
+  const [category, setCategory] = useState("faculty");
+  return (
+    <>
+      <Stack align="center">
+        <Space h="xs" />
+        <SegmentedControl
+          color="blue"
+          value={category}
+          size="md"
+          radius={20}
+          onChange={setCategory}
+          data={[
+            { value: "faculty", label: "Faculty" },
+            { value: "ftudent", label: "Student" },
+          ]}
+        />
+      </Stack>
+      <div className="addUserForm">
+        {category === "faculty" ? <FacultyForm /> : <StudentForm />}
+      </div>
+    </>
+  );
+}
+export default function AddUser() {
+  const [checked, setChecked] = useState(false);
+  return (
+    <Container>
+      <Paper shadow="md" p="md" withBorder>
+        <Text align="center" fz="xl" fw={700}>
+          Add User
+        </Text>
+        <Text align="center">
+          Use it to create cards, dropdowns, modals and other components that
+          require background with shadow
+        </Text>
+        <Stack align="center">
+          <Space h="xs" />
+          <Switch
+            checked={checked}
+            onChange={(event) => setChecked(event.currentTarget.checked)}
+            size="md"
+            label="Upload files"
+          />
+        </Stack>
+        <Forms />
+        {/* <StudentForm /> */}
+      </Paper>
+    </Container>
+  );
+}
