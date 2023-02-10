@@ -72,3 +72,5 @@ records and adds them to the database. */
     // const result = await Attendance.bulkCreate(attendList);
     // res.send(result);
   };
+
+  
