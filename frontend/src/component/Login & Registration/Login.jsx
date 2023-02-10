@@ -13,7 +13,7 @@ import pattern2 from "../../assets/Images/ttten.svg";
 import loginImg from "../../assets/Images/login-animate.svg";
 import errors from "../Table/List";
 import axios from "axios";
-import Cookies from "js-cookie";
+//import Cookies from "js-cookie";
 import { useAuth } from "../context/UserContext";
 import { useNavigate, useLocation } from "react-router-dom";
 
