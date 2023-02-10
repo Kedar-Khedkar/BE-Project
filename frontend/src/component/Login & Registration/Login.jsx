@@ -10,7 +10,7 @@
 // } from "react-bootstrap";
 // import TableGen from "../Table/Table";
 // import pattern2 from "../../assets/Images/ttten.svg";
-// import loginImg from "../../assets/Images/login-animate.svg";
+
 // import errors from "../Table/List";
 // import axios from "axios";
 // import Cookies from "js-cookie";
@@ -174,11 +174,23 @@ import {
   Container,
   Group,
   Button,
+  Image,
+  createStyles,
+  SimpleGrid,Space
 } from "@mantine/core";
+import loginImg from "../../assets/Images/login-animate.svg";
 import { useForm } from "@mantine/form";
 import React, { useState } from "react";
 import axios from "axios";
+const useStyles = createStyles((theme) => ({
+  image: {
+    [theme.fn.smallerThan("md")]: {
+      display: "none",
+    },
+  },
+}))
 export default function AuthenticationTitle() {
+  const { classes, cx } = useStyles();
   const form = useForm({
     initialValues: { password: "", email: "" },
 
@@ -197,25 +209,24 @@ export default function AuthenticationTitle() {
   //     setFormValues({ ...formValues, [name]: value });
   //     console.log(formValues);
   //   };
-    const handleSubmit = (event, values) =>{
-  axios
-  .post("http://localhost:5000/users/login", form.values, {
-    withCredentials: true,
-  })
-  .then(function (response) {
-    console.log(response);
-    // auth.login(response.data.user);
-    // console.log(Cookies.get())
-    // navigate(redirectPath, { replace: true });
-  })
-  .catch(function (error) {
-    console.log(error.response.data);
-  });
-};
+  const handleSubmit = (event, values) => {
+    axios
+      .post("http://localhost:5000/users/login", form.values, {
+        withCredentials: true,
+      })
+      .then(function (response) {
+        console.log(response);
+        // auth.login(response.data.user);
+        // console.log(Cookies.get())
+        // navigate(redirectPath, { replace: true });
+      })
+      .catch(function (error) {
+        console.log(error.response.data);
+      });
+  };
 
-  
   return (
-    <Container size={420} my={40}>
+    <Container my={40}>
       <Title
         align="center"
         sx={(theme) => ({
@@ -223,7 +234,7 @@ export default function AuthenticationTitle() {
           fontWeight: 900,
         })}
       >
-        Welcome back!
+       Marathwada Mitra Mandal's College of Engineering
       </Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>
         Do not have an account yet?{" "}
@@ -232,35 +243,52 @@ export default function AuthenticationTitle() {
         </Anchor>
       </Text>
 
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <form onSubmit={form.onSubmit(handleSubmit)}>
-          <TextInput
-            label="email"
-            placeholder="email"
-            withAsterisk
-            {...form.getInputProps("email")}
-          />
+      <Paper withBorder shadow="md" p={20} mt={30} radius="md">
+        <SimpleGrid
+          cols={2}
+          breakpoints={[{ maxWidth: 980, cols: 1, spacing: "md" }]}
+        >
+          <div>
+            <Image
+            className={classes.image}
+              fit="contain"
+              height={400}
+              src={loginImg}
+              alt="Login Illustration"
+            />
+          </div>
+          <div >
+          <Space h="md" />
+            <form onSubmit={form.onSubmit(handleSubmit)}>
+              <TextInput
+                label="Email"
+                placeholder="email"
+                withAsterisk
+                {...form.getInputProps("email")}
+              />
 
-          <PasswordInput
-            label="password"
-            placeholder="password"
-            withAsterisk
-            {...form.getInputProps("password")}
-          />
+              <PasswordInput
+                label="Password"
+                placeholder="password"
+                withAsterisk
+                {...form.getInputProps("password")}
+              />
 
-          <Group position="apart" mt="lg">
-            <Anchor
-              onClick={(event) => event.preventDefault()}
-              href="#"
-              size="sm"
-            >
-              Forgot password?
-            </Anchor>
-          </Group>
-          <Button fullWidth mt="xl" type="submit">
-            Sign in
-          </Button>
-        </form>
+              <Group position="apart" mt="lg">
+                <Anchor
+                  onClick={(event) => event.preventDefault()}
+                  href="#"
+                  size="sm"
+                >
+                  Forgot password?
+                </Anchor>
+              </Group>
+              <Button fullWidth mt="xl" type="submit">
+                Sign in
+              </Button>
+            </form>
+          </div>
+        </SimpleGrid>
       </Paper>
     </Container>
   );
