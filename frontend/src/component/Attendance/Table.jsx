@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { showNotification } from "@mantine/notifications";
 
 import {
   createStyles,
@@ -52,6 +53,12 @@ export default function TableSelection({ data, subCode }) {
       return;
     }
     setBtnState(true);
+    // showNotification({
+    //   title: "Updating Attendance",
+    //   message: "Commiting your Changes to Database...",
+    //   disallowClose: true,
+    //   loading: true,
+    // });
     presenteeList.forEach((obj) => {
       if (selection.includes(obj.StudentUserId)) {
         obj.presentee = true;
@@ -63,7 +70,21 @@ export default function TableSelection({ data, subCode }) {
       .post("http://localhost:5000/attend/multiple", presenteeList, {
         withCredentials: true,
       })
-      .then((res) => console.log(res));
+      .then((res) =>
+        showNotification({
+          title: "Success!",
+          message: "Attendance updated.",
+          color: "teal",
+          disallowClose: false,
+        })
+      )
+      .catch((err) =>
+        showNotification({
+          title: "Failed!",
+          message: "Something went wrong.",
+          color: "red",
+        })
+      );
     setBtnState(false);
   };
 

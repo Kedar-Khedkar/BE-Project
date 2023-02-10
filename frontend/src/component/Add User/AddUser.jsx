@@ -381,23 +381,22 @@ import {
 import { useState } from "react";
 
 import { useForm } from "@mantine/form";
-//import useradd from "../../assets/Images/person-plus-fill.svg";
+// import useradd from "../../assets/Images/person-plus-fill.svg";
 function FacultyForm() {
-  
   const form = useForm({
-    initialValues: {  email: "",name:"",phone:0, facultyid:"" },
+    initialValues: { email: "", name: "", phone: 0, facultyid: "" },
 
     // functions will be used to validate values at corresponding key
     validate: {
-      phone: (value)=>(value.length===10?null :"Invalid phone number") ,
+      phone: (value) => (value.length === 10 ? null : "Invalid phone number"),
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
-      name: (value) => ( (typeof value === 'string') ? null : "Invalid name"),
+      name: (value) => (typeof value === "string" ? null : "Invalid name"),
     },
   });
 
   return (
     <>
-      <form >
+      <form>
         <Container>
           <Space h="xs" />
           <SimpleGrid
@@ -448,13 +447,22 @@ function FacultyForm() {
 }
 function StudentForm() {
   const form = useForm({
-    initialValues: {  email: "",name:"",phone:0, faculty:"",parentsphone:0,rollnumber:0,batch:"",prnnumber:"" },
+    initialValues: {
+      email: "",
+      name: "",
+      phone: 0,
+      faculty: "",
+      parentsphone: 0,
+      rollnumber: 0,
+      batch: "",
+      prnnumber: "",
+    },
 
     // functions will be used to validate values at corresponding key
     validate: {
-      phone: (value)=>(value.length===10?null :"Invalid phone number") ,
+      phone: (value) => (value.length === 10 ? null : "Invalid phone number"),
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
-      name: (value) => ( (typeof value === 'string') ? null : "Invalid name"),
+      name: (value) => (typeof value === "string" ? null : "Invalid name"),
     },
   });
   return (
@@ -507,18 +515,17 @@ function StudentForm() {
           </div>
         </SimpleGrid>
         <Space h="md" />
-        <Container  size={500} px={0}>
-
-        <Button
-          fullWidth
-          component="a"
-          href="#"
-          variant="outline"
-          // leftIcon={ }
+        <Container size={500} px={0}>
+          <Button
+            fullWidth
+            component="a"
+            href="#"
+            variant="outline"
+            // leftIcon={ }
           >
-          Add User
-        </Button>
-          </Container>
+            Add User
+          </Button>
+        </Container>
       </Container>
     </>
   );
