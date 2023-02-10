@@ -8,7 +8,7 @@ import { Container } from "react-bootstrap";
 import { RequireAuth } from "./component/ProtectedRoute/RequireAuth";
 import Notify from "./component/Toast/Notify";
 
-// ------------------------------------Lazy Loading-----------------------------------
+
 const LoginForm = React.lazy(() =>
   import("./component/Login & Registration/Login")
 );
