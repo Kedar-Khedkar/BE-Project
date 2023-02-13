@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Container, NativeSelect } from "@mantine/core";
+import { Container, NativeSelect, Grid } from "@mantine/core";
+import { DatePicker } from "@mantine/dates";
+import { IconCalendarEvent } from "@tabler/icons-react";
 import axios from "axios";
 
 import Table from "./Table";
@@ -9,6 +11,7 @@ export default function Attendance() {
   const [subjectList, setSubjectList] = useState([]);
   const [selectData, setSelectData] = useState(["fetching data..."]);
   const [subjectSubCode, setSubjectSubCode] = useState(undefined);
+  const [createdAt, setCreatedAt] = useState(new Date());
 
   /* Fetching data from the server and setting the state of the component. */
   useEffect(() => {
@@ -19,7 +22,7 @@ export default function Attendance() {
         setSubjectList(objects);
       });
   }, []);
-  useEffect(() => {}, [selectData]); // to re-render table on dropdown value change
+  useEffect(() => {}, [selectData, createdAt]); // to re-render table on dropdown value change
   useEffect(() => {
     let temp = ["Select a subject"];
     subjectList.forEach((obj) => {
@@ -60,16 +63,40 @@ export default function Attendance() {
     <>
       <Container>
         <h1>Mark Attendance</h1>
-        <NativeSelect
-          data={selectData}
-          label="Select Subject"
-          description="This will display all the students for the subject"
-          radius="lg"
-          size="md"
-          withAsterisk
-          onChange={fetchStudents}
-        />
-        {<Table data={studentList} subCode={subjectSubCode} />}
+        <Grid gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
+          <Grid.Col span={6}>
+            <NativeSelect
+              data={selectData}
+              label="Select Subject"
+              description="This will display all the students for the subject"
+              radius="lg"
+              size="md"
+              withAsterisk
+              onChange={fetchStudents}
+            />
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <DatePicker
+              placeholder="Pick date"
+              label="Lecture Date "
+              description="Choose the date for which you want to mark attendance."
+              radius="lg"
+              size="md"
+              icon={<IconCalendarEvent size={16} />}
+              name="createdAt"
+              value={createdAt}
+              onChange={(e) => setCreatedAt(e)}
+              withAsterisk
+            />
+          </Grid.Col>
+        </Grid>
+        {
+          <Table
+            data={studentList}
+            subCode={subjectSubCode}
+            createdAt={createdAt}
+          />
+        }
       </Container>
     </>
   );

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { showNotification } from "@mantine/notifications";
-import {IconCheck, IconX} from "@tabler/icons-react"
+import { IconCheck, IconX } from "@tabler/icons-react";
 import {
   createStyles,
   Table,
@@ -22,15 +22,18 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export default function TableSelection({ data, subCode }) {
+export default function TableSelection({ data, subCode, createdAt }) {
   let presenteeList = [];
+  console.log(data);
   data.forEach((obj) => {
     let attendObj = {};
     attendObj.StudentUserId = obj.userId;
     attendObj.presentee = false;
     attendObj.SubjectSubCode = subCode;
+    attendObj.createdAt = createdAt;
     presenteeList.push(attendObj);
   });
+  console.log(presenteeList);
   const { classes, cx } = useStyles();
   const [btnState, setBtnState] = useState(false);
   const [selection, setSelection] = useState([]);
@@ -132,12 +135,17 @@ export default function TableSelection({ data, subCode }) {
             </th>
             <th>Name</th>
             <th>Roll No.</th>
-            {/* <th>Date</th> */}
           </tr>
         </thead>
         <tbody>{rows}</tbody>
       </Table>
-      <Button size="lg" mt={40} onClick={markAttendance} loading={btnState}>
+      <Button
+        size="lg"
+        mt={40}
+        onClick={markAttendance}
+        loading={btnState}
+        disabled={createdAt === null || subCode === undefined}
+      >
         Mark Attendance
       </Button>
     </ScrollArea>
