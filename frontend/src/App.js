@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React, { Suspense } from "react";
 import { ForgotPassword } from "./component/Login & Registration/Forget-Password";
 import { ResetPassword } from "./component/Login & Registration/ResetPassword";
-
+import DropzoneButton from "./component/Drop zone/Dropzone";
 // import { Container } from "react-bootstrap";
 // import { RequireAuth } from "./component/ProtectedRoute/RequireAuth";
 // import Notify from "./component/Toast/Notify";
@@ -47,13 +47,14 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/" element={<LoginForm />} />
-          { <Route path="/forgot-password" element={<ForgotPassword />} />}
-            {<Route path="/reset-password" element={<ResetPassword/>}/>}
+          {<Route path="/forgot-password" element={<ForgotPassword />} />}
+          {<Route path="/reset-password" element={<ResetPassword />} />}
           <Route path="/add-user" element={<UserAdd />} />
           {/* <Route path="/attendance" element={<RequireAuth><Attendance /></RequireAuth>} /> */}
           <Route path="/attendance" element={<Attendance />} />
           {/* <Route path="/claim-subject" element={<Subject />} />
             <Route path="*" element={<ErrorPage />} /> */}
+          <Route path="/dropzone" element={<DropzoneButton />} />
         </Routes>
       </BrowserRouter>
     </div>

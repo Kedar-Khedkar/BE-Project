@@ -116,12 +116,12 @@
 //     e.preventDefault();
 //     var formData = new FormData();
 //     formData.append("file", acceptedFiles[0]);
-//     axios
-//       .post("http://localhost:5000/users/upload", formData, {
-//         headers: {
-//           "Content-Type": "multipart/form-data",
-//         },
-//       })
+// axios
+//   .post("http://localhost:5000/users/upload", formData, {
+//     headers: {
+//       "Content-Type": "multipart/form-data",
+//     },
+//   })
 //       // .then(function (response) {
 //       //   const result = response.data;
 //       //   if (result.result === "SUCCESS") {
@@ -214,20 +214,37 @@
 //     </>
 //   );
 // }
-  
 
-import { Text } from "@mantine/core";
+import { Button, Text } from "@mantine/core";
 import { Dropzone, MS_EXCEL_MIME_TYPE } from "@mantine/dropzone";
-import axios from 'axios';
-
+import axios from "axios";
+import { useState } from "react";
 
 export default function DropzoneButton() {
+  const [uploaded, setUploaded] = useState(undefined);
+
+  const upload = () => {
+    const formData = new FormData();
+
+    formData.append("file", uploaded[0]);
+
+    axios
+      .post("http://localhost:5000/users/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      })
+      .then((res) => console.log(res))
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <>
       <Dropzone
-       
-        onDrop={(files) => axios.post("http://localhost:5000/users/upload", files).then((response) => {console.log(response.files)})}
-        onReject={(files) => console.log('rejected files', files)}
+        onDrop={(files) => setUploaded(files)}
+        onReject={(files) => console.log("rejected files", files)}
         accept={MS_EXCEL_MIME_TYPE}
         sx={(theme) => ({
           minHeight: 120,
@@ -253,8 +270,7 @@ export default function DropzoneButton() {
       >
         <Text align="center">Drop images here</Text>
       </Dropzone>
+      <Button onClick={upload}>Upload</Button>
     </>
   );
 }
-
-
