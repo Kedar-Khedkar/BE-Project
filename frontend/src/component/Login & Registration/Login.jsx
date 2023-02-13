@@ -178,10 +178,12 @@ import {
   createStyles,
   SimpleGrid,Space
 } from "@mantine/core";
+import { showNotification } from '@mantine/notifications';
 import loginImg from "../../assets/Images/login-animate.svg";
 import { useForm } from "@mantine/form";
 import React, { useState } from "react";
 import axios from "axios";
+import { IconCheck } from "@tabler/icons-react";
 const useStyles = createStyles((theme) => ({
   image: {
     [theme.fn.smallerThan("md")]: {
@@ -190,7 +192,22 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 export default function AuthenticationTitle() {
-  const { classes, cx } = useStyles();
+  const { classes } = useStyles();
+
+  function get_message(){
+    var d = new Date();
+    var time = d.getHours();
+
+    if (time < 12) {
+      return("Good morning! ☕");
+    }
+    if (time > 12) {
+      return("Good afternoon! 🌆");
+    }
+    if (time === 17) {
+      return("Good evening! 🌃");
+    }
+  }
   const form = useForm({
     initialValues: { password: "", email: "" },
 
@@ -214,11 +231,27 @@ export default function AuthenticationTitle() {
       .post("http://localhost:5000/users/login", form.values, {
         withCredentials: true,
       })
-      .then(function (response) {
-        console.log(response);
-        // auth.login(response.data.user);
-        // console.log(Cookies.get())
-        // navigate(redirectPath, { replace: true });
+      // .then(function (response) {
+      //   console.log(response.status);
+      //   // auth.login(response.data.user);
+      //   // console.log(Cookies.get())
+      //   // navigate(redirectPath, { replace: true });
+
+      // })
+      .then(response => {
+        if (response.status === 200) {
+        
+          showNotification({
+            title: "Logged in successfully",
+            message: `${get_message()}, Welcome to Divyang`,
+            icon: ( <IconCheck/>
+            ),
+            color: "teal",
+            autoClose: 4000,
+            radius: "xl",
+          });
+          
+        }
       })
       .catch(function (error) {
         console.log(error.response.data);
