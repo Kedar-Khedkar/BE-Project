@@ -1,4 +1,4 @@
-//import { IconArrowLeft } from '@tabler/icons';
+import { IconArrowLeft } from '@tabler/icons-react';
 import {
     createStyles,
     Paper,
@@ -51,7 +51,7 @@ import {
           <Group position="apart" mt="lg" className={classes.controls}>
             <Anchor color="dimmed" size="sm" className={classes.control}>
               <Center inline>
-                {/* {<IconArrowLeft size={12} stroke={1.5} />} */}
+                {<IconArrowLeft size={12} stroke={1.5} />}
                 <Box ml={5}>Back to login page</Box>
               </Center>
             </Anchor>
