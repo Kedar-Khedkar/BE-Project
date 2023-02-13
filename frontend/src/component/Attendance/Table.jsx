@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { showNotification } from "@mantine/notifications";
-import {IconCheck} from "@tabler/icons-react"
+import {IconCheck, IconX} from "@tabler/icons-react"
 import {
   createStyles,
   Table,
@@ -83,6 +83,7 @@ export default function TableSelection({ data, subCode }) {
         showNotification({
           title: "Failed!",
           message: "Something went wrong.",
+          icon: <IconX />,
           color: "red",
         })
       );
