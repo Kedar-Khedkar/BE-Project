@@ -12,6 +12,11 @@ import {
   Box,
 } from '@mantine/core';
 //import { IconArrowLeft } from '@tabler/icons';
+import axios  from 'axios';
+import { useSearchParams } from 'react-router-dom';
+import { PasswordInput } from '@mantine/core';
+import { useForm } from '@mantine/form';
+//import { IconEyeCheck, IconEyeOff } from '@tabler/icons';
 
 const useStyles = createStyles((theme) => ({
   title: {
@@ -36,9 +41,41 @@ const useStyles = createStyles((theme) => ({
 
 export function ResetPassword() {
   const { classes } = useStyles();
+  //const { token, email } = useParams();
+  const form = useForm({
+    initialValues:{
+      password1:'',
+      password2:''
+    },
+    validate: {
+      password2: (value, values) =>
+        value !== values.password1 ? 'Passwords did not match' : null,
+    },
+  })
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  console.log(searchParams.get("email"))
+  const email = searchParams.get("email");
+  const token = searchParams.get("token");
+
+  const handleSubmit = (event, values) => {
+    axios.post("http://localhost:5000/users/reset-password", {email: email, token: token,...form.values}, { 
+    withCredentials:true},
+  ).then(
+    function(res){
+      console.log(res);
+    }
+  ).catch(
+    function(err){
+      console.log(err)
+    }
+  )
+
+  }
 
   return (
     <Container size={460} my={30}>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
       <Title className={classes.title} align="center">
         Reset Password
       </Title>
@@ -47,8 +84,24 @@ export function ResetPassword() {
       </Text>
 
       <Paper withBorder shadow="md" p={30} radius="md" mt="xl">
-        <TextInput label="New Password" placeholder="Enter new password" required />
-        <TextInput mt="sm" label="Confirm New Password" placeholder="Enter new password again" required />
+      <PasswordInput
+      label="Change visibility toggle icon"
+      placeholder="Enter New Password"
+      defaultValue="secret"
+      {...form.getInputProps('password1')}
+      // visibilityToggleIcon={({ reveal, size }) =>
+      //   // reveal ? <IconEyeOff size={size} /> : <IconEyeCheck size={size} />
+      // }
+    />
+    <PasswordInput
+      label="Change visibility toggle icon"
+      placeholder="Confirm New Password"
+      defaultValue="secret"
+      {...form.getInputProps('password2')}
+      // visibilityToggleIcon={({ reveal, size }) =>
+      //   // reveal ? <IconEyeOff size={size} /> : <IconEyeCheck size={size} />
+      // }
+    />
         <Group position="apart" mt="lg" className={classes.controls}>
           <Anchor color="dimmed" size="sm" className={classes.control}>
             <Center inline>
@@ -56,9 +109,11 @@ export function ResetPassword() {
               {/* <Box ml={5}>Back to login page</Box> */}
             </Center>
           </Anchor>
-          <Button className={classes.control}>Reset password</Button>
+          <Button type='submit' className={classes.control}
+          >Reset password</Button>
         </Group>
       </Paper>
+      </form>
     </Container>
   );
 }

@@ -161,7 +161,7 @@ sends an email to the user containing the token. */
       sendMail(
         email,
         "Password Reset",
-        "Click this link: http://localhost:5000/users/reset-password?token=" +
+        "Click this link: http://localhost:3000/reset-password?token=" +
           encodeURIComponent(token) +
           "&email=" +
           req.body.email

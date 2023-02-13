@@ -66,6 +66,6 @@ router
 and `catchAsync` for error handling. */
 router
   .route("/reset-password")
-  .post(validateResetRequest, catchAsync(user.reset_password));
+  .post(/*validateResetRequest,*/ catchAsync(user.reset_password));
 
 module.exports = router;
