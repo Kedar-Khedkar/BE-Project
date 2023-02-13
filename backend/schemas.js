@@ -124,4 +124,6 @@ module.exports.resetpassword = Joi.object({
   /* A validation schema for email and token. */
   email: Joi.string().trim().lowercase().required().email().escapeHTML(),
   token: Joi.string().trim().lowercase().required().escapeHTML(),
+  password1: Joi.string().trim().lowercase().required().escapeHTML(),
+  password2: Joi.string().trim().lowercase().required().escapeHTML(),
 });
