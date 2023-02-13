@@ -10,6 +10,7 @@ export default function Attendance() {
   const [selectData, setSelectData] = useState(["fetching data..."]);
   const [subjectSubCode, setSubjectSubCode] = useState(undefined);
 
+  /* Fetching data from the server and setting the state of the component. */
   useEffect(() => {
     axios
       .get("http://localhost:5000/faculty", { withCredentials: true })
@@ -27,6 +28,9 @@ export default function Attendance() {
     setSelectData(temp);
   }, [subjectList]);
 
+  /**
+   * It fetches students from the database based on the subject code.
+   */
   const fetchStudents = (e) => {
     let sem = -1;
     let SubCode = e.target.value.split(" ")[0];
@@ -52,6 +56,7 @@ export default function Attendance() {
     }
   };
   return (
+    /* A fragment. It is used to group a list of children without adding extra nodes to the DOM. */
     <>
       <Container>
         <h1>Mark Attendance</h1>
