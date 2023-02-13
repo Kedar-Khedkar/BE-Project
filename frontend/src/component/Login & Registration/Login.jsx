@@ -309,8 +309,8 @@ export default function AuthenticationTitle() {
 
               <Group position="apart" mt="lg">
                 <Anchor
-                  onClick={(event) => event.preventDefault()}
-                  href="#"
+                  // onClick={(event) => event.preventDefault()}
+                  href="http://localhost:3000/forgot-password"
                   size="sm"
                 >
                   Forgot password?

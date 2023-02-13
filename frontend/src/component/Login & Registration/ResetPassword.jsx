@@ -16,6 +16,7 @@ import axios  from 'axios';
 import { useSearchParams } from 'react-router-dom';
 import { PasswordInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { showNotification } from "@mantine/notifications";
 //import { IconEyeCheck, IconEyeOff } from '@tabler/icons';
 
 const useStyles = createStyles((theme) => ({
@@ -63,10 +64,21 @@ export function ResetPassword() {
     withCredentials:true},
   ).then(
     function(res){
+      showNotification({
+        title: "Success!",
+        message: "Password reset successful",
+        color: "teal",
+        disallowClose: false,
+      })
       console.log(res);
     }
   ).catch(
     function(err){
+      showNotification({
+        title: "Failed!",
+        message: "Something went wrong.",
+        color: "red",
+      })
       console.log(err)
     }
   )

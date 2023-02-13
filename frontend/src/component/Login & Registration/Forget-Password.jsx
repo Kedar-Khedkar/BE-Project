@@ -84,7 +84,7 @@ import { showNotification } from "@mantine/notifications";
         <Paper withBorder shadow="md" p={30} radius="md" mt="xl">
           <TextInput label="Your email" placeholder="xyz@gmail.com" {...form.getInputProps("email")} required />
           <Group position="apart" mt="lg" className={classes.controls}>
-            <Anchor color="dimmed" size="sm" className={classes.control}>
+            <Anchor href="http://localhost:3000/login" color="dimmed" size="sm" className={classes.control}>
               <Center inline>
                 {<IconArrowLeft size={12} stroke={1.5} />}
                 <Box ml={5}>Back to login page</Box>
