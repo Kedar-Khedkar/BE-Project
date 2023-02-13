@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { showNotification } from "@mantine/notifications";
-
+import {IconCheck} from "@tabler/icons-react"
 import {
   createStyles,
   Table,
@@ -73,8 +73,9 @@ export default function TableSelection({ data, subCode }) {
       .then((res) =>
         showNotification({
           title: "Success!",
-          message: "Attendance updated.",
+          message: "Attendance marked.",
           color: "teal",
+          icon: <IconCheck />,
           disallowClose: false,
         })
       )
@@ -130,7 +131,7 @@ export default function TableSelection({ data, subCode }) {
             </th>
             <th>Name</th>
             <th>Roll No.</th>
-            <th>Date</th>
+            {/* <th>Date</th> */}
           </tr>
         </thead>
         <tbody>{rows}</tbody>
