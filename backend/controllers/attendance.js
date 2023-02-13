@@ -66,11 +66,7 @@ module.exports.markMultiple =
 url `/api/attendance/markMultiple`. It takes a list of attendance
 records and adds them to the database. */
   async (req, res) => {
-    console.log(req.body);
-    res.send(req.body);
-    // const attendList = req.body;
-    // const result = await Attendance.bulkCreate(attendList);
-    // res.send(result);
+    const attendList = req.body;
+    const result = await Attendance.bulkCreate(attendList);
+    res.send(result);
   };
-
-  
