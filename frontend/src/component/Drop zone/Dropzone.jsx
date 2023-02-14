@@ -216,11 +216,11 @@
 // }
 
 import { Button, Text } from "@mantine/core";
-import { Dropzone, MS_EXCEL_MIME_TYPE } from "@mantine/dropzone";
+import { Dropzone, MIME_TYPES } from "@mantine/dropzone"; //MS_EXCEL_MIME_TYPE
 import axios from "axios";
 import { useState } from "react";
 
-export default function DropzoneButton() {
+export default function DropzoneButton({ accept, uploadLink }) {
   const [uploaded, setUploaded] = useState(undefined);
 
   const upload = () => {
@@ -229,7 +229,8 @@ export default function DropzoneButton() {
     formData.append("file", uploaded[0]);
 
     axios
-      .post("http://localhost:5000/users/upload", formData, {
+      .post(uploadLink, formData, {
+        // "http://localhost:5000/users/upload"
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -245,7 +246,7 @@ export default function DropzoneButton() {
       <Dropzone
         onDrop={(files) => setUploaded(files)}
         onReject={(files) => console.log("rejected files", files)}
-        accept={MS_EXCEL_MIME_TYPE}
+        accept={accept} //MS_EXCEL_MIME_TYPE
         sx={(theme) => ({
           minHeight: 120,
           display: "flex",
@@ -268,7 +269,7 @@ export default function DropzoneButton() {
           },
         })}
       >
-        <Text align="center">Drop images here</Text>
+        <Text align="center">Drop File here</Text>
       </Dropzone>
       <Button onClick={upload}>Upload</Button>
     </>
