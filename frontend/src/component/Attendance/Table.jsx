@@ -80,6 +80,8 @@ export default function TableSelection({ data, subCode, createdAt }) {
           color: "teal",
           icon: <IconCheck />,
           disallowClose: false,
+          autoClose: 2000,
+          radius: "xl",
         })
       )
       .catch((err) =>
@@ -88,6 +90,8 @@ export default function TableSelection({ data, subCode, createdAt }) {
           message: "Something went wrong.",
           icon: <IconX />,
           color: "red",
+          autoClose: 2000,
+          radius: "xl",
         })
       );
     setBtnState(false);
