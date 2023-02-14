@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { NotificationsProvider } from "@mantine/notifications";
+import { ModalsProvider } from "@mantine/modals";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 // import { AuthProvider } from "./component/context/UserContext";
@@ -16,9 +17,11 @@ root.render(
   <React.StrictMode>
     {
       /* <AuthProvider>*/
-      <NotificationsProvider>
-        <App />
-      </NotificationsProvider>
+      <ModalsProvider>
+        <NotificationsProvider>
+          <App />
+        </NotificationsProvider>
+      </ModalsProvider>
       /*</AuthProvider> */
     }
   </React.StrictMode>

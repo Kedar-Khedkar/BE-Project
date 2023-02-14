@@ -215,15 +215,34 @@
 //   );
 // }
 
-import { Button, Text } from "@mantine/core";
+import { Button, Grid, Text } from "@mantine/core";
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone"; //MS_EXCEL_MIME_TYPE
+import { showNotification } from "@mantine/notifications";
+import { IconAlertTriangleFilled } from "@tabler/icons-react";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function DropzoneButton({ accept, uploadLink }) {
+export default function DropzoneButton({
+  accept,
+  uploadLink,
+  onResponse,
+  onError,
+  icon,
+}) {
   const [uploaded, setUploaded] = useState(undefined);
-
+  const [dropzoneText, setdropzoneText] = useState(
+    "Click here to upload files or drag and drop"
+  );
   const upload = () => {
+    if (uploaded == undefined) {
+      showNotification({
+        title: "Select a file",
+        message: "You must select a file in order to proceed",
+        color: "yellow",
+        icon: <IconAlertTriangleFilled />,
+        disallowClose: false,
+      });
+    }
     const formData = new FormData();
 
     formData.append("file", uploaded[0]);
@@ -236,15 +255,18 @@ export default function DropzoneButton({ accept, uploadLink }) {
         },
         withCredentials: true,
       })
-      .then((res) => console.log(res))
+      .then((res) => onResponse(res))
       .catch((err) => {
-        console.log(err);
+        onError(err);
       });
   };
   return (
     <>
       <Dropzone
-        onDrop={(files) => setUploaded(files)}
+        onDrop={(files) => {
+          setdropzoneText(files[0].name);
+          setUploaded(files);
+        }}
         onReject={(files) => console.log("rejected files", files)}
         accept={accept} //MS_EXCEL_MIME_TYPE
         sx={(theme) => ({
@@ -269,9 +291,21 @@ export default function DropzoneButton({ accept, uploadLink }) {
           },
         })}
       >
-        <Text align="center">Drop File here</Text>
+        <Grid>
+          <Text align="center" size="xl">
+            <Text align="center" size="xl">
+              {icon}
+            </Text>
+            {dropzoneText}
+            <Text size="sm" color="dimmed" inline mt={7}>
+              Make sure the file is less than 5MB
+            </Text>
+          </Text>
+        </Grid>
       </Dropzone>
-      <Button onClick={upload}>Upload</Button>
+      <Button onClick={upload} mt={20}>
+        Upload
+      </Button>
     </>
   );
 }
