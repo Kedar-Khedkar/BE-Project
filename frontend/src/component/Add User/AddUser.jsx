@@ -378,25 +378,68 @@ import {
   SegmentedControl,
   Stack,
 } from "@mantine/core";
+import { IconUserPlus, IconCheck, IconX } from "@tabler/icons-react";
 import { useState } from "react";
-
+import axios from "axios";
+import { showNotification } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
 // import useradd from "../../assets/Images/person-plus-fill.svg";
 function FacultyForm() {
   const form = useForm({
-    initialValues: { email: "", name: "", phone: 0, facultyid: "" },
+    initialValues: {
+      user: {
+        email: "",
+        fullname: "",
+        // phone: 0,
+        // facultyid: "",
+        role: "faculty",
+      },
+    },
 
     // functions will be used to validate values at corresponding key
     validate: {
-      phone: (value) => (value.length === 10 ? null : "Invalid phone number"),
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
-      name: (value) => (typeof value === "string" ? null : "Invalid name"),
+      user: {
+        // phone: (value) =>
+        //   String(value).length === 10 ? null : "Invalid phone number",
+        email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+        fullname: (value) =>
+          typeof value === "string" ? null : "Invalid name",
+      },
     },
   });
-
+  const handleSubmitFaculty = (event, values) => {
+    // form.setFieldValue('role',"faculty")
+    console.log(form.values);
+    axios
+      .post("http://localhost:5000/users/facultyRegister", form.values)
+      .then(function (response) {
+        if (response.data.status === "success") {
+          showNotification({
+            title: "Success",
+            message: "User added successfully",
+            icon: <IconCheck />,
+            color: "teal",
+            autoClose: 2000,
+            radius: "xl",
+          });
+        } else {
+          showNotification({
+            title: "Fail",
+            message: response.data.err,
+            icon: <IconX />,
+            color: "red",
+            autoClose: 2000,
+            radius: "xl",
+          });
+        }
+      })
+      .catch(function (response) {
+        console.log(response);
+      });
+  };
   return (
     <>
-      <form>
+      <form onSubmit={form.onSubmit(handleSubmitFaculty)}>
         <Container>
           <Space h="xs" />
           <SimpleGrid
@@ -404,42 +447,50 @@ function FacultyForm() {
             breakpoints={[{ maxWidth: 980, cols: 1, spacing: "md" }]}
           >
             <div>
-              <TextInput placeholder="Your name" label="Name" withAsterisk />
+              <TextInput
+                placeholder="Your name"
+                label="Name"
+                withAsterisk
+                {...form.getInputProps("user.fullname")}
+              />
             </div>
             <div>
               <TextInput
                 placeholder="dev@mmcoe.edu.in"
                 label="Email"
                 withAsterisk
+                {...form.getInputProps("user.email")}
               />
             </div>
-            <div>
+            {/* <div>
               <TextInput
                 placeholder="Faculty Id"
                 label="Faculty Id"
-                withAsterisk
+                {...form.getInputProps("user.facultyid")}
+                // withAsterisk
               />
-            </div>
+            </div> */}
 
-            <div>
+            {/* <div>
               <NumberInput
                 placeholder="00000000000"
                 label="Phone"
                 hideControls
-                withAsterisk
+                {...form.getInputProps("user.phone")}
               />
-            </div>
+            </div> */}
           </SimpleGrid>
           <Space h="md" />
-          <Button
-            fullWidth
-            component="a"
-            href="#"
-            variant="outline"
-            // leftIcon={ }
-          >
-            Add User
-          </Button>
+          <Container size={500} px={0}>
+            <Button
+              fullWidth
+              // variant="outline"
+              type="submit"
+              leftIcon={<IconUserPlus />}
+            >
+              Add User
+            </Button>
+          </Container>
         </Container>
       </form>
     </>
@@ -448,85 +499,140 @@ function FacultyForm() {
 function StudentForm() {
   const form = useForm({
     initialValues: {
-      email: "",
-      name: "",
-      phone: 0,
-      faculty: "",
-      parentsphone: 0,
-      rollnumber: 0,
-      batch: "",
-      prnnumber: "",
+      user: {
+        email: "",
+        fullname: "",
+        phone: 0,
+        parentsphone: 0,
+        rollnumber: 0,
+        batch: "",
+        prnnumber: "",
+        role: "student",
+      },
     },
 
     // functions will be used to validate values at corresponding key
     validate: {
-      phone: (value) => (value.length === 10 ? null : "Invalid phone number"),
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
-      name: (value) => (typeof value === "string" ? null : "Invalid name"),
+      user: {
+        phone: (value) =>
+          String(value).length === 10 ? null : "Invalid phone number",
+        email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+        fullname: (value) =>
+          typeof value === "string" ? null : "Invalid name",
+      },
     },
   });
+  const handleSubmitStudent = (event, values) => {
+    console.log(form.values);
+    axios
+      .post("http://localhost:5000/users/studentRegister", form.values)
+      .then(function (response) {
+        if (response.data.status === "success") {
+          showNotification({
+            title: "Success",
+            message: "User added successfully",
+            icon: <IconCheck />,
+            color: "teal",
+            autoClose: 2000,
+            radius: "xl",
+          });
+        } else {
+          showNotification({
+            title: "Fail",
+            message: response.data.err,
+            icon: <IconX />,
+            color: "red",
+            autoClose: 2000,
+            radius: "xl",
+          });
+        }
+      })
+      .catch(function (response) {
+        console.log(response.data);
+      });
+  };
   return (
     <>
-      <Container>
-        <Space h="xs" />
-        <SimpleGrid
-          cols={2}
-          breakpoints={[{ maxWidth: 980, cols: 1, spacing: "md" }]}
-        >
-          <div>
-            <TextInput placeholder="Your name" label="Name" withAsterisk />
-          </div>
-          <div>
-            <TextInput
-              placeholder="dev@mmcoe.edu.in"
-              label="Email"
-              withAsterisk
-            />
-          </div>
-          <div>
-            <NumberInput
-              placeholder="0000000000"
-              label="Phone"
-              hideControls
-              withAsterisk
-            />
-          </div>
-          <div>
-            <NumberInput
-              placeholder="0000000000"
-              label="Parents Phone number"
-              hideControls
-              withAsterisk
-            />
-          </div>
-          <div>
-            <TextInput placeholder="batch" label="Batch" withAsterisk />
-          </div>
-          <div>
-            <NumberInput
-              placeholder=""
-              label="Roll number"
-              hideControls
-              withAsterisk
-            />
-          </div>
-          <div>
-            <TextInput placeholder="prn " label="PRN number" withAsterisk />
-          </div>
-        </SimpleGrid>
-        <Space h="md" />
-        <Container size={500} px={0}>
-          <Button
-            fullWidth
-            component="a"
-            href="#"
-            variant="outline"
-            // leftIcon={ }
+      <form onSubmit={form.onSubmit(handleSubmitStudent)}>
+        <Container>
+          <Space h="xs" />
+          <SimpleGrid
+            cols={2}
+            breakpoints={[{ maxWidth: 980, cols: 1, spacing: "md" }]}
           >
-            Add User
-          </Button>
+            <div>
+              <TextInput
+                placeholder="Your name"
+                label="Name"
+                withAsterisk
+                {...form.getInputProps("user.fullname")}
+              />
+            </div>
+            <div>
+              <TextInput
+                placeholder="dev@mmcoe.edu.in"
+                label="Email"
+                {...form.getInputProps("user.email")}
+                // withAsterisk
+              />
+            </div>
+            <div>
+              <NumberInput
+                placeholder="0000000000"
+                label="Phone"
+                hideControls
+                {...form.getInputProps("user.phone")}
+                // withAsterisk
+              />
+            </div>
+            <div>
+              <NumberInput
+                placeholder="0000000000"
+                label="Parents Phone number"
+                hideControls
+                {...form.getInputProps("user.parentsphone")}
+                // withAsterisk
+              />
+            </div>
+            <div>
+              <TextInput
+                placeholder="batch"
+                label="Batch"
+                {...form.getInputProps("user.batch")}
+                //  withAsterisk
+              />
+            </div>
+            <div>
+              <NumberInput
+                placeholder=""
+                label="Roll number"
+                hideControls
+                {...form.getInputProps("user.rollnumber")}
+                // withAsterisk
+              />
+            </div>
+            <div>
+              <TextInput
+                placeholder="prn "
+                label="PRN number"
+                {...form.getInputProps("user.prnnumber")}
+                //  withAsterisk
+              />
+            </div>
+          </SimpleGrid>
+          <Space h="md" />
+          <Container size={500} px={0}>
+            <Button
+              fullWidth
+              variant="outline"
+              type="submit"
+              leftIcon={<IconUserPlus />}
+            >
+              Add User
+            </Button>
+          </Container>
         </Container>
-      </Container>
+      </form>
     </>
   );
 }
