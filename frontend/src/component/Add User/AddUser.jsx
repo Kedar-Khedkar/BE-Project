@@ -377,6 +377,7 @@ import {
 import { useState } from "react";
 import { StudentForm } from "./StudentForm";
 import { FacultyForm } from "./FacultyForm";
+import ExtractUsers from "../ExtractUsers/ExtractUsers";
 
 function Forms() {
   const [category, setCategory] = useState("faculty");
@@ -423,8 +424,8 @@ export default function AddUser() {
             label="Upload files"
           />
         </Stack>
-        <Forms />
-        {/* <StudentForm /> */}
+
+        {checked ? <ExtractUsers /> : <Forms />}
       </Paper>
     </Container>
   );
