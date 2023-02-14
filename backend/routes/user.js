@@ -14,6 +14,7 @@ const {
   validateResetRequest,
 } = require("../middleware");
 const { sequelize, Sequelize } = require("../utils/database");
+const path = require("path");
 const Op = Sequelize.Op;
 
 /* This is a route for login. It is using passport.js for authentication. */
@@ -41,6 +42,11 @@ router
 
 /* This is a route for uploading a file. It is using `upload.single("file")` middleware for uploading a
 file. */
+router.route("/download").get((req, res) => {
+  res.download(
+    path.join(__dirname + "/../public/templates/addUserTemplate.xlsx")
+  );
+});
 router.route("/upload").post(
   // isLoggedIn,
   upload.single("file"),
