@@ -19,7 +19,7 @@ const LoginForm = React.lazy(() =>
 //   import("./component/Login & Registration/ResetPassword")
 // );
 const UserAdd = React.lazy(() => import("./component/Add User/AddUser"));
-// const ErrorPage = React.lazy(() => import("./component/Error/ErrorPage"));
+const ErrorPage = React.lazy(() => import("./component/Error/ErrorPage"));
 const Attendance = React.lazy(() => import("./component/Attendance/Layout"));
 // const Subject = React.lazy(() => import("./component/Subjects/subject"))
 
@@ -53,8 +53,8 @@ function App() {
           <Route path="/add-user" element={<UserAdd />} />
           {/* <Route path="/attendance" element={<RequireAuth><Attendance /></RequireAuth>} /> */}
           <Route path="/attendance" element={<Attendance />} />
-          {/* <Route path="/claim-subject" element={<Subject />} />
-            <Route path="*" element={<ErrorPage />} /> */}
+          {/* <Route path="/claim-subject" element={<Subject />} /> */}
+            <Route path="*" element={<ErrorPage />} />
           <Route path="/extractUsers" element={<ExtractUsers />} />
         </Routes>
       </BrowserRouter>
