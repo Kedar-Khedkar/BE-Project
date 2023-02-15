@@ -124,7 +124,7 @@ export default function TableSelection({ data, subCode, createdAt }) {
 
   return (
     <ScrollArea>
-      <Table sx={{ minWidth: 800 }} verticalSpacing="sm">
+      <Table sx={{ minWidth: 800 }} verticalSpacing="sm" highlightOnHover>
         <thead>
           <tr>
             <th style={{ width: 40 }}>
