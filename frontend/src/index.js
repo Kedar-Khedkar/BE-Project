@@ -18,7 +18,7 @@ root.render(
     {
       /* <AuthProvider>*/
       <ModalsProvider>
-        <NotificationsProvider>
+        <NotificationsProvider position="top-right">
           <App />
         </NotificationsProvider>
       </ModalsProvider>
