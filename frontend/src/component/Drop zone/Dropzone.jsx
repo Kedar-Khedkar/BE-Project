@@ -1,7 +1,7 @@
-import { Button, Grid, Text } from "@mantine/core";
+import { Button, Grid, Text, Stack } from "@mantine/core";
 import { Dropzone } from "@mantine/dropzone";
 import { showNotification } from "@mantine/notifications";
-import { IconAlertTriangleFilled } from "@tabler/icons-react";
+import { IconAlertTriangleFilled,IconUpload } from "@tabler/icons-react";
 import axios from "axios";
 import { useState } from "react";
 
@@ -23,7 +23,8 @@ export default function DropzoneButton({
         message: "You must select a file in order to proceed",
         color: "yellow",
         icon: <IconAlertTriangleFilled />,
-        disallowClose: false,
+        autoClose: 2000,
+        radius: "xl",
       });
     }
     const formData = new FormData();
@@ -71,21 +72,20 @@ export default function DropzoneButton({
           },
         })}
       >
-        <Grid>
-          <Text align="center" size="xl">
-            <Text align="center" size="xl">
-              {icon}
-            </Text>
-            {dropzoneText}
-            <Text size="sm" color="dimmed" inline mt={7}>
-              Make sure the file is less than 5MB
-            </Text>
+        <Stack align="center" spacing="sm">
+          {icon}
+
+          {dropzoneText}
+          <Text size="sm" color="dimmed" inline mt={7}>
+            Make sure the file is less than 5MB
           </Text>
-        </Grid>
+        </Stack>
       </Dropzone>
-      <Button onClick={upload} mt={20}>
+      <Stack spacing="sm">
+      <Button onClick={upload} mt={20} leftIcon={<IconUpload />}>
         Upload
       </Button>
+      </Stack>
     </>
   );
 }
