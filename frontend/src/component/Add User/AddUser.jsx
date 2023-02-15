@@ -411,10 +411,10 @@ export default function AddUser() {
         <Text align="center" fz="xl" fw={700}>
           Add User
         </Text>
-        <Text align="center">
+        {/* <Text align="center">
           Use it to create cards, dropdowns, modals and other components that
           require background with shadow
-        </Text>
+        </Text> */}
         <Stack align="center">
           <Space h="xs" />
           <Switch
