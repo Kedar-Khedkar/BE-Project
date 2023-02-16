@@ -124,7 +124,7 @@ export function StudentForm() {
           <Container size={500} px={0}>
             <Button
               fullWidth
-              variant="outline"
+            
               type="submit"
               leftIcon={<IconUserPlus />}
             >
