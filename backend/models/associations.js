@@ -9,11 +9,15 @@ const { unitTest } = require("./unitTest");
 
 /* Creating the relationships between the tables. */
 //ONE-TO-ONE USER-FACULTY
-User.hasOne(Faculty, { foreignKey: { name: "userId", allowNull: false } });
+User.hasOne(Faculty, {
+  foreignKey: { name: "userId", allowNull: false, onDelete: "CASCADE" },
+});
 Faculty.belongsTo(User, { foreignKey: "userId" });
 
 //ONE-TO-ONE USER-STUDENT
-User.hasOne(Student, { foreignKey: { name: "userId", allowNull: false } });
+User.hasOne(Student, {
+  foreignKey: { name: "userId", allowNull: false, onDelete: "CASCADE" },
+});
 Student.belongsTo(User, { foreignKey: "userId" });
 
 //ONE-TO-MANY SUBJECT-FACULTY
