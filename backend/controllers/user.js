@@ -240,16 +240,22 @@ database. */
 
 const deleteUser = async (req, res) => {
   const { id } = req.params;
-  const user = await User.findByPk(id);
-  if (user.role !== "admin") {
+  console.log(req.body);
+  if (req.body.hardDelete) {
     await User.destroy({ where: { id: id } });
     res.send({ status: "success", objects: null, err: null });
   } else {
-    res.status(403).send({
-      status: "failure",
-      objects: user,
-      err: `${user.fullname} is an admin. Cannot delete admins.`,
-    });
+    const user = await User.findByPk(id);
+    if (user.role !== "admin") {
+      await User.destroy({ paranoid: false, where: { id: id }, force: true });
+      res.send({ status: "success", objects: null, err: null });
+    } else {
+      res.status(403).send({
+        status: "failure",
+        objects: user,
+        err: `${user.fullname} is an admin. Cannot delete admins.`,
+      });
+    }
   }
 };
 

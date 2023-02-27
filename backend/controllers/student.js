@@ -96,23 +96,26 @@ It checks if the user provided any filters and retrieves the data accordingy. */
   async (req, res) => {
     const filter = req.query;
     let students;
-    if(filter.curr_sem && filter.curryear){
-    students = await Student.findAll({
-      where: {
-        curryear: Number(filter.curryear),
-        curr_sem: Number(filter.curr_sem),
-      },
-      include: {
-        model: User,
-        attributes: ["fullname", "email"],
-      },
-    });}else{
-       students = await Student.findAll({
-      include: {
-        model: User,
-        attributes: ["fullname", "email"],
-      },
-       })
+    if (filter.curr_sem && filter.curryear) {
+      students = await Student.findAll({
+        where: {
+          curryear: Number(filter.curryear),
+          curr_sem: Number(filter.curr_sem),
+        },
+        include: {
+          model: User,
+          attributes: ["fullname", "email"],
+          required: true,
+        },
+      });
+    } else {
+      students = await Student.findAll({
+        include: {
+          model: User,
+          attributes: ["fullname", "email"],
+          required: true,
+        },
+      });
     }
     res.send({ status: "success", objects: students, err: null });
   };

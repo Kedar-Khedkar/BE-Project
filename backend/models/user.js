@@ -39,7 +39,23 @@ const User =
         type: Sequelize.STRING,
       },
     },
-    { paranoid: true }
+    {
+      paranoid: true,
+      hooks: {
+        afterDestroy: function (instance, options) {
+          instance.getStudent().then((student) => student.destroy());
+          instance.getFaculty().then((faculty) => faculty.destroy());
+        },
+        afterRestore: function (instance, options) {
+          instance
+            .getStudent({ paranoid: false })
+            .then((student) => student.restore());
+          instance
+            .getFaculty({ paranoid: false })
+            .then((faculty) => faculty.restore());
+        },
+      },
+    }
   );
 
 module.exports = { User };

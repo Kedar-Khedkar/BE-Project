@@ -76,7 +76,11 @@ module.exports.getAllFaculty = async (req, res) => {
   const faculty = await Faculty.findAll({
     attributes: ["userId"],
     include: [
-      { model: User, attributes: ["fullname", "role", "email"] },
+      {
+        model: User,
+        attributes: ["fullname", "role", "email"],
+        required: true,
+      },
       { model: Subject, attributes: ["subCode", "subName"] },
     ],
   });
