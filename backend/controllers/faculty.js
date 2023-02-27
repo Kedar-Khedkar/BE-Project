@@ -1,6 +1,6 @@
 const { Faculty } = require("../models/faculty");
 const { Subject } = require("../models/subject");
-const {User} = require("../models/user");
+const { User } = require("../models/user");
 
 module.exports.getClaimedSubjects =
   /* A function that is called when a user makes a get request to the
@@ -72,17 +72,13 @@ user wants to unclaim and removes the relation from database */
       res.send({ status: "fail", objects: null, err: "Failed to delete." });
   };
 
-
-
-module.exports.getAllFaculty = async(req, res) => {
+module.exports.getAllFaculty = async (req, res) => {
   const faculty = await Faculty.findAll({
     attributes: ["userId"],
-    include : [
-      {model: User,
-      attributes:["fullname"]},
-      {model: Subject,
-      attributes:["subCode","subName"]}
-  ]
-  })
-  res.send({status: "success", objects:faculty, err:null})
+    include: [
+      { model: User, attributes: ["fullname", "role", "email"] },
+      { model: Subject, attributes: ["subCode", "subName"] },
+    ],
+  });
+  res.send({ status: "success", objects: faculty, err: null });
 };
