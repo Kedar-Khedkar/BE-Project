@@ -27,6 +27,8 @@ router.route("/login").post(
   user.login
 );
 
+router.route("/trash").get(catchAsync(user.getTrashed));
+
 /* This is a route for logout. It is using passport.js for authentication. */
 router.route("/logout").post(isLoggedIn, user.logout);
 

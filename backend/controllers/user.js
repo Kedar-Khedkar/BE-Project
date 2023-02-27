@@ -253,6 +253,18 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const getTrashed = async (req, res) => {
+  const users = await User.findAll({
+    where: {
+      deletedAt: {
+        [Op.not]: null,
+      },
+    },
+    paranoid: false,
+  });
+  res.send({ status: "success", objects: users, err: null });
+};
+
 module.exports = {
   genPassword,
   register,
@@ -263,4 +275,5 @@ module.exports = {
   reset_password,
   forgotPassword,
   deleteUser,
+  getTrashed,
 };
