@@ -17,6 +17,8 @@ const { sequelize, Sequelize } = require("../utils/database");
 const path = require("path");
 const Op = Sequelize.Op;
 
+router.route("/:id").delete(catchAsync(user.deleteUser));
+
 /* This is a route for login. It is using passport.js for authentication. */
 router.route("/login").post(
   passport.authenticate("local", {

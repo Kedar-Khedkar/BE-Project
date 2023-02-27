@@ -238,6 +238,21 @@ database. */
     });
   };
 
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findByPk(id);
+  if (user.role !== "admin") {
+    await User.destroy({ where: { id: id } });
+    res.send({ status: "success", objects: null, err: null });
+  } else {
+    res.status(403).send({
+      status: "failure",
+      objects: user,
+      err: `${user.fullname} is an admin. Cannot delete admins.`,
+    });
+  }
+};
+
 module.exports = {
   genPassword,
   register,
@@ -247,4 +262,5 @@ module.exports = {
   facultyRegister,
   reset_password,
   forgotPassword,
+  deleteUser,
 };
