@@ -3,11 +3,13 @@ import axios from "axios";
 import { useState } from "react";
 import AddUser from "../component/Add User/AddUser";
 import FacultyManagementTable from "../component/UserManagement/FacultyManagementTable";
+import RestoreUsersTable from "../component/UserManagement/RestoreUsersTable";
 import StudentManagementTable from "../component/UserManagement/StudentManagementTable";
 
 export default function UserTabs() {
   const [facultyData, setFacultyData] = useState([]);
   const [studentData, setStudentData] = useState([]);
+  const [trashedUsers, setTrashedUsers] = useState([]);
   const getFaculty = () => {
     axios
       .get("http://localhost:5000/faculty/all", { withCredentials: true })
@@ -24,6 +26,14 @@ export default function UserTabs() {
       });
   };
 
+  const getTrash = () => {
+    axios
+      .get("http://localhost:5000/users/trash", { withCredentials: true })
+      .then((res) => {
+        setTrashedUsers(res.data.objects);
+      });
+  };
+
   return (
     <Tabs variant="outline" defaultValue="Create Users">
       <Tabs.List>
@@ -34,7 +44,9 @@ export default function UserTabs() {
         <Tabs.Tab value="Manage Students" onClick={getStudents}>
           Manage Students
         </Tabs.Tab>
-        <Tabs.Tab value="Restore Deleted">Restore Deleted accounts</Tabs.Tab>
+        <Tabs.Tab value="Restore Deleted" onClick={getTrash}>
+          Restore Deleted accounts
+        </Tabs.Tab>
       </Tabs.List>
 
       <Tabs.Panel value="Create Users" pt="xs">
@@ -53,6 +65,7 @@ export default function UserTabs() {
       </Tabs.Panel>
       <Tabs.Panel value="Restore Deleted" pt="xs">
         Restore or Permanently Delete, previously deleted, accounts.
+        <RestoreUsersTable data={trashedUsers}></RestoreUsersTable>
       </Tabs.Panel>
     </Tabs>
   );
