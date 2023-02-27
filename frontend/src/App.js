@@ -6,6 +6,7 @@ import React, { Suspense } from "react";
 import { ForgotPassword } from "./component/Login & Registration/Forget-Password";
 import { ResetPassword } from "./component/Login & Registration/ResetPassword";
 import ExtractUsers from "./component/ExtractUsers/ExtractUsers";
+import DashBoard from "./pages/DashBoard";
 
 // import { Container } from "react-bootstrap";
 // import { RequireAuth } from "./component/ProtectedRoute/RequireAuth";
@@ -56,6 +57,7 @@ function App() {
           {/* <Route path="/claim-subject" element={<Subject />} /> */}
             <Route path="*" element={<ErrorPage />} />
           <Route path="/extractUsers" element={<ExtractUsers />} />
+          <Route path="/dashboard" element={<DashBoard />} />
         </Routes>
       </BrowserRouter>
     </div>
