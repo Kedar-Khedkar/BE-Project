@@ -95,16 +95,24 @@ module.exports.search =
 It checks if the user provided any filters and retrieves the data accordingy. */
   async (req, res) => {
     const filter = req.query;
-    const students = await Student.findAll({
+    let students;
+    if(filter.curr_sem && filter.curryear){
+    students = await Student.findAll({
       where: {
         curryear: Number(filter.curryear),
         curr_sem: Number(filter.curr_sem),
       },
-      attributes: ["rollno", "userId"],
       include: {
         model: User,
-        attributes: ["fullname"],
+        attributes: ["fullname", "email"],
       },
-    });
+    });}else{
+       students = await Student.findAll({
+      include: {
+        model: User,
+        attributes: ["fullname", "email"],
+      },
+       })
+    }
     res.send({ status: "success", objects: students, err: null });
   };
