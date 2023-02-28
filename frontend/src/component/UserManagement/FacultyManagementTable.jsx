@@ -20,7 +20,8 @@ import { useForm } from "@mantine/form";
 export default function FacultyManagementTable({ data }) {
   console.log(data);
   const theme = useMantineTheme();
-  const form = useForm({});
+  const initialValues = { fullname: "", role: "", email: "" };
+  const form = useForm({ initialValues });
   const deleteUser = (id) => {
     axios
       .delete(`http://localhost:5000/users/${id}`, null, {
@@ -51,8 +52,7 @@ export default function FacultyManagementTable({ data }) {
     event.preventDefault();
     console.log(form.values);
   };
-  const editUser = async (obj) => {
-    form.setValues(obj.User);
+  const editUser = (obj) => {
     openModal({
       title: "Edit Faculty",
       centered: true,
@@ -64,26 +64,26 @@ export default function FacultyManagementTable({ data }) {
             <TextInput
               // defaultValue={obj.userId}
               display="none"
-              name="userId"
+              // name="userId"
             ></TextInput>
             <TextInput
               label="Name"
               withAsterisk
-              name="fullname"
+              // name="fullname"
               // defaultValue={obj.User.fullname}
               {...form.getInputProps("fullname")}
             ></TextInput>
             <NativeSelect
               data={["admin", "faculty", "student"]}
               label="Role"
-              name="role"
+              // name="role"
               withAsterisk
               {...form.getInputProps("role")}
             />
             <TextInput
               label="Email"
               withAsterisk
-              name="email"
+              // name="email"
               // defaultValue={obj.User.email}
               {...form.getInputProps("email")}
             ></TextInput>
@@ -139,7 +139,11 @@ export default function FacultyManagementTable({ data }) {
         <Group>
           <ActionIcon
             onClick={async () => {
-              form.setValues(item.User);
+              form.setValues({
+                fullname: item.User.fullname,
+                role: item.User.role,
+                email: item.User.email,
+              });
               editUser(item);
             }}
           >
