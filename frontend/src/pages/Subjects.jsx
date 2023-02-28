@@ -1,6 +1,7 @@
 import { Tabs } from '@mantine/core';
 //import { IconPhoto, IconMessageCircle, IconSettings } from '@tabler/icons';
 import CreateSubject from "../component/Create Subject/CreateSubject";
+import Editsubject from '../component/Edit Subject/Editsubject';
 export default function Subjects() {
   return (
     <Tabs variant="outline" defaultValue="Create Subject">
@@ -14,8 +15,8 @@ export default function Subjects() {
         <CreateSubject></CreateSubject>
       </Tabs.Panel>
 
-      <Tabs.Panel value="messages" pt="xs">
-        Messages tab content
+      <Tabs.Panel value="Edit Subject" pt="xs">
+        <Editsubject></Editsubject>
       </Tabs.Panel>
 
       <Tabs.Panel value="settings" pt="xs">
