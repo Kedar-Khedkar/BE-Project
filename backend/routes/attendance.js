@@ -8,7 +8,7 @@ router.route("/multiple").post(catchAsync(attendance.markMultiple));
 
 router
   .route("/")
-  .get(catchAsync(attendance.readAttendance))
+  .post(catchAsync(attendance.readAttendance))
   .post(catchAsync(attendance.markAttendance));
 
 module.exports = router;
