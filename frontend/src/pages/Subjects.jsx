@@ -28,7 +28,7 @@ export default function Subjects() {
       <Tabs.List>
         <Tabs.Tab value="Create Subject">Create Subject</Tabs.Tab>
         <Tabs.Tab value="Edit Subject" >Edit Subject</Tabs.Tab>
-        <Tabs.Tab value="Claim Subject" onClick={getSubjects} >Claim Subject</Tabs.Tab>
+        <Tabs.Tab value="Claim Subject" onClick={getSubjects} >Claim/Unclaim Subject</Tabs.Tab>
       </Tabs.List>
 
       <Tabs.Panel value="Create Subject" pt="xs">

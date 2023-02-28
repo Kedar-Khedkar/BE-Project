@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useForm } from '@mantine/form';
+import { isNotEmpty, useForm } from '@mantine/form';
 import { TextInput, Button, Box, Code } from '@mantine/core';
 import axios from 'axios';
 import { IconUserPlus, IconCheck, IconX } from "@tabler/icons-react";
@@ -12,11 +12,15 @@ const form = useForm({
       subCode: '',
       subName: '',
       termwork: '50',
-      pract: '',
-      oral:'',
+      pract: '0',
+      oral:'0',
       sem:''
     },
-    
+    validate:{
+      subCode: isNotEmpty('Subject code cannot be empty'),
+      subName: isNotEmpty('Subject name cannot be empty'),
+      sem: isNotEmpty('Select semester')
+    }
   });
   
   const handleSubmitSubject = (evevt, values) => {
@@ -26,7 +30,7 @@ const form = useForm({
         if (response.data.status === "success") {
           showNotification({
             title: "Success",
-            message: "User added successfully",
+            message: "Subject created successfully",
             icon: <IconCheck />,
             color: "teal",
             autoClose: 2000,
