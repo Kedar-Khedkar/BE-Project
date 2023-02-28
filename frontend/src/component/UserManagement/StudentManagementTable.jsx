@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Badge,
   Table,
   Group,
@@ -8,14 +7,18 @@ import {
   Anchor,
   ScrollArea,
   useMantineTheme,
+  TextInput,
+  NativeSelect,
+  Button,
 } from "@mantine/core";
 import axios from "axios";
 import { IconPencil, IconTrash, IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
+import { closeAllModals, openModal } from "@mantine/modals";
 
 export default function StudentManagementTable({ data }) {
   const theme = useMantineTheme();
-
+  console.log(data);
   const deleteUser = (id) => {
     axios
       .delete(`http://localhost:5000/users/${id}`, null, {
@@ -41,6 +44,91 @@ export default function StudentManagementTable({ data }) {
           radius: "xl",
         });
       });
+  };
+
+  const updateUser = (event) => {
+    event.preventDefault();
+    console.log(event.target);
+    console.log("Ikde request jael edit chi");
+  };
+  const editUser = (obj) => {
+    openModal({
+      title: "Edit Student",
+      centered: true,
+      overlayOpacity: 0.15,
+      overlayBlur: 3,
+      children: (
+        <>
+          <form onSubmit={updateUser}>
+            <TextInput
+              value={obj.userId}
+              display="none"
+              name="userId"
+            ></TextInput>
+            <TextInput
+              label="Name"
+              withAsterisk
+              name="fullname"
+              defaultValue={obj.User.fullname}
+            ></TextInput>
+            <NativeSelect
+              data={["admin", "faculty", "student"]}
+              label="Role"
+              defaultValue={"student"}
+              name="role"
+              withAsterisk
+            />
+            <TextInput
+              label="Email"
+              withAsterisk
+              name="email"
+              defaultValue={obj.User.email}
+            ></TextInput>
+            <TextInput
+              label="Roll Number"
+              withAsterisk
+              name="rollno"
+              defaultValue={obj.rollno}
+            ></TextInput>
+            <TextInput
+              label="Exam seat Number"
+              name="examseatno"
+              withAsterisk
+              defaultValue={obj.examseatno}
+            ></TextInput>
+            <TextInput
+              label="Permanent Registration Number"
+              withAsterisk
+              name="prn"
+              defaultValue={obj.prn}
+            ></TextInput>
+            <NativeSelect
+              data={["3", "4", "5", "6", "7", "8"]}
+              label="Semester"
+              defaultValue={obj.curr_sem}
+            />
+            <NativeSelect
+              data={["2", "3", "4"]}
+              label="Semester"
+              defaultValue={obj.curryear}
+            />
+            <Button type="submit" mt={12} leftIcon={<IconCheck />}>
+              Submit
+            </Button>
+            <Button
+              type="close"
+              mt={12}
+              ml={8}
+              color={"gray"}
+              leftIcon={<IconX />}
+              onClick={closeAllModals}
+            >
+              Cancel
+            </Button>
+          </form>
+        </>
+      ),
+    });
   };
 
   const rows = data.map((item) => (
@@ -85,7 +173,11 @@ export default function StudentManagementTable({ data }) {
       </td>
       <td>
         <Group>
-          <ActionIcon>
+          <ActionIcon
+            onClick={() => {
+              editUser(item);
+            }}
+          >
             <IconPencil size={16} stroke={1.5} />
           </ActionIcon>
           <ActionIcon
