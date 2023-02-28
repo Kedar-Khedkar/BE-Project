@@ -3,7 +3,7 @@ import { Tabs } from '@mantine/core';
 import CreateSubject from "../component/Create Subject/CreateSubject";
 export default function Subjects() {
   return (
-    <Tabs variant="outline" defaultValue="gallery">
+    <Tabs variant="outline" defaultValue="Create Subject">
       <Tabs.List>
         <Tabs.Tab value="Create Subject">Create Subject</Tabs.Tab>
         <Tabs.Tab value="Edit Subject" >Edit Subject</Tabs.Tab>
