@@ -243,7 +243,7 @@ export default function AuthenticationTitle() {
         
           showNotification({
             title: "Logged in successfully",
-            message: `${get_message()}, Welcome to Divyang`,
+            message: `${get_message()}, Welcome to DDMS`,
             icon: ( <IconCheck/>
             ),
             color: "teal",
