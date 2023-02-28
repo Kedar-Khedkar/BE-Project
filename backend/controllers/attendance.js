@@ -8,6 +8,7 @@ module.exports.readAttendance =
   /* A function to find all the attendance records between two dates. */
   async (req, res) => {
     const { filters } = req.body;
+    console.log(req.body);
     const result = await Attendance.findAll({
       where: {
         "$Subject.subCode$": `${filters.subject}`,
