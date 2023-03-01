@@ -34,21 +34,25 @@ const NavigationCardData = [
     image: `${attendance}`,
     title: "Attendance",
     link: "string",
+    description:"Mark attendance"
   },
   {
     image: `${user}`,
     title: "User",
     link: "string",
+    description:""
   },
   {
     image: `${user}`,
     title: "User",
     link: "string",
+    description:""
   },
   {
     image: `${user}`,
     title: "User",
     link: "string",
+    description:""
   },
 ];
 
@@ -73,6 +77,9 @@ export default function NavigationCard() {
               {card.title}
             </Text>
           </Group>
+          <Text mt="sm" mb="md" color="dimmed" size="xs">
+        {card.description}
+      </Text>
         </Card>
       </div>
     

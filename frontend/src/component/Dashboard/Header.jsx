@@ -80,7 +80,7 @@ export default function HeaderAction({ links }: HeaderActionProps) {
   const [opened, { toggle }] = useDisclosure(false);
 
   return (
-    <Header height={HEADER_HEIGHT} mb={120}>
+    <Header height={HEADER_HEIGHT} mb={60}>
       <Container className={classes.inner} fluid>
         <Group>
           <Burger
