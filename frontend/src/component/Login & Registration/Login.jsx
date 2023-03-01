@@ -239,6 +239,9 @@ export default function AuthenticationTitle() {
 
       // })
       .then(response => {
+        console.log(response)
+        const {user} = response.data.objects;
+        localStorage.setItem("user", JSON.stringify(user));
         if (response.status === 200) {
         
           showNotification({
