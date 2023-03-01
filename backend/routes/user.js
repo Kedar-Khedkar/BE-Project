@@ -17,7 +17,10 @@ const { sequelize, Sequelize } = require("../utils/database");
 const path = require("path");
 const Op = Sequelize.Op;
 
-router.route("/:id").delete(catchAsync(user.deleteUser));
+router
+  .route("/:id")
+  .put(catchAsync(user.editUser))
+  .delete(catchAsync(user.deleteUser));
 
 /* This is a route for login. It is using passport.js for authentication. */
 router.route("/login").post(
@@ -78,6 +81,8 @@ router
   .route("/reset-password")
   .post(validateResetRequest, catchAsync(user.reset_password));
 
-router.route("/my-account").get(isLoggedIn, catchAsync(user.account_information))
+router
+  .route("/my-account")
+  .get(isLoggedIn, catchAsync(user.account_information));
 
 module.exports = router;

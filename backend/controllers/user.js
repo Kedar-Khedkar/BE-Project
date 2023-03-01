@@ -1,5 +1,5 @@
 const { User } = require("../models/user");
-const {Student} = require("../models/student");
+const { Student } = require("../models/student");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
 const { sendMail } = require("../utils/email");
@@ -272,14 +272,27 @@ const getTrashed = async (req, res) => {
   res.send({ status: "success", objects: users, err: null });
 };
 
-const account_information= async(req, res) =>{
-  if(req.user.role == "student"){
-    res.redirect(`/student/${req.user.id}`)
-  }else{
-    const user = await User.findByPk(req.user.id, {attributes:["id","email", "role", "fullname"]});
-    res.send({status:"success", objects: user, err: null})
+const account_information = async (req, res) => {
+  if (req.user.role == "student") {
+    res.redirect(`/student/${req.user.id}`);
+  } else {
+    const user = await User.findByPk(req.user.id, {
+      attributes: ["id", "email", "role", "fullname"],
+    });
+    res.send({ status: "success", objects: user, err: null });
   }
-}
+};
+
+const editUser = async (req, res) => {
+  const { id } = req.params;
+  await User.update({ ...req.body.user }, { where: { id: id } })
+    .then((res) => {
+      res.send({ status: "success", objects: null, err: null });
+    })
+    .catch((err) => {
+      res.send({ status: "error", objects: null, err: err });
+    });
+};
 
 module.exports = {
   genPassword,
@@ -290,6 +303,7 @@ module.exports = {
   facultyRegister,
   reset_password,
   forgotPassword,
+  editUser,
   deleteUser,
   getTrashed,
   account_information,
