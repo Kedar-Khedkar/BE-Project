@@ -11,7 +11,8 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "@mantine/form";
-import { IconPencil } from "@tabler/icons-react";
+import { IconPencil,IconCheck,IconX } from "@tabler/icons-react";
+import { showNotification } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -40,14 +41,54 @@ export default function StudentAccount({ data }) {
   const updateStudent = (event,id)=> {
     event.preventDefault();
     axios.put(`http://localhost:5000/student/${id}`, {student:form.values}, {withCredentials:true})
-    .then((res)=>{console.log(res)}).catch((res)=>{})
+    .then((res)=>{
+      showNotification({
+        title: "Success",
+        message: "Information Updated Successfully",
+        icon: <IconCheck />,
+        color: "teal",
+        autoClose: 2000,
+        radius: "xl",
+      });
+      console.log(res)
+    })
+    .catch((res)=>{
+      showNotification({
+        title: "Failed",
+        message: "Something went wrong",
+        icon: <IconX />,
+        color: "red",
+        autoClose: 3500,
+        radius: "xl",
+      });
+    })
     console.log(form.values); 
 
   }
   const updatePersonalData = (event,id) =>{
     event.preventDefault();
     axios.put(`http://localhost:5000/users/${id}`, {user:formPersonal.values}, {withCredentials:true})
-    .then((res)=>{console.log(res)}).catch((res)=>{})
+    .then((res)=>{
+      showNotification({
+        title: "Success",
+        message: "Information Updated Successfully",
+        icon: <IconCheck />,
+        color: "teal",
+        autoClose: 2000,
+        radius: "xl",
+      });
+      console.log(res)
+    })
+    .catch((res)=>{
+      showNotification({
+        title: "Failed",
+        message: "Something went wrong",
+        icon: <IconX />,
+        color: "red",
+        autoClose: 3500,
+        radius: "xl",
+      });
+    })
     console.log(formPersonal.values)
   }
 
@@ -76,6 +117,7 @@ export default function StudentAccount({ data }) {
             Student
           </Badge>
         </Center>
+        <h1>Student Informaton</h1>
         <Card>
           <ActionIcon ml={900} onClick={()=>{setIsNotEdit(!isNotEdit)}}>
             <IconPencil></IconPencil>
@@ -95,6 +137,7 @@ export default function StudentAccount({ data }) {
             <Button mt={12} type="submit" disabled={isNotEdit}>Edit</Button>
           </form>
         </Card>
+        <h1>Personal Information</h1>
         <Card>
         <form onSubmit={(e)=>{updatePersonalData(e, data.student.userId)}}>
             <TextInput disabled={isNotEdit} label="Fullname" defaultValue={data.student.User.fullname} withAsterisk {...formPersonal.getInputProps("fullname")} description="Your name in firstname<space>lastname format"/>
