@@ -78,4 +78,6 @@ router
   .route("/reset-password")
   .post(validateResetRequest, catchAsync(user.reset_password));
 
+router.route("/my-account").get(isLoggedIn, catchAsync(user.account_information))
+
 module.exports = router;

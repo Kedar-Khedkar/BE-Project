@@ -6,6 +6,7 @@ import {
   Container,
   Text,
   Divider,
+  Badge
 } from "@mantine/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -23,15 +24,9 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export default function UserAccount() {
+export default function StudentAccount({data}) {
   const { classes, theme } = useStyles();
-  const [userData, setUserData] = useState();
-  useEffect(() => {
-    axios.get(`http://localhost:5000/student/${11}`).then((res) => {
-      setUserData(res.data.objects);
-      console.log(res.data);
-    });
-  }, []);
+  
 
   return (
     <>
@@ -43,8 +38,13 @@ export default function UserAccount() {
           src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1331&q=80"
         />
       </Center>
-      <Divider my={"sm"} label={<h1></h1>} labelPosition={"center"}></Divider>
-      <Container></Container>
+      <Divider my={"sm"} label={<><h1>{data.student.User.fullname}</h1></>} labelPosition={"center"}></Divider>
+      <Container>
+        <Center>
+        <Text>{data.student.User.email}</Text>
+        <Badge color="yellow" size="lg" variant="outline" mx={16}>Student</Badge>
+        </Center>
+      </Container>
     </>
   );
 }
