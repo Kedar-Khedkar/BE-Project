@@ -51,7 +51,7 @@ it updates the student data. */
       },
     });
     if (!role) {
-      res.send({ status: "error", objects: null, err: "No such account" });
+      res.status(404).send({ status: "error", objects: null, err: "No such account" });
     }
     if (role !== "student") {
       res.status(403).send({
@@ -64,8 +64,7 @@ it updates the student data. */
         { ...req.body.student },
         { where: { userId: req.params.id } }
       );
-      res.redirect(`/student/${req.params.id}`);
-    }
+      res.send({ status: "success", objects: null, err: null });    }
   };
 
 module.exports.deleteStudent =
