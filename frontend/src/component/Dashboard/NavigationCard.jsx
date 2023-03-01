@@ -34,55 +34,55 @@ const NavigationCardData = [
     image: `${attendance}`,
     title: "Attendance",
     link: "string",
-    description:"Mark attendance"
+    description: "Mark attendance",
   },
   {
     image: `${user}`,
     title: "User",
     link: "string",
-    description:""
+    description: "",
   },
   {
     image: `${user}`,
     title: "User",
     link: "string",
-    description:""
+    description: "",
   },
   {
     image: `${user}`,
     title: "User",
     link: "string",
-    description:""
+    description: "",
   },
 ];
 
-export default function NavigationCard() {
+export default function NavigationCard(props) {
   const { classes } = useStyles();
 
-  const cards = NavigationCardData.map((card, id) => (
-    
-      <div>
-        <Card withBorder p="lg" className={classes.card} key={id}>
-          <Card.Section>
-            <Image
-              src={card.image}
-              alt={card.title}
-              height={200}
-              fit="contain"
-            />
-          </Card.Section>
+  //   const cards = NavigationCardData.map((card, id) => (
 
-          <Group position="apart" mt="xl">
-            <Text size="sm" weight={700} className={classes.title}>
-              {card.title}
-            </Text>
-          </Group>
-          <Text mt="sm" mb="md" color="dimmed" size="xs">
-        {card.description}
-      </Text>
-        </Card>
-      </div>
-    
-  ));
-  return <> <SimpleGrid cols={2}>{cards}</SimpleGrid></>;
+  //   ));
+  return (
+    <>
+      <Card withBorder p="lg" className={classes.card}>
+        <Card.Section>
+          <Image
+            src={props.image}
+            alt={props.title}
+            height={200}
+            fit="contain"
+          />
+        </Card.Section>
+
+        <Group position="apart" mt="xl">
+          <Text size="sm" weight={700} className={classes.title}>
+            {props.title}
+          </Text>
+        </Group>
+        <Text mt="sm" mb="md" color="dimmed" size="xs">
+          {props.description}
+        </Text>
+      </Card>
+    </>
+  );
 }
