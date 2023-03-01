@@ -78,7 +78,7 @@ const useStyles = createStyles((theme) => ({
 export default function HeaderAction({ links }) {
   const { classes } = useStyles();
   const [opened, { toggle }] = useDisclosure(false);
-   const navigate=useNavigate();
+  const navigate = useNavigate();
   let user = JSON.parse(localStorage.getItem("user"));
   const logout = () => {
     axios
@@ -86,7 +86,7 @@ export default function HeaderAction({ links }) {
         withCredentials: true,
       })
       .then((res) => {
-        navigate("/")
+        navigate("/");
         localStorage.removeItem("user");
         user = undefined;
         showNotification({
@@ -111,7 +111,7 @@ export default function HeaderAction({ links }) {
   };
 
   return (
-    <Header height={HEADER_HEIGHT} >
+    <Header height={HEADER_HEIGHT} mb={60}>
       <Container className={classes.inner} fluid>
         <Group>
           <Burger
@@ -120,9 +120,11 @@ export default function HeaderAction({ links }) {
             className={classes.burger}
             size="sm"
           />
-          <Text fz="xl" fw={700}>
-            DDMS
-          </Text>
+          <Anchor href="/dashboard" textDecoration={null}>
+            <Text fz="xl" fw={700}>
+              DDMS
+            </Text>
+          </Anchor>
         </Group>
         {user && (
           <Group spacing={5} className={classes.links}>

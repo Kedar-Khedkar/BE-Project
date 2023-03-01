@@ -5,9 +5,10 @@ import {
   Text,
   Group,
   SimpleGrid,
+  Anchor,
 } from "@mantine/core";
 import attendance from "../../assets/Images/confirmed-attendance-animate.svg";
-import user from "../../assets/Images/new-entries-animate.svg";
+
 const useStyles = createStyles((theme) => ({
   card: {
     backgroundColor:
@@ -29,32 +30,32 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const NavigationCardData = [
-  {
-    image: `${attendance}`,
-    title: "Attendance",
-    link: "string",
-    description: "Mark attendance",
-  },
-  {
-    image: `${user}`,
-    title: "User",
-    link: "string",
-    description: "",
-  },
-  {
-    image: `${user}`,
-    title: "User",
-    link: "string",
-    description: "",
-  },
-  {
-    image: `${user}`,
-    title: "User",
-    link: "string",
-    description: "",
-  },
-];
+// const NavigationCardData = [
+//   {
+//     image: `${attendance}`,
+//     title: "Attendance",
+//     link: "string",
+//     description: "Mark attendance",
+//   },
+//   {
+//     image: `${user}`,
+//     title: "User",
+//     link: "string",
+//     description: "",
+//   },
+//   {
+//     image: `${user}`,
+//     title: "User",
+//     link: "string",
+//     description: "",
+//   },
+//   {
+//     image: `${user}`,
+//     title: "User",
+//     link: "string",
+//     description: "",
+//   },
+// ];
 
 export default function NavigationCard(props) {
   const { classes } = useStyles();
@@ -63,7 +64,7 @@ export default function NavigationCard(props) {
 
   //   ));
   return (
-    <>
+    <Anchor href={props.link}>
       <Card withBorder p="lg" className={classes.card}>
         <Card.Section>
           <Image
@@ -83,6 +84,6 @@ export default function NavigationCard(props) {
           {props.description}
         </Text>
       </Card>
-    </>
+    </Anchor>
   );
 }

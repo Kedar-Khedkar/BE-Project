@@ -6,12 +6,16 @@ import {
   Container,
   Text,
   Divider,
-  Badge,Card,TextInput,ActionIcon,Button,
+  Badge,
+  Card,
+  TextInput,
+  ActionIcon,
+  Button,
 } from "@mantine/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "@mantine/form";
-import { IconPencil,IconCheck,IconX } from "@tabler/icons-react";
+import { IconPencil, IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
@@ -30,68 +34,84 @@ const useStyles = createStyles((theme) => ({
 export default function StudentAccount({ data }) {
   const [isNotEdit, setIsNotEdit] = useState(true);
   const { classes, theme } = useStyles();
-  const initialValues = {prn: data.student.prn, rollno: data.student.rollno,
-  examseatno: data.student.examseatno, curr_sem: data.student.curr_sem, curryear: data.student.curryear}
+  const initialValues = {
+    prn: data.student.prn,
+    rollno: data.student.rollno,
+    examseatno: data.student.examseatno,
+    curr_sem: data.student.curr_sem,
+    curryear: data.student.curryear,
+  };
 
-  const initial = {fullname: data.student.User.fullname, email: data.student.User.email}
-  const formPersonal = useForm({initial})
+  const initial = {
+    fullname: data.student.User.fullname,
+    email: data.student.User.email,
+  };
+  const formPersonal = useForm({ initial });
 
-  const form = useForm({initialValues})
-  console.log(initialValues)
-  const updateStudent = (event,id)=> {
+  const form = useForm({ initialValues });
+  console.log(initialValues);
+  const updateStudent = (event, id) => {
     event.preventDefault();
-    axios.put(`http://localhost:5000/student/${id}`, {student:form.values}, {withCredentials:true})
-    .then((res)=>{
-      showNotification({
-        title: "Success",
-        message: "Information Updated Successfully",
-        icon: <IconCheck />,
-        color: "teal",
-        autoClose: 2000,
-        radius: "xl",
+    axios
+      .put(
+        `http://localhost:5000/student/${id}`,
+        { student: form.values },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        showNotification({
+          title: "Success",
+          message: "Information Updated Successfully",
+          icon: <IconCheck />,
+          color: "teal",
+          autoClose: 2000,
+          radius: "xl",
+        });
+        console.log(res);
+      })
+      .catch((res) => {
+        showNotification({
+          title: "Failed",
+          message: "Something went wrong",
+          icon: <IconX />,
+          color: "red",
+          autoClose: 3500,
+          radius: "xl",
+        });
       });
-      console.log(res)
-    })
-    .catch((res)=>{
-      showNotification({
-        title: "Failed",
-        message: "Something went wrong",
-        icon: <IconX />,
-        color: "red",
-        autoClose: 3500,
-        radius: "xl",
-      });
-    })
-    console.log(form.values); 
-
-  }
-  const updatePersonalData = (event,id) =>{
+    console.log(form.values);
+  };
+  const updatePersonalData = (event, id) => {
     event.preventDefault();
-    axios.put(`http://localhost:5000/users/${id}`, {user:formPersonal.values}, {withCredentials:true})
-    .then((res)=>{
-      showNotification({
-        title: "Success",
-        message: "Information Updated Successfully",
-        icon: <IconCheck />,
-        color: "teal",
-        autoClose: 2000,
-        radius: "xl",
+    axios
+      .put(
+        `http://localhost:5000/users/${id}`,
+        { user: formPersonal.values },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        showNotification({
+          title: "Success",
+          message: "Information Updated Successfully",
+          icon: <IconCheck />,
+          color: "teal",
+          autoClose: 2000,
+          radius: "xl",
+        });
+        console.log(res);
+      })
+      .catch((res) => {
+        showNotification({
+          title: "Failed",
+          message: "Something went wrong",
+          icon: <IconX />,
+          color: "red",
+          autoClose: 3500,
+          radius: "xl",
+        });
       });
-      console.log(res)
-    })
-    .catch((res)=>{
-      showNotification({
-        title: "Failed",
-        message: "Something went wrong",
-        icon: <IconX />,
-        color: "red",
-        autoClose: 3500,
-        radius: "xl",
-      });
-    })
-    console.log(formPersonal.values)
-  }
-
+    console.log(formPersonal.values);
+  };
 
   return (
     <>
@@ -119,30 +139,93 @@ export default function StudentAccount({ data }) {
         </Center>
         <h1>Student Informaton</h1>
         <Card>
-          <ActionIcon ml={900} onClick={()=>{setIsNotEdit(!isNotEdit)}}>
+          <ActionIcon
+            ml={900}
+            onClick={() => {
+              setIsNotEdit(!isNotEdit);
+            }}
+          >
             <IconPencil></IconPencil>
           </ActionIcon>
-           <form onSubmit={(e)=>{updateStudent(e, data.student.userId)}}>
+          <form
+            onSubmit={(e) => {
+              updateStudent(e, data.student.userId);
+              window.location.reload();
+            }}
+          >
             {/* <TextInput disabled={isNotEdit} label="Fullname" 
             defaultValue={data.student.User.fullname} withAsterisk 
             {...form.getInputProps("fullname")} description="Your name in firstname<space>lastname format"/> */}
             {/* <TextInput disabled={isNotEdit}label="Email" 
             defaultValue={data.student.User.email} withAsterisk 
             {...form.getInputProps("email")} description="email associated with your account"/> */}
-            <TextInput type={Number} disabled={isNotEdit} label="PRN" defaultValue={data.student.prn} withAsterisk {...form.getInputProps("prn")} />
-            <TextInput type={Number} disabled={isNotEdit} label="Roll No" defaultValue={data.student.rollno} withAsterisk {...form.getInputProps("rollno")} />
-            <TextInput type={Number} disabled={isNotEdit} label="Exam Seat No" defaultValue={data.student.examseatno} withAsterisk {...form.getInputProps("examseatno")} />
-            <TextInput type={Number} disabled={true} label="Current Semester" defaultValue={data.student.curr_sem} />
-            <TextInput type={Number} disabled={true} label="Current Year" defaultValue={data.student.curryear} />
-            <Button mt={12} type="submit" disabled={isNotEdit}>Edit</Button>
+            <TextInput
+              type={Number}
+              disabled={isNotEdit}
+              label="PRN"
+              defaultValue={data.student.prn}
+              withAsterisk
+              {...form.getInputProps("prn")}
+            />
+            <TextInput
+              type={Number}
+              disabled={isNotEdit}
+              label="Roll No"
+              defaultValue={data.student.rollno}
+              withAsterisk
+              {...form.getInputProps("rollno")}
+            />
+            <TextInput
+              type={Number}
+              disabled={isNotEdit}
+              label="Exam Seat No"
+              defaultValue={data.student.examseatno}
+              withAsterisk
+              {...form.getInputProps("examseatno")}
+            />
+            <TextInput
+              type={Number}
+              disabled={true}
+              label="Current Semester"
+              defaultValue={data.student.curr_sem}
+            />
+            <TextInput
+              type={Number}
+              disabled={true}
+              label="Current Year"
+              defaultValue={data.student.curryear}
+            />
+            <Button mt={12} type="submit" disabled={isNotEdit}>
+              Edit
+            </Button>
           </form>
         </Card>
         <h1>Personal Information</h1>
         <Card>
-        <form onSubmit={(e)=>{updatePersonalData(e, data.student.userId)}}>
-            <TextInput disabled={isNotEdit} label="Fullname" defaultValue={data.student.User.fullname} withAsterisk {...formPersonal.getInputProps("fullname")} description="Your name in firstname<space>lastname format"/>
-            <TextInput disabled={isNotEdit}label="Email" defaultValue={data.student.User.email} withAsterisk {...formPersonal.getInputProps("email")} description="email associated with your account"/>
-            <Button mt={12} type="submit" disabled={isNotEdit}>Edit</Button>
+          <form
+            onSubmit={(e) => {
+              updatePersonalData(e, data.student.userId);
+            }}
+          >
+            <TextInput
+              disabled={isNotEdit}
+              label="Fullname"
+              defaultValue={data.student.User.fullname}
+              withAsterisk
+              {...formPersonal.getInputProps("fullname")}
+              description="Your name in firstname<space>lastname format"
+            />
+            <TextInput
+              disabled={isNotEdit}
+              label="Email"
+              defaultValue={data.student.User.email}
+              withAsterisk
+              {...formPersonal.getInputProps("email")}
+              description="email associated with your account"
+            />
+            <Button mt={12} type="submit" disabled={isNotEdit}>
+              Edit
+            </Button>
           </form>
         </Card>
       </Container>

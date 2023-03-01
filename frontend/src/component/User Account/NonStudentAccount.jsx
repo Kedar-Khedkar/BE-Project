@@ -13,7 +13,8 @@ import {
   ActionIcon,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { IconPencil } from "@tabler/icons-react";
+import { IconPencil, IconCheck, IconX } from "@tabler/icons-react";
+import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -31,15 +32,45 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function NonStudentAccount({ data }) {
-  const initialValues = {fullname: data.fullname, email: data.email, role: data.role}
+  const initialValues = {
+    fullname: data.fullname,
+    email: data.email,
+    role: data.role,
+  };
   const [isNotEdit, setIsNotEdit] = useState(true);
-  const form = useForm({initialValues})
+  const form = useForm({ initialValues });
   const { classes, theme } = useStyles();
   console.log("inside component", data);
-  const updateUser = (event, id) =>{
-    event.preventDefault()
-    axios.put(`http://localhost:5000/users/${id}`, {user: form.values}, {withCredentials: true}).then((res)=>{}).catch((res)=>{})
-  }
+  const updateUser = (event, id) => {
+    event.preventDefault();
+    axios
+      .put(
+        `http://localhost:5000/users/${id}`,
+        { user: form.values },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        showNotification({
+          title: "Success",
+          message: "Information Updated Successfully",
+          icon: <IconCheck />,
+          color: "teal",
+          autoClose: 2000,
+          radius: "xl",
+        });
+        window.location.reload();
+      })
+      .catch((res) => {
+        showNotification({
+          title: "Failed",
+          message: "Something went wrong",
+          icon: <IconX />,
+          color: "red",
+          autoClose: 3500,
+          radius: "xl",
+        });
+      });
+  };
 
   return (
     <>
@@ -74,13 +105,38 @@ export default function NonStudentAccount({ data }) {
           </Badge>
         </Center>
         <Card>
-          <ActionIcon ml={900} onClick={()=>{setIsNotEdit(!isNotEdit)}}>
+          <ActionIcon
+            ml={900}
+            onClick={() => {
+              setIsNotEdit(!isNotEdit);
+            }}
+          >
             <IconPencil></IconPencil>
           </ActionIcon>
-          <form onSubmit={(e)=>{updateUser(e, data.id)}}>
-            <TextInput disabled={isNotEdit} label="Fullname" defaultValue={data.fullname} withAsterisk {...form.getInputProps("fullname")} description="Your name in firstname<space>lastname format"/>
-            <TextInput disabled={isNotEdit}label="Email" defaultValue={data.email} withAsterisk {...form.getInputProps("email")} description="email associated with your account"/>
-            <Button mt={12} type="submit" disabled={isNotEdit}>Edit</Button>
+          <form
+            onSubmit={(e) => {
+              updateUser(e, data.id);
+            }}
+          >
+            <TextInput
+              disabled={isNotEdit}
+              label="Fullname"
+              defaultValue={data.fullname}
+              withAsterisk
+              {...form.getInputProps("fullname")}
+              description="Your name in firstname<space>lastname format"
+            />
+            <TextInput
+              disabled={isNotEdit}
+              label="Email"
+              defaultValue={data.email}
+              withAsterisk
+              {...form.getInputProps("email")}
+              description="email associated with your account"
+            />
+            <Button mt={12} type="submit" disabled={isNotEdit}>
+              Edit
+            </Button>
           </form>
         </Card>
       </Container>

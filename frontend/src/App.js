@@ -6,10 +6,13 @@ import React, { Suspense } from "react";
 import { ForgotPassword } from "./component/Login & Registration/Forget-Password";
 import { ResetPassword } from "./component/Login & Registration/ResetPassword";
 import ExtractUsers from "./component/ExtractUsers/ExtractUsers";
-import DashBoard from "./pages/DashBoard";
+// import DashBoard from "./pages/DashBoard";
 import Dashboard from "./component/Dashboard/Dashboard";
 import MyAccount from "./pages/MyAccount";
 import HeaderAction from "./component/Dashboard/Header";
+import UserTabs from "./pages/UserTabs";
+import AttendanceTabs from "./pages/AttendanceTabs";
+import Subjects from "./pages/Subjects";
 
 // import { Container } from "react-bootstrap";
 // import { RequireAuth } from "./component/ProtectedRoute/RequireAuth";
@@ -51,19 +54,21 @@ function App() {
       <BrowserRouter>
         <HeaderAction />
         <Routes>
+          {/* <Route path="/add-user" element={<UserAdd />} /> */}
+          {/* <Route path="/attendance" element={<RequireAuth><Attendance /></RequireAuth>} /> */}
+          {/* <Route path="/attendance" element={<Attendance />} /> */}
+          {/* <Route path="/claim-subject" element={<Subject />} /> */}
+          {/* <Route path="/extractUsers" element={<ExtractUsers />} /> */}
           <Route path="/login" element={<LoginForm />} />
           <Route path="/" element={<LoginForm />} />
           {<Route path="/forgot-password" element={<ForgotPassword />} />}
           {<Route path="/reset-password" element={<ResetPassword />} />}
-          <Route path="/add-user" element={<UserAdd />} />
-          {/* <Route path="/attendance" element={<RequireAuth><Attendance /></RequireAuth>} /> */}
-          <Route path="/attendance" element={<Attendance />} />
-          {/* <Route path="/claim-subject" element={<Subject />} /> */}
-          <Route path="*" element={<ErrorPage />} />
-          <Route path="/extractUsers" element={<ExtractUsers />} />
-          <Route path="/dashboard" element={<DashBoard />} />
-          <Route path="/dashboardhome" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/user-mgmt" element={<UserTabs />} />
+          <Route path="/attend-mgmt" element={<AttendanceTabs />} />
+          <Route path="/subject-mgmt" element={<Subjects />} />
           <Route path="/my-account" element={<MyAccount />} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>
     </div>
