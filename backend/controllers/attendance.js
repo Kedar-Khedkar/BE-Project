@@ -2,7 +2,8 @@ const { Attendance } = require("../models/attendance");
 const { Student } = require("../models/student");
 const { User } = require("../models/user");
 const { Subject } = require("../models/subject");
-const { Op } = require("sequelize");
+const { Op, Sequelize } = require("sequelize");
+const { sequelize } = require("../utils/database");
 
 module.exports.readAttendance =
   /* A function to find all the attendance records between two dates. */
@@ -71,3 +72,19 @@ records and adds them to the database. */
     const result = await Attendance.bulkCreate(attendList);
     res.send(result);
   };
+
+module.exports.statistics = async (req, res) => {
+  const stats = {};
+  stats.deptAvg = await Attendance.findAll({
+    attributes: [[sequelize.fn("avg", sequelize.col("presentee")), "deptAvg"]],
+  });
+  stats.dailyAvg = await Attendance.findAll({
+    attributes: [
+      [Sequelize.literal("(AVG(presentee)*100)"), "avg"],
+      [sequelize.fn("DATE", sequelize.col("createdAt")), "date"],
+    ],
+    group: ["date"],
+  });
+
+  res.send({ status: "success", objects: stats, err: null });
+};

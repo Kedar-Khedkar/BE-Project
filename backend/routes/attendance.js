@@ -11,4 +11,6 @@ router
   .post(catchAsync(attendance.readAttendance))
   .post(catchAsync(attendance.markAttendance));
 
+router.route("/stats").post(catchAsync(attendance.statistics));
+
 module.exports = router;
