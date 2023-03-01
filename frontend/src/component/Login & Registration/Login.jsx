@@ -176,10 +176,11 @@ import {
   Button,
   Image,
   createStyles,
-  SimpleGrid,Space
+  SimpleGrid,
+  Space,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-import { showNotification } from '@mantine/notifications';
+import { showNotification } from "@mantine/notifications";
 import loginImg from "../../assets/Images/login-animate.svg";
 import { useForm } from "@mantine/form";
 import React, { useState } from "react";
@@ -191,22 +192,22 @@ const useStyles = createStyles((theme) => ({
       display: "none",
     },
   },
-}))
+}));
 export default function AuthenticationTitle() {
   const { classes } = useStyles();
-  const navigate=useNavigate();
-  function get_message(){
+  const navigate = useNavigate();
+  function get_message() {
     var d = new Date();
     var time = d.getHours();
 
     if (time < 12) {
-      return("Good morning! ☕");
+      return "Good morning! ☕";
     }
     if (time > 12) {
-      return("Good afternoon! 🌆");
+      return "Good afternoon! 🌆";
     }
     if (time === 17) {
-      return("Good evening! 🌃");
+      return "Good evening! 🌃";
     }
   }
   const form = useForm({
@@ -239,22 +240,20 @@ export default function AuthenticationTitle() {
       //   // navigate(redirectPath, { replace: true });
 
       // })
-      .then(response => {
-        console.log(response)
-        const {user} = response.data.objects;
+      .then((response) => {
+        console.log(response);
+        const { user } = response.data.objects;
         localStorage.setItem("user", JSON.stringify(user));
         if (response.status === 200) {
-          navigate("/dashboardhome")
+          navigate("/dashboard");
           showNotification({
             title: "Logged in successfully",
             message: `${get_message()}, Welcome to DDMS`,
-            icon: ( <IconCheck/>
-            ),
+            icon: <IconCheck />,
             color: "teal",
             autoClose: 4000,
             radius: "xl",
           });
-          
         }
       })
       .catch(function (error) {
@@ -271,7 +270,7 @@ export default function AuthenticationTitle() {
           fontWeight: 900,
         })}
       >
-       Marathwada Mitra Mandal's College of Engineering
+        Marathwada Mitra Mandal's College of Engineering
       </Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>
         Do not have an account yet?{" "}
@@ -287,15 +286,15 @@ export default function AuthenticationTitle() {
         >
           <div>
             <Image
-            className={classes.image}
+              className={classes.image}
               fit="contain"
               height={400}
               src={loginImg}
               alt="Login Illustration"
             />
           </div>
-          <div >
-          <Space h="md" />
+          <div>
+            <Space h="md" />
             <form onSubmit={form.onSubmit(handleSubmit)}>
               <TextInput
                 label="Email"
