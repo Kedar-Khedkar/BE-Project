@@ -14,6 +14,7 @@ import {
   Kbd,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { useNavigate } from "react-router-dom";
 import {
   IconArrowRight,
   IconSearch,
@@ -77,7 +78,7 @@ const useStyles = createStyles((theme) => ({
 export default function HeaderAction({ links }) {
   const { classes } = useStyles();
   const [opened, { toggle }] = useDisclosure(false);
-
+   const navigate=useNavigate();
   let user = JSON.parse(localStorage.getItem("user"));
   const logout = () => {
     axios
@@ -85,6 +86,7 @@ export default function HeaderAction({ links }) {
         withCredentials: true,
       })
       .then((res) => {
+        navigate("/")
         localStorage.removeItem("user");
         user = undefined;
         showNotification({
