@@ -178,6 +178,7 @@ import {
   createStyles,
   SimpleGrid,Space
 } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
 import { showNotification } from '@mantine/notifications';
 import loginImg from "../../assets/Images/login-animate.svg";
 import { useForm } from "@mantine/form";
@@ -193,7 +194,7 @@ const useStyles = createStyles((theme) => ({
 }))
 export default function AuthenticationTitle() {
   const { classes } = useStyles();
-
+  const navigate=useNavigate();
   function get_message(){
     var d = new Date();
     var time = d.getHours();
@@ -243,7 +244,7 @@ export default function AuthenticationTitle() {
         const {user} = response.data.objects;
         localStorage.setItem("user", JSON.stringify(user));
         if (response.status === 200) {
-        
+          navigate("/dashboardhome")
           showNotification({
             title: "Logged in successfully",
             message: `${get_message()}, Welcome to DDMS`,
