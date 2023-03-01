@@ -8,8 +8,8 @@ export default function Dashboard() {
     <>
       <Container>
         {/* <UserTabs></UserTabs> */}
-        <Subjects></Subjects>
-        {/* <AttendanceTabs></AttendanceTabs> */}
+        {/* <Subjects></Subjects> */}
+        <AttendanceTabs></AttendanceTabs>
       </Container>
     </>
   );

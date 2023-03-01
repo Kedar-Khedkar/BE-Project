@@ -3,9 +3,11 @@ import { IconPhoto } from "@tabler/icons-react";
 import AttendanceFilter from "../component/Attendance/AttendanceFilter";
 import Attendance from "../component/Attendance/Layout";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import AttendanceDash from "../component/Attendance/AttendanceDash";
 export default function AttendanceTabs() {
   const [subjectList, setSubjectList] = useState();
+  const [stats, setStats] = useState();
   const getSubjects = () => {
     axios
       .get("http://localhost:5000/faculty", { withCredentials: true })
@@ -17,6 +19,17 @@ export default function AttendanceTabs() {
   const getData = (data) => {
     console.log(data);
   };
+
+  useEffect(() => {
+    axios
+      .post("http://localhost:5000/attend/stats", null, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setStats(res.data.objects);
+      });
+  }, []);
+
   return (
     <Tabs variant="outline" defaultValue="Attendance Dashboard">
       <Tabs.List>
@@ -30,7 +43,8 @@ export default function AttendanceTabs() {
 
       <Tabs.Panel value="Attendance Dashboard" pt="xs">
         Attendance Dashboard
-        <AttendanceFilter onChange={getData}></AttendanceFilter>
+        {/* <AttendanceFilter onChange={getData}></AttendanceFilter> */}
+        <AttendanceDash data={stats}></AttendanceDash>
       </Tabs.Panel>
 
       <Tabs.Panel value="Mark Attendance" pt="xs">

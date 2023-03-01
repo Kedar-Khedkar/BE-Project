@@ -11,6 +11,7 @@ import {
   Text,
   TextInput,
   Anchor,
+  Kbd,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
@@ -124,13 +125,25 @@ export default function HeaderAction({ links }) {
         {user && (
           <Group spacing={5} className={classes.links}>
             <TextInput
+              placeholder="Search the entire application"
               radius="xl"
               size="md"
               icon={<IconSearch size={18} stroke={1.5} />}
+              rightSectionWidth={90}
               rightSection={
-                <ActionIcon size={32} radius="xl" color="blue" variant="filled">
-                  <IconArrowRight size={18} stroke={1.5} />{" "}
-                </ActionIcon>
+                <>
+                  <Kbd>Ctrl</Kbd>
+                  <span>+</span>
+                  <Kbd>K</Kbd>
+                  {/* <ActionIcon
+                    size={32}
+                    radius="xl"
+                    color="blue"
+                    variant="filled"
+                  >
+                    <IconArrowRight size={18} stroke={1.5} />{" "}
+                  </ActionIcon> */}
+                </>
               }
             />
           </Group>
