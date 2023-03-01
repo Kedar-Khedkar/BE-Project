@@ -7,6 +7,7 @@ import { ForgotPassword } from "./component/Login & Registration/Forget-Password
 import { ResetPassword } from "./component/Login & Registration/ResetPassword";
 import ExtractUsers from "./component/ExtractUsers/ExtractUsers";
 import DashBoard from "./pages/DashBoard";
+import Dashboard from "./component/Dashboard/Dashboard"
 
 // import { Container } from "react-bootstrap";
 // import { RequireAuth } from "./component/ProtectedRoute/RequireAuth";
@@ -58,6 +59,7 @@ function App() {
             <Route path="*" element={<ErrorPage />} />
           <Route path="/extractUsers" element={<ExtractUsers />} />
           <Route path="/dashboard" element={<DashBoard />} />
+          <Route path="/dashboardhome" element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
     </div>
