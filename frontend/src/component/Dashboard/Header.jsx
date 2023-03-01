@@ -108,7 +108,7 @@ export default function HeaderAction({ links }) {
   };
 
   return (
-    <Header height={HEADER_HEIGHT} mb={60}>
+    <Header height={HEADER_HEIGHT} mb={120}>
       <Container className={classes.inner} fluid>
         <Group>
           <Burger
@@ -121,8 +121,8 @@ export default function HeaderAction({ links }) {
             DDMS
           </Text>
         </Group>
-        {user &&
-          (<Group spacing={5} className={classes.links}>
+        {user && (
+          <Group spacing={5} className={classes.links}>
             <TextInput
               radius="xl"
               size="md"
@@ -133,52 +133,53 @@ export default function HeaderAction({ links }) {
                 </ActionIcon>
               }
             />
-          </Group>)(
-            <Group spacing={4}>
-              <Menu
-                shadow="md"
-                width={200}
-                trigger="hover"
-                openDelay={100}
-                closeDelay={400}
-              >
-                <Menu.Target>
-                  <UnstyledButton>
-                    <Group>
-                      <Avatar size={40} color="blue">
-                        {user.fullname.split(" ")[0][0] +
-                          user.fullname.split(" ")[1][0]}
-                      </Avatar>
-                      <div>
-                        <Text>{user.fullname}</Text>
-                        <Text size="xs" color="dimmed">
-                          {user.role.charAt(0).toUpperCase() +
-                            user.role.slice(1)}
-                        </Text>
-                      </div>
-                    </Group>
-                  </UnstyledButton>
-                </Menu.Target>
+          </Group>
+        )}
+        {user && (
+          <Group spacing={4}>
+            <Menu
+              shadow="md"
+              width={200}
+              trigger="hover"
+              openDelay={100}
+              closeDelay={400}
+            >
+              <Menu.Target>
+                <UnstyledButton>
+                  <Group>
+                    <Avatar size={40} color="blue">
+                      {user.fullname.split(" ")[0][0] +
+                        user.fullname.split(" ")[1][0]}
+                    </Avatar>
+                    <div>
+                      <Text>{user.fullname}</Text>
+                      <Text size="xs" color="dimmed">
+                        {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+                      </Text>
+                    </div>
+                  </Group>
+                </UnstyledButton>
+              </Menu.Target>
 
-                <Menu.Dropdown>
-                  <Menu.Label>Department data management system</Menu.Label>
-                  <Anchor href="/my-account">
-                    <Menu.Item icon={<IconSettings size={14} />}>
-                      Settings
-                    </Menu.Item>
-                  </Anchor>
-
-                  <Menu.Item
-                    color="red"
-                    icon={<IconLogout size={14} />}
-                    onClick={logout}
-                  >
-                    Logout
+              <Menu.Dropdown>
+                <Menu.Label>Department data management system</Menu.Label>
+                <Anchor href="/my-account">
+                  <Menu.Item icon={<IconSettings size={14} />}>
+                    Settings
                   </Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            </Group>
-          )}
+                </Anchor>
+
+                <Menu.Item
+                  color="red"
+                  icon={<IconLogout size={14} />}
+                  onClick={logout}
+                >
+                  Logout
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          </Group>
+        )}
       </Container>
     </Header>
   );
