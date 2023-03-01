@@ -7,8 +7,9 @@ import { ForgotPassword } from "./component/Login & Registration/Forget-Password
 import { ResetPassword } from "./component/Login & Registration/ResetPassword";
 import ExtractUsers from "./component/ExtractUsers/ExtractUsers";
 import DashBoard from "./pages/DashBoard";
-import Dashboard from "./component/Dashboard/Dashboard"
+import Dashboard from "./component/Dashboard/Dashboard";
 import MyAccount from "./pages/MyAccount";
+import HeaderAction from "./component/Dashboard/Header";
 
 // import { Container } from "react-bootstrap";
 // import { RequireAuth } from "./component/ProtectedRoute/RequireAuth";
@@ -48,6 +49,7 @@ function App() {
     <div className="App">
       {/* <Notify/> */}
       <BrowserRouter>
+        <HeaderAction />
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/" element={<LoginForm />} />

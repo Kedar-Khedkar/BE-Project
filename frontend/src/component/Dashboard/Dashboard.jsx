@@ -1,14 +1,13 @@
-import React from "react"
+import React from "react";
 import { Container } from "@mantine/core";
-import Header from "./Header"
-import NavigationCard from "./NavigationCard"
+import Header from "./Header";
+import NavigationCard from "./NavigationCard";
 export default function Dashboard() {
   return (
     <>
-    <Header/>
+      {/* <Header/> */}
       <Container>
-        <NavigationCard/>
-  
+        <NavigationCard />
       </Container>
     </>
   );
