@@ -15,10 +15,13 @@ import axios from "axios";
 import { IconPencil, IconTrash, IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 import { closeAllModals, openModal } from "@mantine/modals";
+import React, { useState } from "react";
+import EditStudentForm from "./EditStudentForm";
 
 export default function StudentManagementTable({ data }) {
   const theme = useMantineTheme();
   console.log(data);
+  const [studentData, setStudentData] = useState(undefined);
   const deleteUser = (id) => {
     axios
       .delete(`http://localhost:5000/users/${id}`, null, {
@@ -175,7 +178,7 @@ export default function StudentManagementTable({ data }) {
         <Group>
           <ActionIcon
             onClick={() => {
-              editUser(item);
+              setStudentData(item);
             }}
           >
             <IconPencil size={16} stroke={1.5} />
@@ -195,6 +198,13 @@ export default function StudentManagementTable({ data }) {
 
   return (
     <ScrollArea>
+      {studentData && (
+        <EditStudentForm
+          opened={studentData != undefined}
+          onClose={setStudentData}
+          data={studentData}
+        />
+      )}
       <Table
         sx={{ minWidth: 800 }}
         verticalSpacing="sm"
