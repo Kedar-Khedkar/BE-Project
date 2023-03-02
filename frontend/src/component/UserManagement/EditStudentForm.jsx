@@ -39,7 +39,11 @@ export default function EditStudentForm({ data, onClose, opened }) {
       });
   };
   return (
-    <Modal opened={opened} onClose={() => onClose(undefined)}>
+    <Modal
+      opened={opened}
+      onClose={() => onClose(undefined)}
+      title={"Edit Student Account"}
+    >
       <form onSubmit={handleSubmit}>
         <TextInput
           label="Name"

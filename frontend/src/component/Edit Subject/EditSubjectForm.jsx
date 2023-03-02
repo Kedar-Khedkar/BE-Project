@@ -24,11 +24,13 @@ export default function EditSubjectForm({ data, onClose, opened }) {
         console.log(res);
         window.location.reload();
       });
-
-
   };
   return (
-    <Modal opened={opened} onClose={() => onClose(undefined)}>
+    <Modal
+      opened={opened}
+      onClose={() => onClose(undefined)}
+      title={"Edit Subject"}
+    >
       <form onSubmit={handleSubmit}>
         <TextInput
           label="SubjectCode"

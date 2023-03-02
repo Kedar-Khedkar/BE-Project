@@ -22,7 +22,11 @@ export default function EditFacultyForm({ data, onClose, opened }) {
       });
   };
   return (
-    <Modal opened={opened} onClose={() => onClose(undefined)}>
+    <Modal
+      opened={opened}
+      onClose={() => onClose(undefined)}
+      title={"Edit Faculty Account"}
+    >
       <form action="" onSubmit={handleSubmit}>
         <TextInput
           label={"Fullname"}
@@ -33,7 +37,6 @@ export default function EditFacultyForm({ data, onClose, opened }) {
           value={formValue.fullname}
         />
         <TextInput
-          
           label={"email"}
           required
           onChange={(e) => {
