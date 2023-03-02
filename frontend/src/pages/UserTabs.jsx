@@ -1,7 +1,7 @@
 import { Tabs, Container, Anchor, Box, Center } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddUser from "../component/Add User/AddUser";
 import FacultyManagementTable from "../component/UserManagement/FacultyManagementTable";
 import RestoreUsersTable from "../component/UserManagement/RestoreUsersTable";
@@ -21,7 +21,6 @@ export default function UserTabs() {
         setFacultyData(res.data.objects);
       });
   };
-  getFaculty();
 
   const getStudents = () => {
     axios
@@ -30,7 +29,6 @@ export default function UserTabs() {
         setStudentData(res.data.objects);
       });
   };
-  getStudents();
 
   const getTrash = () => {
     axios
@@ -39,7 +37,12 @@ export default function UserTabs() {
         setTrashedUsers(res.data.objects);
       });
   };
-  getTrash();
+
+  useEffect(() => {
+    getFaculty();
+    getStudents();
+    getTrash();
+  }, []);
 
   return (
     <Container>
@@ -50,7 +53,8 @@ export default function UserTabs() {
         </Center>
       </Anchor>
       <Tabs
-        variant="pills" radius="lg"
+        variant="pills"
+        radius="lg"
         defaultValue="1"
         value={tabValue}
         onTabChange={(value) => {
@@ -72,21 +76,21 @@ export default function UserTabs() {
 
         <Tabs.Panel value="1" pt="xs">
           Create new users
-          <AddUser/>
+          <AddUser />
         </Tabs.Panel>
 
         <Tabs.Panel value="2" pt="xs">
           Manage all faculty accounts
-          <FacultyManagementTable data={facultyData}/>
+          <FacultyManagementTable data={facultyData} />
         </Tabs.Panel>
 
         <Tabs.Panel value="3" pt="xs">
           Manage all student accounts
-          <StudentManagementTable data={studentData}/>
+          <StudentManagementTable data={studentData} />
         </Tabs.Panel>
         <Tabs.Panel value="4" pt="xs">
           Restore or Permanently Delete, previously deleted, accounts.
-          <RestoreUsersTable data={trashedUsers}/>
+          <RestoreUsersTable data={trashedUsers} />
         </Tabs.Panel>
       </Tabs>
     </Container>
