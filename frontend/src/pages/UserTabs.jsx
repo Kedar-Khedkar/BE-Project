@@ -21,6 +21,7 @@ export default function UserTabs() {
         setFacultyData(res.data.objects);
       });
   };
+  getFaculty();
 
   const getStudents = () => {
     axios
@@ -29,6 +30,7 @@ export default function UserTabs() {
         setStudentData(res.data.objects);
       });
   };
+  getStudents();
 
   const getTrash = () => {
     axios
@@ -37,6 +39,7 @@ export default function UserTabs() {
         setTrashedUsers(res.data.objects);
       });
   };
+  getTrash();
 
   return (
     <Container>
