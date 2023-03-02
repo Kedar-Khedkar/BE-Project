@@ -1,32 +1,36 @@
-import { useState } from 'react';
-import { isNotEmpty, useForm } from '@mantine/form';
-import { TextInput, Button, Box, Code ,NativeSelect} from '@mantine/core';
-import axios from 'axios';
+import { useState } from "react";
+import { isNotEmpty, useForm } from "@mantine/form";
+import { TextInput, Button, Box, Code, NativeSelect } from "@mantine/core";
+import axios from "axios";
 import { IconUserPlus, IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 
 export default function CreateSubject() {
-  
-const form = useForm({
+  const form = useForm({
     initialValues: {
-      subCode: '',
-      subName: '',
-      termWork: '50',
-      pract: '0',
-      oral:'0',
-      sem:''
+      subCode: "",
+      subName: "",
+      termWork: "50",
+      pract: "0",
+      oral: "0",
+      sem: "",
     },
-    validate:{
-      subCode: isNotEmpty('Subject code cannot be empty'),
-      subName: isNotEmpty('Subject name cannot be empty'),
-      sem: isNotEmpty('Select semester')
-    }
+    validate: {
+      subCode: isNotEmpty("Subject code cannot be empty"),
+      subName: isNotEmpty("Subject name cannot be empty"),
+      sem: isNotEmpty("Select semester"),
+    },
   });
-  
+
   const handleSubmitSubject = (evevt, values) => {
     console.log(form.values);
-    axios.post("http://localhost:5000/subjects/create",{subject: form.values},{withCredentials:true})
-    .then(function (response) {
+    axios
+      .post(
+        "http://localhost:5000/subjects/create",
+        { subject: form.values },
+        { withCredentials: true }
+      )
+      .then(function (response) {
         if (response.data.status === "success") {
           showNotification({
             title: "Success",
@@ -50,18 +54,15 @@ const form = useForm({
       .catch(function (response) {
         console.log(response);
       });
-  }
+  };
 
   return (
     <Box sx={{ maxWidth: 400 }} mx="auto">
-      <form
-        onSubmit={form.onSubmit(handleSubmitSubject)}
-      >
+      <form onSubmit={form.onSubmit(handleSubmitSubject)}>
         <TextInput
-          type="number"
           label="SubjectCode"
           placeholder="Subject Code"
-          {...form.getInputProps('subCode')}
+          {...form.getInputProps("subCode")}
           withAsterisk
         />
         <TextInput
@@ -69,7 +70,7 @@ const form = useForm({
           placeholder="Subject name"
           mt="md"
           withAsterisk
-          {...form.getInputProps('subName')}
+          {...form.getInputProps("subName")}
         />
         <TextInput
           type="number"
@@ -77,7 +78,7 @@ const form = useForm({
           placeholder="Practical"
           mt="md"
           withAsterisk
-          {...form.getInputProps('pract')}
+          {...form.getInputProps("pract")}
         />
         <TextInput
           type="number"
@@ -85,7 +86,7 @@ const form = useForm({
           placeholder="Oral"
           mt="md"
           withAsterisk
-          {...form.getInputProps('oral')}
+          {...form.getInputProps("oral")}
         />
         {/* <TextInput
           type="number"
@@ -95,12 +96,12 @@ const form = useForm({
           {...form.getInputProps('sem')}
         /> */}
         <NativeSelect
-        mt="md"
-         data={['2', '3', '4', '5', '6', '7', '8']}
-         label="Semester"
-         {...form.getInputProps("sem")}
-         withAsterisk
-    />
+          mt="md"
+          data={["2", "3", "4", "5", "6", "7", "8"]}
+          label="Semester"
+          {...form.getInputProps("sem")}
+          withAsterisk
+        />
 
         <TextInput
           type="number"
@@ -108,9 +109,15 @@ const form = useForm({
           placeholder="Termwork"
           mt="md"
           withAsterisk
-          {...form.getInputProps('termWork')}
+          {...form.getInputProps("termWork")}
         />
-        <Button onClick={()=> {console.log()}} type="submit" mt="md">
+        <Button
+          onClick={() => {
+            console.log();
+          }}
+          type="submit"
+          mt="md"
+        >
           Submit
         </Button>
       </form>
