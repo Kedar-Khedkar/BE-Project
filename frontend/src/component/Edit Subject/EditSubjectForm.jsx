@@ -9,14 +9,14 @@ export default function EditSubjectForm({ data, onClose, opened }) {
     subName: data.subName,
     pract: data.pract,
     oral: data.oral,
-    termWork: data.termWork,
+    // termWork: data.termWork,
     sem: data.sem,
   });
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
       .put(
-        `http://localhost:5000/subjects/${data.id}`,
+        `http://localhost:5000/subjects/${data.subCode}`,
         { subject: formValue },
         { withCredentials: true }
       )
@@ -101,7 +101,7 @@ export default function EditSubjectForm({ data, onClose, opened }) {
           withAsterisk
         />
 
-        <TextInput
+        {/* <TextInput
           type="number"
           label="Termwork"
           placeholder="Termwork"
@@ -114,7 +114,7 @@ export default function EditSubjectForm({ data, onClose, opened }) {
           onChange={(e) => {
             setFormValue({ ...formValue, termWork: e.target.value });
           }}
-        />
+        /> */}
         <Button
           onClick={() => {
             console.log();

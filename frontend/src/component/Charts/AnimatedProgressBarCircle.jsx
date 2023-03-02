@@ -17,8 +17,8 @@ export default function AnimatedProgressBarCircle({ data, title }) {
         </Text>
         <VictoryPie
           data={[
-            { x: " ", y: 100 - data },
-            { x: " ", y: data },
+            { x: data, y: Number(data) },
+            { x: 100 - data, y: 100 - Number(data) },
           ]}
           colorScale={["tomato", "gray"]}
           innerRadius={100}

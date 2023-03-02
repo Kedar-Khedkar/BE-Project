@@ -51,6 +51,7 @@ export default function ClaimSubjects(props) {
         data={props.data}
         label="Select the subjects to claim"
         placeholder="Select the subjects"
+        searchable
       />
       <Button
         mt={5}
