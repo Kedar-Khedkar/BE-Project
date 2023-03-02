@@ -2,77 +2,91 @@ import "./App.css";
 import "./index.css";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import React, { Suspense } from "react";
+import React from "react";
 import { ForgotPassword } from "./component/Login & Registration/Forget-Password";
 import { ResetPassword } from "./component/Login & Registration/ResetPassword";
-import ExtractUsers from "./component/ExtractUsers/ExtractUsers";
-// import DashBoard from "./pages/DashBoard";
 import Dashboard from "./component/Dashboard/Dashboard";
 import MyAccount from "./pages/MyAccount";
 import HeaderAction from "./component/Dashboard/Header";
 import UserTabs from "./pages/UserTabs";
 import AttendanceTabs from "./pages/AttendanceTabs";
 import Subjects from "./pages/Subjects";
+import AuthenticatedRoute from "./Authentication/AuthenticatedRoute";
+import PreventReLogin from "./Authentication/PreventReLogin";
+import AdminRoute from "./Authentication/AdminRoute";
+import FacultyOrAdminRoute from "./Authentication/FacultyOrAdminRoute";
 
-// import { Container } from "react-bootstrap";
-// import { RequireAuth } from "./component/ProtectedRoute/RequireAuth";
-// import Notify from "./component/Toast/Notify";
-
-// ------------------------------------Lazy Loading-----------------------------------
 const LoginForm = React.lazy(() =>
   import("./component/Login & Registration/Login")
 );
-// const PasswordReset = React.lazy(() =>
-//   import("./component/Login & Registration/ResetPassword")
-// );
-const UserAdd = React.lazy(() => import("./component/Add User/AddUser"));
 const ErrorPage = React.lazy(() => import("./component/Error/ErrorPage"));
-const Attendance = React.lazy(() => import("./component/Attendance/Layout"));
-// const Subject = React.lazy(() => import("./component/Subjects/subject"))
-
-// ------------------------------------Lazy Loading-----------------------------------
-// const DropzoneBox = React.lazy(() =>
-//   import("./component/Drop zone/Dropzone")
-// );
-
-// export function LoadingPage() {
-//   return (
-//     <Container
-//       fluid
-//       className={"jumbotron d-flex align-items-center min-vh-100"}
-//     >
-//       <div className="continuous-4"></div>
-//     </Container>
-//   );
-// }
 
 function App() {
   return (
-    // <Suspense fallback={<LoadingPage />}>
     <div className="App">
-      {/* <Notify/> */}
       <BrowserRouter>
         <HeaderAction />
         <Routes>
-          {/* <Route path="/add-user" element={<UserAdd />} /> */}
-          {/* <Route path="/attendance" element={<RequireAuth><Attendance /></RequireAuth>} /> */}
-          {/* <Route path="/attendance" element={<Attendance />} /> */}
-          {/* <Route path="/claim-subject" element={<Subject />} /> */}
-          {/* <Route path="/extractUsers" element={<ExtractUsers />} /> */}
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/" element={<LoginForm />} />
+          <Route path="*" element={<ErrorPage />} />
+          <Route
+            path="/"
+            element={
+              <PreventReLogin>
+                <LoginForm />
+              </PreventReLogin>
+            }
+          />
           {<Route path="/forgot-password" element={<ForgotPassword />} />}
           {<Route path="/reset-password" element={<ResetPassword />} />}
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/user-mgmt" element={<UserTabs />} />
-          <Route path="/attend-mgmt" element={<AttendanceTabs />} />
-          <Route path="/subject-mgmt" element={<Subjects />} />
-          <Route path="/my-account" element={<MyAccount />} />
-          <Route path="*" element={<ErrorPage />} />
+          <Route
+            path="/dashboard"
+            element={
+              <AuthenticatedRoute>
+                <Dashboard />
+              </AuthenticatedRoute>
+            }
+          />
+          <Route
+            path="/user-mgmt"
+            element={
+              <AuthenticatedRoute>
+                <AdminRoute>
+                  <UserTabs />
+                </AdminRoute>
+              </AuthenticatedRoute>
+            }
+          />
+          <Route
+            path="/attend-mgmt"
+            element={
+              <AuthenticatedRoute>
+                <FacultyOrAdminRoute>
+                  <AttendanceTabs />
+                </FacultyOrAdminRoute>
+              </AuthenticatedRoute>
+            }
+          />
+          <Route
+            path="/subject-mgmt"
+            element={
+              <AuthenticatedRoute>
+                <FacultyOrAdminRoute>
+                  <Subjects />
+                </FacultyOrAdminRoute>
+              </AuthenticatedRoute>
+            }
+          />
+          <Route
+            path="/my-account"
+            element={
+              <AuthenticatedRoute>
+                <MyAccount />
+              </AuthenticatedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>
-    // </Suspense>
   );
 }
 
