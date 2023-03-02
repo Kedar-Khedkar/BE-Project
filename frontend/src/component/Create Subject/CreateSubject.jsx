@@ -40,19 +40,18 @@ export default function CreateSubject() {
             autoClose: 2000,
             radius: "xl",
           });
-        } else {
-          showNotification({
-            title: "Fail",
-            message: response.data.err,
-            icon: <IconX />,
-            color: "red",
-            autoClose: 2000,
-            radius: "xl",
-          });
-        }
+        } 
       })
-      .catch(function (response) {
-        console.log(response);
+      .catch(function (error) {
+        showNotification({
+          title: "Fail",
+          message: error.response.data,
+          icon: <IconX />,
+          color: "red",
+          autoClose: 2000,
+          radius: "xl",
+        });
+        //console.log(response);
       });
   };
 

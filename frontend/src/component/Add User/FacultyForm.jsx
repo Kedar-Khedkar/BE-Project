@@ -8,7 +8,7 @@ import {
 import { IconUserPlus, IconCheck, IconX } from "@tabler/icons-react";
 import axios from "axios";
 import { showNotification } from "@mantine/notifications";
-import { useForm } from "@mantine/form";
+import { useForm, isEmail, isNotEmpty } from "@mantine/form";
 
 // import useradd from "../../assets/Images/person-plus-fill.svg";
 export function FacultyForm() {
@@ -28,8 +28,9 @@ export function FacultyForm() {
       user: {
         // phone: (value) =>
         //   String(value).length === 10 ? null : "Invalid phone number",
-        email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
-        fullname: (value) => typeof value === "string" ? null : "Invalid name",
+        // 
+        email: isEmail('Invalid email'),
+        fullname: isNotEmpty("Enter the name")
       },
     },
   });
@@ -77,6 +78,7 @@ export function FacultyForm() {
                 placeholder="Your name"
                 label="Name"
                 withAsterisk
+                
                 {...form.getInputProps("user.fullname")} />
             </div>
             <div>

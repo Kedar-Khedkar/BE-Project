@@ -40,8 +40,9 @@ export default function ClaimSubjects(props) {
   return (
     <>
     <h2>Claim Subjects</h2>
-    <MultiSelect onChange={setClaimSubjects}
+    <MultiSelect error="Pick atleast one subject" onChange={setClaimSubjects}
     data={props.data}
+  
       label="Select the subjects to claim"
       placeholder="Select the subjects"
     />
