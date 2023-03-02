@@ -16,12 +16,13 @@ import { IconPencil, IconTrash, IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 import { closeAllModals, openModal } from "@mantine/modals";
 import { useForm } from "@mantine/form";
+import { useState } from "react";
+import EditFacultyForm from "./EditFacultyForm";
 
 export default function FacultyManagementTable({ data }) {
   console.log(data);
   const theme = useMantineTheme();
-  const initialValues = { fullname: "", role: "", email: "" };
-  const form = useForm({ initialValues });
+  const [formdata, setFormData] = useState();
   const deleteUser = (id) => {
     axios
       .delete(`http://localhost:5000/users/${id}`, null, {
@@ -47,63 +48,6 @@ export default function FacultyManagementTable({ data }) {
           radius: "xl",
         });
       });
-  };
-  const updateUser = (event) => {
-    event.preventDefault();
-    console.log(form.values);
-  };
-  const editUser = (obj) => {
-    openModal({
-      title: "Edit Faculty",
-      centered: true,
-      overlayOpacity: 0.15,
-      overlayBlur: 3,
-      children: (
-        <>
-          <form onSubmit={updateUser}>
-            <TextInput
-              // defaultValue={obj.userId}
-              display="none"
-              // name="userId"
-            ></TextInput>
-            <TextInput
-              label="Name"
-              withAsterisk
-              // name="fullname"
-              // defaultValue={obj.User.fullname}
-              {...form.getInputProps("fullname")}
-            ></TextInput>
-            <NativeSelect
-              data={["admin", "faculty", "student"]}
-              label="Role"
-              // name="role"
-              withAsterisk
-              {...form.getInputProps("role")}
-            />
-            <TextInput
-              label="Email"
-              withAsterisk
-              // name="email"
-              // defaultValue={obj.User.email}
-              {...form.getInputProps("email")}
-            ></TextInput>
-            <Button type="submit" mt={12} leftIcon={<IconCheck />}>
-              Submit
-            </Button>
-            <Button
-              type="close"
-              mt={12}
-              ml={8}
-              color={"gray"}
-              leftIcon={<IconX />}
-              onClick={closeAllModals}
-            >
-              Cancel
-            </Button>
-          </form>
-        </>
-      ),
-    });
   };
   const rows = data.map((item) => (
     // const rows = (
@@ -134,12 +78,8 @@ export default function FacultyManagementTable({ data }) {
         <Group>
           <ActionIcon
             onClick={async () => {
-              form.setValues({
-                fullname: item.fullname,
-                role: item.role,
-                email: item.email,
-              });
-              editUser(item);
+              setFormData(item);
+              console.log(formdata);
             }}
           >
             <IconPencil size={16} stroke={1.5} />
@@ -159,6 +99,13 @@ export default function FacultyManagementTable({ data }) {
 
   return (
     <ScrollArea>
+      {formdata && (
+        <EditFacultyForm
+          opened={formdata !== undefined}
+          data={formdata}
+          onClose={setFormData}
+        />
+      )}
       <Table
         sx={{ minWidth: 800 }}
         verticalSpacing="sm"

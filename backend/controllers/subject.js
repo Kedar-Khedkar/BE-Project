@@ -46,7 +46,7 @@ module.exports.updateSubject =
     const { id } = req.params;
     await Subject.update({ ...req.body.subject }, { where: { subCode: id } })
       .then((result) => {
-        res.redirect(`/subjects/${req.body.subject.subCode}`);
+        res.send({ status: "success", objects: null, err: null });
       })
       .catch((err) => {
         res.status(500).send({ status: "error", objects: null, err: err });
