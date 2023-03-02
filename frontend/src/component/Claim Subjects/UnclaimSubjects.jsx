@@ -11,7 +11,7 @@ import {
   } from '@mantine/core';
   import { IconPencil, IconTrash } from '@tabler/icons-react';
 import axios from 'axios';
-  
+  import { showNotification } from '@mantine/notifications';
   
 
     export default function UnclaimSubjects({ data }) {
@@ -20,8 +20,25 @@ import axios from 'axios';
     const unclaimsubject = (subCode)=> {
         axios.delete(`http://localhost:5000/faculty/subject/${subCode}`, {withCredentials:true,})
         .then((res)=>{
+          showNotification({
+            title: "Success!",
+            message: "Subject unclaimed successfully",
+            color: "teal",
+            disallowClose: false,
+          })
             console.log(res)
         })
+        .catch(
+
+          function(err){
+            showNotification({
+              title: "Failed!",
+              message: "Something went wrong.",
+              color: "red",
+            })
+            console.log(err)
+          }
+        )
     }
     const theme = useMantineTheme();
     const rows = data.map((item) => (
