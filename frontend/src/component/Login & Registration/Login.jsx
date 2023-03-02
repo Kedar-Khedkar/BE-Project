@@ -182,10 +182,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import { showNotification } from "@mantine/notifications";
 import loginImg from "../../assets/Images/login-animate.svg";
-import { useForm } from "@mantine/form";
+import { useForm , isEmail} from "@mantine/form";
 import React, { useState } from "react";
 import axios from "axios";
-import { IconCheck } from "@tabler/icons-react";
+import { IconCheck, IconX } from "@tabler/icons-react";
 import secureLocalStorage from "react-secure-storage";
 const useStyles = createStyles((theme) => ({
   image: {
@@ -218,7 +218,8 @@ export default function AuthenticationTitle() {
     validate: {
       password: (value) =>
         value.length < 2 ? "Name must have at least 2 letters" : null,
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      // email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      email: isEmail('Invalid email')
     },
   });
   // const initialValues = { email: "", password: "" };
@@ -258,6 +259,14 @@ export default function AuthenticationTitle() {
         }
       })
       .catch(function (error) {
+        showNotification({
+          title: "Failed",
+          message: [error.response.data," ", "email or password did not match"],
+          icon: <IconX />,
+          color: "red",
+          autoClose: 3500,
+          radius: "xl",
+        });
         console.log(error.response.data);
       });
   };
@@ -299,15 +308,19 @@ export default function AuthenticationTitle() {
             <form onSubmit={form.onSubmit(handleSubmit)}>
               <TextInput
                 label="Email"
-                placeholder="email"
+                placeholder="Email"
                 withAsterisk
                 {...form.getInputProps("email")}
               />
 
               <PasswordInput
                 label="Password"
-                placeholder="password"
+                mt="md"
+                placeholder="Password"
                 withAsterisk
+                description="Password must include at least one letter, number and special character"
+                error="Please enter correct password"
+
                 {...form.getInputProps("password")}
               />
 
