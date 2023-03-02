@@ -186,6 +186,7 @@ import { useForm } from "@mantine/form";
 import React, { useState } from "react";
 import axios from "axios";
 import { IconCheck } from "@tabler/icons-react";
+import secureLocalStorage from "react-secure-storage";
 const useStyles = createStyles((theme) => ({
   image: {
     [theme.fn.smallerThan("md")]: {
@@ -243,7 +244,7 @@ export default function AuthenticationTitle() {
       .then((response) => {
         console.log(response);
         const { user } = response.data.objects;
-        localStorage.setItem("user", JSON.stringify(user));
+        secureLocalStorage.setItem("user", JSON.stringify(user));
         if (response.status === 200) {
           navigate("/dashboard");
           showNotification({

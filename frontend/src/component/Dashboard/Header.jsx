@@ -26,6 +26,7 @@ import {
 import axios from "axios";
 import { showNotification } from "@mantine/notifications";
 import { redirect } from "react-router-dom";
+import secureLocalStorage from "react-secure-storage";
 
 const HEADER_HEIGHT = 60;
 
@@ -79,7 +80,7 @@ export default function HeaderAction({ links }) {
   const { classes } = useStyles();
   const [opened, { toggle }] = useDisclosure(false);
   const navigate = useNavigate();
-  let user = JSON.parse(localStorage.getItem("user"));
+  let user = JSON.parse(secureLocalStorage.getItem("user"));
   const logout = () => {
     axios
       .post("http://localhost:5000/users/logout", null, {
@@ -87,7 +88,7 @@ export default function HeaderAction({ links }) {
       })
       .then((res) => {
         navigate("/");
-        localStorage.removeItem("user");
+        secureLocalStorage.removeItem("user");
         user = undefined;
         showNotification({
           title: "Logged off successfully",

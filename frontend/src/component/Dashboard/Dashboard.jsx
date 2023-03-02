@@ -3,8 +3,10 @@ import { Container, SimpleGrid } from "@mantine/core";
 import NavigationCard from "./NavigationCard";
 import user from "../../assets/Images/new-entries-animate.svg";
 import StudentDash from "../Attendance/StudentDash";
+import secureLocalStorage from "react-secure-storage";
+
 export default function Dashboard() {
-  const { role } = JSON.parse(localStorage.getItem("user"));
+  const { role } = JSON.parse(secureLocalStorage.getItem("user"));
   return (
     <>
       {/* <Header/> */}
