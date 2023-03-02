@@ -107,12 +107,12 @@ export default function FacultyManagementTable({ data }) {
   };
   const rows = data.map((item) => (
     // const rows = (
-    <tr key={item.userId}>
+    <tr key={item.id}>
       <td>
         <Group spacing="sm">
           {/* <Avatar size={30} src={item.avatar} radius={30} /> */}
           <Text size="sm" weight={500}>
-            {item.User.fullname}
+            {item.fullname}
           </Text>
         </Group>
       </td>
@@ -120,29 +120,24 @@ export default function FacultyManagementTable({ data }) {
       <td>
         <Badge
           variant={theme.colorScheme === "dark" ? "light" : "outline"}
-          color={item.User.role === "admin" ? "pink" : "cyan"}
+          color={item.role === "admin" ? "pink" : "cyan"}
         >
-          {item.User.role}
+          {item.role}
         </Badge>
       </td>
       <td>
         <Anchor size="sm" href="#" onClick={(event) => event.preventDefault()}>
-          {item.User.email}
+          {item.email}
         </Anchor>
-      </td>
-      <td>
-        <Text size="sm" color="dimmed">
-          {item.Subject.subName}
-        </Text>
       </td>
       <td>
         <Group>
           <ActionIcon
             onClick={async () => {
               form.setValues({
-                fullname: item.User.fullname,
-                role: item.User.role,
-                email: item.User.email,
+                fullname: item.fullname,
+                role: item.role,
+                email: item.email,
               });
               editUser(item);
             }}
@@ -152,7 +147,7 @@ export default function FacultyManagementTable({ data }) {
           <ActionIcon
             color="red"
             onClick={() => {
-              deleteUser(item.userId);
+              deleteUser(item.id);
             }}
           >
             <IconTrash size={16} stroke={1.5} />
@@ -175,7 +170,6 @@ export default function FacultyManagementTable({ data }) {
             <th>Faculty</th>
             <th>Role</th>
             <th>Email</th>
-            <th>Subjects taught</th>
             <th>Actions</th>
           </tr>
         </thead>

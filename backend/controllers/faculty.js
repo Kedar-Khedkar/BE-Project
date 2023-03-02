@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const { Faculty } = require("../models/faculty");
 const { Subject } = require("../models/subject");
 const { User } = require("../models/user");
@@ -73,16 +74,9 @@ user wants to unclaim and removes the relation from database */
   };
 
 module.exports.getAllFaculty = async (req, res) => {
-  const faculty = await Faculty.findAll({
-    attributes: ["userId"],
-    include: [
-      {
-        model: User,
-        attributes: ["fullname", "role", "email"],
-        required: true,
-      },
-      { model: Subject, attributes: ["subCode", "subName"] },
-    ],
+  const faculty = await User.findAll({
+    attributes: ["fullname", "role", "email", "id"],
+    where: { [Op.or]: [{ role: "faculty" }, { role: "admin" }] },
   });
   res.send({ status: "success", objects: faculty, err: null });
 };
