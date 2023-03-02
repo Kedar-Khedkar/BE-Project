@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { isNotEmpty, useForm } from '@mantine/form';
-import { TextInput, Button, Box, Code } from '@mantine/core';
+import { TextInput, Button, Box, Code ,NativeSelect} from '@mantine/core';
 import axios from 'axios';
 import { IconUserPlus, IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
@@ -11,7 +11,7 @@ const form = useForm({
     initialValues: {
       subCode: '',
       subName: '',
-      termwork: '50',
+      termWork: '50',
       pract: '0',
       oral:'0',
       sem:''
@@ -62,11 +62,13 @@ const form = useForm({
           label="SubjectCode"
           placeholder="Subject Code"
           {...form.getInputProps('subCode')}
+          withAsterisk
         />
         <TextInput
           label="Subject Name"
           placeholder="Subject name"
           mt="md"
+          withAsterisk
           {...form.getInputProps('subName')}
         />
         <TextInput
@@ -74,6 +76,7 @@ const form = useForm({
           label="Practical"
           placeholder="Practical"
           mt="md"
+          withAsterisk
           {...form.getInputProps('pract')}
         />
         <TextInput
@@ -81,21 +84,31 @@ const form = useForm({
           label="Oral"
           placeholder="Oral"
           mt="md"
+          withAsterisk
           {...form.getInputProps('oral')}
         />
-        <TextInput
+        {/* <TextInput
           type="number"
           label="Sem"
           placeholder="Sem"
           mt="md"
           {...form.getInputProps('sem')}
-        />
+        /> */}
+        <NativeSelect
+        mt="md"
+         data={['2', '3', '4', '5', '6', '7', '8']}
+         label="Semester"
+         {...form.getInputProps("sem")}
+         withAsterisk
+    />
+
         <TextInput
           type="number"
           label="Termwork"
           placeholder="Termwork"
           mt="md"
-          {...form.getInputProps('termwork')}
+          withAsterisk
+          {...form.getInputProps('termWork')}
         />
         <Button onClick={()=> {console.log()}} type="submit" mt="md">
           Submit
