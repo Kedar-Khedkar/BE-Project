@@ -7,7 +7,7 @@ import {
   SimpleGrid,
   Anchor,
 } from "@mantine/core";
-import attendance from "../../assets/Images/confirmed-attendance-animate.svg";
+
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -64,8 +64,8 @@ export default function NavigationCard(props) {
 
   //   ));
   return (
-    <Anchor href={props.link}>
-      <Card withBorder p="lg" className={classes.card}>
+    <Anchor href={props.link} underline={false}>
+      <Card withBorder shadow="sm" p="lg" radius="md" className={classes.card}>
         <Card.Section>
           <Image
             src={props.image}
@@ -76,7 +76,7 @@ export default function NavigationCard(props) {
         </Card.Section>
 
         <Group position="apart" mt="xl">
-          <Text size="sm" weight={700} className={classes.title}>
+          <Text size="sm" weight={700} ta="center" className={classes.title}>
             {props.title}
           </Text>
         </Group>

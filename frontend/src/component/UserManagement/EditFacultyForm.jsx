@@ -46,7 +46,9 @@ export default function EditFacultyForm({ data, onClose, opened }) {
             setFormValue({ ...formValue, role: e.target.value });
           }}
         />
-        <Button type="submit">Update</Button>
+        <Button type="submit" radius="md" mt={12}>
+          Update
+        </Button>
       </form>
     </Modal>
   );

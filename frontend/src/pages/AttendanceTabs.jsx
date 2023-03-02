@@ -43,7 +43,8 @@ export default function AttendanceTabs() {
         </Center>
       </Anchor>
       <Tabs
-        variant="outline"
+        variant="pills"
+        radius="lg"
         defaultValue="1"
         value={tabValue}
         onTabChange={(value) => navigate(`/attend-mgmt/${value}`)}

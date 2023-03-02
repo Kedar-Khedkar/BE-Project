@@ -38,7 +38,7 @@ export default function Subjects() {
         </Center>
       </Anchor>
       <Tabs
-        variant="outline"
+        variant="pills" radius="lg"
         defaultValue="1"
         value={tabValue}
         onTabChange={(value) => navigate(`/subject-mgmt/${value}`)}

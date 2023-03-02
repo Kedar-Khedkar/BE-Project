@@ -63,7 +63,12 @@ export default function RestoreUsersTable({ data }) {
         </Badge>
       </td>
       <td>
-        <Anchor size="sm" href="#" onClick={(event) => event.preventDefault()}>
+        <Anchor
+          size="sm"
+          href="#"
+          onClick={(event) => event.preventDefault()}
+          underline={false}
+        >
           {item.email}
         </Anchor>
       </td>

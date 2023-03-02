@@ -9,7 +9,7 @@ import {
   useMantineTheme,
   TextInput,
   NativeSelect,
-  Button,
+  Button,Paper
 } from "@mantine/core";
 import axios from "axios";
 import { IconPencil, IconTrash, IconCheck, IconX } from "@tabler/icons-react";
@@ -155,7 +155,12 @@ export default function StudentManagementTable({ data }) {
         </Badge>
       </td>
       <td>
-        <Anchor size="sm" href="#" onClick={(event) => event.preventDefault()}>
+        <Anchor
+          size="sm"
+          href="#"
+          onClick={(event) => event.preventDefault()}
+          underline={false}
+        >
           {item.User.email}
         </Anchor>
       </td>
@@ -197,6 +202,7 @@ export default function StudentManagementTable({ data }) {
   ));
 
   return (
+    <Paper shadow="md" p="md">
     <ScrollArea>
       {studentData && (
         <EditStudentForm
@@ -228,5 +234,6 @@ export default function StudentManagementTable({ data }) {
         <tbody>{rows}</tbody>
       </Table>
     </ScrollArea>
+    </Paper>
   );
 }

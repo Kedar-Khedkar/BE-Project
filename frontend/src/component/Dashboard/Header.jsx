@@ -112,7 +112,7 @@ export default function HeaderAction({ links }) {
   };
 
   return (
-    <Header height={HEADER_HEIGHT} mb={60}>
+    <Header height={HEADER_HEIGHT} mb={20}>
       <Container className={classes.inner} fluid>
         <Group>
           <Burger
@@ -121,7 +121,7 @@ export default function HeaderAction({ links }) {
             className={classes.burger}
             size="sm"
           />
-          <Anchor href="/dashboard" textDecoration={null}>
+          <Anchor href="/dashboard" underline={false}>
             <Text fz="xl" fw={700}>
               DDMS
             </Text>
@@ -181,7 +181,7 @@ export default function HeaderAction({ links }) {
 
               <Menu.Dropdown>
                 <Menu.Label>Department data management system</Menu.Label>
-                <Anchor href="/my-account">
+                <Anchor href="/my-account" underline={false}>
                   <Menu.Item icon={<IconSettings size={14} />}>
                     Settings
                   </Menu.Item>

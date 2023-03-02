@@ -40,7 +40,6 @@ export default function EditStudentForm({ data, onClose, opened }) {
   };
   return (
     <Modal opened={opened} onClose={() => onClose(undefined)}>
-      <h1>hi</h1>
       <form onSubmit={handleSubmit}>
         <TextInput
           label="Name"
@@ -119,7 +118,7 @@ export default function EditStudentForm({ data, onClose, opened }) {
             });
           }}
         />
-        <Button type="submit" mt={12} leftIcon={<IconCheck />}>
+        <Button type="submit" radius="md" mt={12} leftIcon={<IconCheck />}>
           Submit
         </Button>
       </form>

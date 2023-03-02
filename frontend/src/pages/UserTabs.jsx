@@ -47,7 +47,7 @@ export default function UserTabs() {
         </Center>
       </Anchor>
       <Tabs
-        variant="outline"
+        variant="pills" radius="lg"
         defaultValue="1"
         value={tabValue}
         onTabChange={(value) => navigate(`/user-mgmt/${value}`)}
@@ -67,21 +67,21 @@ export default function UserTabs() {
 
         <Tabs.Panel value="1" pt="xs">
           Create new users
-          <AddUser></AddUser>
+          <AddUser/>
         </Tabs.Panel>
 
         <Tabs.Panel value="2" pt="xs">
           Manage all faculty accounts
-          <FacultyManagementTable data={facultyData}></FacultyManagementTable>
+          <FacultyManagementTable data={facultyData}/>
         </Tabs.Panel>
 
         <Tabs.Panel value="3" pt="xs">
           Manage all student accounts
-          <StudentManagementTable data={studentData}></StudentManagementTable>
+          <StudentManagementTable data={studentData}/>
         </Tabs.Panel>
         <Tabs.Panel value="4" pt="xs">
           Restore or Permanently Delete, previously deleted, accounts.
-          <RestoreUsersTable data={trashedUsers}></RestoreUsersTable>
+          <RestoreUsersTable data={trashedUsers}/>
         </Tabs.Panel>
       </Tabs>
     </Container>

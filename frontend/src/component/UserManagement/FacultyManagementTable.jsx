@@ -9,7 +9,7 @@ import {
   useMantineTheme,
   TextInput,
   NativeSelect,
-  Button,
+  Button, Paper
 } from "@mantine/core";
 import axios from "axios";
 import { IconPencil, IconTrash, IconCheck, IconX } from "@tabler/icons-react";
@@ -70,7 +70,12 @@ export default function FacultyManagementTable({ data }) {
         </Badge>
       </td>
       <td>
-        <Anchor size="sm" href="#" onClick={(event) => event.preventDefault()}>
+        <Anchor
+          size="sm"
+          href="#"
+          onClick={(event) => event.preventDefault()}
+          underline={false}
+        >
           {item.email}
         </Anchor>
       </td>
@@ -98,6 +103,7 @@ export default function FacultyManagementTable({ data }) {
   ));
 
   return (
+      <Paper  shadow="md" p="md">
     <ScrollArea>
       {formdata && (
         <EditFacultyForm
@@ -123,5 +129,6 @@ export default function FacultyManagementTable({ data }) {
         <tbody>{rows}</tbody>
       </Table>
     </ScrollArea>
+      </Paper>
   );
 }
