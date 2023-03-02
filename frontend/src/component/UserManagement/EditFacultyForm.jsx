@@ -26,13 +26,16 @@ export default function EditFacultyForm({ data, onClose, opened }) {
       <form action="" onSubmit={handleSubmit}>
         <TextInput
           label={"Fullname"}
+          required
           onChange={(e) => {
             setFormValue({ ...formValue, fullname: e.target.value });
           }}
           value={formValue.fullname}
         />
         <TextInput
-          label={"Email"}
+          
+          label={"email"}
+          required
           onChange={(e) => {
             setFormValue({ ...formValue, email: e.target.value });
           }}
@@ -40,6 +43,7 @@ export default function EditFacultyForm({ data, onClose, opened }) {
         />
         <NativeSelect
           label={"Role"}
+          required
           data={["admin", "faculty"]}
           value={formValue.role}
           onChange={(e) => {

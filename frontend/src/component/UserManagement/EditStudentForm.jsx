@@ -44,6 +44,7 @@ export default function EditStudentForm({ data, onClose, opened }) {
         <TextInput
           label="Name"
           withAsterisk
+          required
           value={formValue.User.fullname}
           onChange={(e) => {
             setFormValue({
@@ -55,6 +56,8 @@ export default function EditStudentForm({ data, onClose, opened }) {
         <TextInput
           label="Email"
           withAsterisk
+          required
+          type={"email"}
           value={formValue.User.email}
           onChange={(e) => {
             setFormValue({
@@ -66,6 +69,8 @@ export default function EditStudentForm({ data, onClose, opened }) {
         <TextInput
           label="Roll Number"
           withAsterisk
+          required
+          type={"number"}
           value={formValue.student.rollno}
           onChange={(e) => {
             setFormValue({
@@ -76,7 +81,6 @@ export default function EditStudentForm({ data, onClose, opened }) {
         ></TextInput>
         <TextInput
           label="Exam seat Number"
-          withAsterisk
           value={formValue.student.examseatno}
           onChange={(e) => {
             setFormValue({
@@ -87,7 +91,6 @@ export default function EditStudentForm({ data, onClose, opened }) {
         ></TextInput>
         <TextInput
           label="Permanent Registration Number"
-          withAsterisk
           value={formValue.student.prn}
           onChange={(e) => {
             setFormValue({

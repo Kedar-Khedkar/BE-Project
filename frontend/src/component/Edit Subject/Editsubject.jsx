@@ -106,6 +106,12 @@ function Editsubject() {
       </td>
 
       <td>
+        <Text size="sm" weight={500}>
+          {item.termWork === null ? 0 :item.termWork}
+        </Text>
+      </td>
+
+      <td>
         <ActionIcon
           onClick={() => {
             setOpened({ ...item });
@@ -126,43 +132,7 @@ function Editsubject() {
     </tr>
   ));
 
-  // const theme = useMantineTheme();
-  // const rows = data.map((item) => (
-  //     <tr key={item.name}>
-  //       <td>
-  //         <Group spacing="sm">
-  //           <Avatar size={30} src={item.avatar} radius={30} />
-  //           <Text size="sm" weight={500}>
-  //             {item.name}
-  //           </Text>
-  //         </Group>
-  //       </td>
 
-  //       <td>
-  //         <Badge
-  //           color={jobColors[item.job.toLowerCase()]}
-  //           variant={theme.colorScheme === 'dark' ? 'light' : 'outline'}
-  //         >
-  //           {item.job}
-  //         </Badge>
-  //       </td>
-  //       <td>
-  //         <Anchor<'a'> size="sm" href="#" onClick={(event) => event.preventDefault()}>
-  //           {item.email}
-  //         </Anchor>
-  //       </td>
-  //       <td>
-  //         <Text size="sm" color="dimmed">
-  //           {item.phone}
-  //         </Text>
-  //       </td>
-  //       <td>
-  //         <Group spacing={0} position="right">
-  //
-  //         </Group>
-  //       </td>
-  //     </tr>
-  //   ));
 
   return (
     <>
@@ -182,74 +152,14 @@ function Editsubject() {
               <th>Practical</th>
               <th>Oral</th>
               <th>Semester</th>
+              <th>Term Work</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>
         </Table>
       </ScrollArea>
-      {/* <Modal
-        opened={opened}
-        onClose={() => {
-          setOpened(false);
-          setTempState({ name: "", code: "", pract: "", oral: "", sem: "" });
-        }}
-        title="Edit Subject"
-      >
-        <form className="editSubjectForm">
-          <div style={{ maxWidth: 320, margin: "auto" }}>
-            <TextInput
-              defaultValue={tempState["name"]}
-              label="Name"
-              placeholder="Subject Name"
-              {...form.getInputProps("subName")}
-            />
-            <TextInput
-              defaultValue={tempState["code"]}
-              mt="md"
-              label="Subject Code"
-              placeholder="Subject Code"
-              {...form.getInputProps("subCode")}
-            />
-            <TextInput
-              defaultValue={tempState["pract"]}
-              mt="md"
-              label="Practical"
-              placeholder="Practical"
-              {...form.getInputProps("pract")}
-            />
-            <TextInput
-              defaultValue={tempState["oral"]}
-              mt="md"
-              label="Oral"
-              placeholder="Oral"
-              {...form.getInputProps("oral")}
-            />
-            <TextInput
-              defaultValue={tempState["sem"]}
-              mt="md"
-              label="Sem"
-              placeholder="Sem"
-              {...form.getInputProps("sem")}
-            />
-
-            <Group position="center" mt="xl">
-              {/* <Button
-          variant="outline"
-        //   onClick={() =>
-        //     form.setValues({
-        //       name: randomId(),
-        //       email: `${randomId()}@test.com`,
-        //     })
-          }
-        >
-          Set random values
-        </Button> */}
-      {/* <Button>Update</Button>
-            </Group>
-          </div>
-        </form>
-      </Modal> */}{" "}
-      }*/
+      
     </>
   );
 }
