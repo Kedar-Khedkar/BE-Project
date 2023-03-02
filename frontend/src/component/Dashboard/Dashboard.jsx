@@ -2,6 +2,7 @@ import React from "react";
 import { Container, SimpleGrid } from "@mantine/core";
 import NavigationCard from "./NavigationCard";
 import user from "../../assets/Images/new-entries-animate.svg";
+import StudentDash from "../Attendance/StudentDash";
 export default function Dashboard() {
   const { role } = JSON.parse(localStorage.getItem("user"));
   return (
@@ -27,6 +28,7 @@ export default function Dashboard() {
             />
           )}
         </SimpleGrid>
+        {role === "student" && <StudentDash></StudentDash>}
       </Container>
     </>
   );

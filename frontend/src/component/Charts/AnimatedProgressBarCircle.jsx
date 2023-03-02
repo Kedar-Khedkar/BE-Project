@@ -3,20 +3,24 @@ import { Paper, Center, Text } from "@mantine/core";
 import { VictoryPie } from "victory";
 
 export default function AnimatedProgressBarCircle({ data, title }) {
-  const value = Number(data[0].deptAvg) * 100;
+  console.log(data);
+  if (data == null) {
+    data = 0;
+  }
+  // const value = Number(data[0].deptAvg) * 100;
   return (
     <>
       <Paper shadow="md" radius="xl" p="md" withBorder>
         <Text size={"lg"}>
           {`${title}`}
-          <strong> {value}%</strong>
+          <strong> {data}%</strong>
         </Text>
         <VictoryPie
           data={[
-            { x: " ", y: value },
-            { x: " ", y: 100 - value },
+            { x: " ", y: 100 - data },
+            { x: " ", y: data },
           ]}
-          colorScale={["tomato", "white"]}
+          colorScale={["tomato", "gray"]}
           innerRadius={100}
         />
         <Center>

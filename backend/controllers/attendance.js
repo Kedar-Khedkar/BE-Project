@@ -76,7 +76,7 @@ records and adds them to the database. */
 module.exports.statistics = async (req, res) => {
   const stats = {};
   stats.deptAvg = await Attendance.findAll({
-    attributes: [[sequelize.fn("avg", sequelize.col("presentee")), "deptAvg"]],
+    attributes: [[Sequelize.literal("AVG(presentee)*100"), "deptAvg"]],
   });
   stats.dailyAvg = await Attendance.findAll({
     attributes: [

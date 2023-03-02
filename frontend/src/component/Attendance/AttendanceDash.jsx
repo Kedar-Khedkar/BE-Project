@@ -13,7 +13,7 @@ export default function AttendanceDash({ data }) {
           <Grid mt={12}>
             <Grid.Col span={4}>
               <AnimatedProgressBarCircle
-                data={data.deptAvg}
+                data={data.deptAvg[0].deptAvg}
                 title={"Average Department Attendance"}
               ></AnimatedProgressBarCircle>
             </Grid.Col>
