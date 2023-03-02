@@ -13,19 +13,19 @@ export default function Dashboard() {
       <Container mt={100}>
         <SimpleGrid cols={3}>
           {role === "admin" && (
-            <NavigationCard title={"User"} link={"/user-mgmt"} image={user} />
+            <NavigationCard title={"User"} link={"/user-mgmt/1"} image={user} />
           )}
           {role !== "student" && (
             <NavigationCard
               title={"Attendance"}
-              link={"/attend-mgmt"}
+              link={"/attend-mgmt/1"}
               image={user}
             />
           )}
           {role !== "student" && (
             <NavigationCard
               title={"Subjects"}
-              link={"/subject-mgmt"}
+              link={"/subject-mgmt/1"}
               image={user}
             />
           )}

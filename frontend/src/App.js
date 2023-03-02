@@ -47,7 +47,7 @@ function App() {
             }
           />
           <Route
-            path="/user-mgmt"
+            path="/user-mgmt/:tabValue"
             element={
               <AuthenticatedRoute>
                 <AdminRoute>
@@ -57,7 +57,7 @@ function App() {
             }
           />
           <Route
-            path="/attend-mgmt"
+            path="/attend-mgmt/:tabValue"
             element={
               <AuthenticatedRoute>
                 <FacultyOrAdminRoute>
@@ -67,7 +67,7 @@ function App() {
             }
           />
           <Route
-            path="/subject-mgmt"
+            path="/subject-mgmt/:tabValue"
             element={
               <AuthenticatedRoute>
                 <FacultyOrAdminRoute>

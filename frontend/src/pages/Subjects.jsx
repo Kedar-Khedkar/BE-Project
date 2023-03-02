@@ -4,10 +4,13 @@ import CreateSubject from "../component/Create Subject/CreateSubject";
 import ClaimSubjects from "../component/Claim Subjects/ClaimSubjects";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Editsubject from "../component/Edit Subject/Editsubject";
 export default function Subjects() {
   const [subjectData, setSubjectData] = useState([]);
+  const navigate = useNavigate();
+  const { tabValue } = useParams();
 
   const getSubjects = () => {
     axios
@@ -34,24 +37,29 @@ export default function Subjects() {
           <Box ml={5}>Back to Dashboard</Box>
         </Center>
       </Anchor>
-      <Tabs variant="outline" defaultValue="Create Subject">
+      <Tabs
+        variant="outline"
+        defaultValue="1"
+        value={tabValue}
+        onTabChange={(value) => navigate(`/subject-mgmt/${value}`)}
+      >
         <Tabs.List>
-          <Tabs.Tab value="Create Subject">Create Subject</Tabs.Tab>
-          <Tabs.Tab value="Edit Subject">Edit Subject</Tabs.Tab>
-          <Tabs.Tab value="Claim Subject" onClick={getSubjects}>
+          <Tabs.Tab value="1">Create Subject</Tabs.Tab>
+          <Tabs.Tab value="2">Edit Subject</Tabs.Tab>
+          <Tabs.Tab value="3" onClick={getSubjects}>
             Claim/Unclaim Subject
           </Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="Create Subject" pt="xs">
+        <Tabs.Panel value="1" pt="xs">
           <CreateSubject></CreateSubject>
         </Tabs.Panel>
 
-        <Tabs.Panel value="Edit Subject" pt="xs">
+        <Tabs.Panel value="2" pt="xs">
           <Editsubject></Editsubject>
         </Tabs.Panel>
 
-        <Tabs.Panel value="Claim Subject" pt="xs">
+        <Tabs.Panel value="3" pt="xs">
           <ClaimSubjects data={subjectData}></ClaimSubjects>
         </Tabs.Panel>
       </Tabs>
