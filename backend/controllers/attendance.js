@@ -88,3 +88,29 @@ module.exports.statistics = async (req, res) => {
 
   res.send({ status: "success", objects: stats, err: null });
 };
+
+module.exports.studStats = async (req, res) => {
+  const user = req.user;
+  if (user.role !== "student") {
+    res.send({
+      status: "fail",
+      objects: null,
+      err: `${user.id} is not a student`,
+    });
+  } else {
+    const data = {};
+    data.totalAvg = await Attendance.findAll({
+      attributes: [[Sequelize.literal("AVG(presentee)*100"), "avg"]],
+      where: { StudentUserId: user.id },
+    });
+    data.subwise = await Attendance.findAll({
+      attributes: [
+        [Sequelize.literal("AVG(presentee)*100"), "avg"],
+        "SubjectSubCode",
+      ],
+      where: { StudentUserId: user.id },
+      group: ["SubjectSubCode"],
+    });
+    res.send({ status: "success", objects: data, err: null });
+  }
+};
