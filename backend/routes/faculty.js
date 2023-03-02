@@ -7,11 +7,11 @@ const faculty = require("../controllers/faculty");
 router.use(isLoggedIn, isFacultyOrAdmin);
 
 /* Defining the routes for the faculty. */
-router.route("/all").get(catchAsync(faculty.getAllFaculty));
-router.route("/").get(catchAsync(faculty.getClaimedSubjects));
+router.route("/all").get(isLoggedIn,isFacultyOrAdmin ,catchAsync(faculty.getAllFaculty));
+router.route("/").get(catchAsync(isLoggedIn, isFacultyOrAdmin, faculty.getClaimedSubjects));
 
-router.route("/claimSubjects").post(catchAsync(faculty.claimSubjects));
+router.route("/claimSubjects").post(isLoggedIn, isFacultyOrAdmin, catchAsync(faculty.claimSubjects));
 
-router.route("/subject/:id").delete(catchAsync(faculty.unclaimSubject));
+router.route("/subject/:id").delete(isLoggedIn, isFacultyOrAdmin, catchAsync(faculty.unclaimSubject));
 
 module.exports = router;

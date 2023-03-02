@@ -8,13 +8,13 @@ const { upload } = require("../computationalUnit/fileupload");
 const fs = require("fs");
 
 /* Creating a route for the search function in the student controller. */
-router.route("/search").get(student.search);
+router.route("/search").get(isLoggedIn,isFacultyOrAdmin, catchAsync(student.search));
 
 router
   .route(
     "/:id"
   ) /* Calling the getProfileData function in the student controller. */
-  .get(catchAsync(student.getProfileData))
+  .get(isLoggedIn, catchAsync(student.getProfileData))
   /* Calling the updateProfileData function in the student controller. */
   .put(isLoggedIn, catchAsync(student.updateProfileData))
   .delete(isLoggedIn, isFacultyOrAdmin, catchAsync(student.deleteStudent));

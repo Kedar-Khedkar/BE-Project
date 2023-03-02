@@ -18,12 +18,12 @@ router
     catchAsync(subject.createSubject)
   );
 
-router.route("/all").get(catchAsync(subject.getAll));
+router.route("/all").get(isLoggedIn,isFacultyOrAdmin, catchAsync(subject.getAll));
 
 /* This is a route for updating and deleting a subject. */
 router
   .route("/:id")
-  .get(catchAsync(subject.showSubject))
+  .get(isLoggedIn,isFacultyOrAdmin, catchAsync(subject.showSubject))
   .put(
     isLoggedIn,
     isFacultyOrAdmin,

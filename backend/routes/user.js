@@ -12,6 +12,7 @@ const {
   isLoggedIn,
   validateForgetRequest,
   validateResetRequest,
+  isAdmin,
 } = require("../middleware");
 const { sequelize, Sequelize } = require("../utils/database");
 const path = require("path");
@@ -19,8 +20,8 @@ const Op = Sequelize.Op;
 
 router
   .route("/:id")
-  .put(catchAsync(user.editUser))
-  .delete(catchAsync(user.deleteUser));
+  .put(isLoggedIn, isAdmin, catchAsync(user.editUser))
+  .delete(isLoggedIn, isAdmin, catchAsync(user.deleteUser));
 
 /* This is a route for login. It is using passport.js for authentication. */
 router.route("/login").post(
