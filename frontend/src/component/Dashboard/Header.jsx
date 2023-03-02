@@ -12,6 +12,7 @@ import {
   TextInput,
   Anchor,
   Kbd,
+  Autocomplete,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +28,7 @@ import axios from "axios";
 import { showNotification } from "@mantine/notifications";
 import { redirect } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
-
+import data from "./Navigation.json";
 const HEADER_HEIGHT = 60;
 
 const useStyles = createStyles((theme) => ({
@@ -129,11 +130,22 @@ export default function HeaderAction({ links }) {
         </Group>
         {user && (
           <Group spacing={5} className={classes.links}>
-            <TextInput
+            <Autocomplete
+              data={data}
               placeholder="Search the entire application"
               radius="xl"
               size="md"
               icon={<IconSearch size={18} stroke={1.5} />}
+              filter={(value, item) =>
+                item.value.toLowerCase().includes(value.toLowerCase().trim()) ||
+                item.description
+                  .toLowerCase()
+                  .includes(value.toLowerCase().trim())
+              }
+              onItemSubmit={(item) => {
+                navigate(item.link);
+              }}
+              limit={5}
               rightSectionWidth={90}
               rightSection={
                 <>

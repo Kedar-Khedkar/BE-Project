@@ -50,7 +50,9 @@ export default function UserTabs() {
         variant="outline"
         defaultValue="1"
         value={tabValue}
-        onTabChange={(value) => navigate(`/user-mgmt/${value}`)}
+        onTabChange={(value) => {
+          navigate(`/user-mgmt/${value}`);
+        }}
       >
         <Tabs.List>
           <Tabs.Tab value="1">Create Users</Tabs.Tab>
