@@ -6,7 +6,7 @@ import attendance from "../../assets/Images/confirmed-attendance-animate.svg";
 import subjects from "../../assets/Images/thesis-animate.svg";
 import StudentDash from "../Attendance/StudentDash";
 import secureLocalStorage from "react-secure-storage";
-import backgroundImage from "../../assets/Images/ttten.svg"
+import backgroundImage from "../../assets/Images/ttten1.svg"
 
 
 export default function Dashboard() {
