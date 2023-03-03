@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, SimpleGrid,createStyles,BackgroundImage } from "@mantine/core";
+import { Container, SimpleGrid,BackgroundImage } from "@mantine/core";
 import NavigationCard from "./NavigationCard";
 import user from "../../assets/Images/new-entries-animate.svg";
 import attendance from "../../assets/Images/confirmed-attendance-animate.svg";
@@ -8,15 +8,9 @@ import StudentDash from "../Attendance/StudentDash";
 import secureLocalStorage from "react-secure-storage";
 import backgroundImage from "../../assets/Images/ttten.svg"
 
-const useStyles = createStyles((theme) => ({
-  background:{
-    backgroundImage:`${backgroundImage}`
-  }
-
-}))
 
 export default function Dashboard() {
-  const { classes } = useStyles();
+
   const { role } = JSON.parse(secureLocalStorage.getItem("user"));
   return (
     <>
