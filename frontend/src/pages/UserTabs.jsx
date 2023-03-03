@@ -14,6 +14,7 @@ export default function UserTabs() {
   const [facultyData, setFacultyData] = useState([]);
   const [studentData, setStudentData] = useState([]);
   const [trashedUsers, setTrashedUsers] = useState([]);
+  const [refresh, setRefresh] = useState("first-render");
   const getFaculty = () => {
     axios
       .get("http://localhost:5000/faculty/all", { withCredentials: true })
@@ -39,10 +40,21 @@ export default function UserTabs() {
   };
 
   useEffect(() => {
-    getFaculty();
-    getStudents();
-    getTrash();
-  }, []);
+    if (refresh === "first-render") {
+      getFaculty();
+      getStudents();
+      getTrash();
+    } else if (refresh === "faculty") {
+      getFaculty();
+      setRefresh(undefined);
+    } else if (refresh === "students") {
+      getStudents();
+      setRefresh(undefined);
+    } else if (refresh === "trash") {
+      getTrash();
+      setRefresh(undefined);
+    }
+  }, [refresh]);
 
   return (
     <Container>
@@ -63,15 +75,9 @@ export default function UserTabs() {
       >
         <Tabs.List>
           <Tabs.Tab value="1">Create Users</Tabs.Tab>
-          <Tabs.Tab value="2" onClick={getFaculty}>
-            Manage Faculty
-          </Tabs.Tab>
-          <Tabs.Tab value="3" onClick={getStudents}>
-            Manage Students
-          </Tabs.Tab>
-          <Tabs.Tab value="4" onClick={getTrash}>
-            Restore Deleted accounts
-          </Tabs.Tab>
+          <Tabs.Tab value="2">Manage Faculty</Tabs.Tab>
+          <Tabs.Tab value="3">Manage Students</Tabs.Tab>
+          <Tabs.Tab value="4">Restore Deleted accounts</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="1" pt="xs">
@@ -81,16 +87,16 @@ export default function UserTabs() {
 
         <Tabs.Panel value="2" pt="xs">
           Manage all faculty accounts
-          <FacultyManagementTable data={facultyData} />
+          <FacultyManagementTable data={facultyData} reqRefresh={setRefresh} />
         </Tabs.Panel>
 
         <Tabs.Panel value="3" pt="xs">
           Manage all student accounts
-          <StudentManagementTable data={studentData} />
+          <StudentManagementTable data={studentData} reqRefresh={setRefresh} />
         </Tabs.Panel>
         <Tabs.Panel value="4" pt="xs">
           Restore or Permanently Delete, previously deleted, accounts.
-          <RestoreUsersTable data={trashedUsers} />
+          <RestoreUsersTable data={trashedUsers} reqRefresh={setRefresh} />
         </Tabs.Panel>
       </Tabs>
     </Container>

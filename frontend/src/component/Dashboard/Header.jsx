@@ -82,6 +82,7 @@ export default function HeaderAction({ links }) {
   const [opened, { toggle }] = useDisclosure(false);
   const navigate = useNavigate();
   let user = JSON.parse(secureLocalStorage.getItem("user"));
+  console.log(user);
   const logout = () => {
     axios
       .post("http://localhost:5000/users/logout", null, {

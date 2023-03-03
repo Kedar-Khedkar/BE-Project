@@ -9,7 +9,8 @@ import {
   useMantineTheme,
   TextInput,
   NativeSelect,
-  Button, Paper
+  Button,
+  Paper,
 } from "@mantine/core";
 import axios from "axios";
 import { IconPencil, IconTrash, IconCheck, IconX } from "@tabler/icons-react";
@@ -19,10 +20,13 @@ import { useForm } from "@mantine/form";
 import { useState } from "react";
 import EditFacultyForm from "./EditFacultyForm";
 
-export default function FacultyManagementTable({ data }) {
+export default function FacultyManagementTable({ data, reqRefresh }) {
   console.log(data);
   const theme = useMantineTheme();
   const [formdata, setFormData] = useState();
+  const refresh = () => {
+    reqRefresh("faculty");
+  };
   const deleteUser = (id) => {
     axios
       .delete(`http://localhost:5000/users/${id}`, null, {
@@ -37,6 +41,7 @@ export default function FacultyManagementTable({ data }) {
           autoClose: 2000,
           radius: "xl",
         });
+        reqRefresh("faculty");
       })
       .catch((res) => {
         showNotification({
@@ -103,32 +108,33 @@ export default function FacultyManagementTable({ data }) {
   ));
 
   return (
-      <Paper  shadow="md" p="md">
-    <ScrollArea>
-      {formdata && (
-        <EditFacultyForm
-          opened={formdata !== undefined}
-          data={formdata}
-          onClose={setFormData}
-        />
-      )}
-      <Table
-        sx={{ minWidth: 800 }}
-        verticalSpacing="sm"
-        // striped
-        highlightOnHover
-      >
-        <thead>
-          <tr>
-            <th>Faculty</th>
-            <th>Role</th>
-            <th>Email</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
-    </ScrollArea>
-      </Paper>
+    <Paper shadow="md" p="md">
+      <ScrollArea>
+        {formdata && (
+          <EditFacultyForm
+            opened={formdata !== undefined}
+            data={formdata}
+            onClose={setFormData}
+            reqRefresh={refresh}
+          />
+        )}
+        <Table
+          sx={{ minWidth: 800 }}
+          verticalSpacing="sm"
+          // striped
+          highlightOnHover
+        >
+          <thead>
+            <tr>
+              <th>Faculty</th>
+              <th>Role</th>
+              <th>Email</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </Table>
+      </ScrollArea>
+    </Paper>
   );
 }
