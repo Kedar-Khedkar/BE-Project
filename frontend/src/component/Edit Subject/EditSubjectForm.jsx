@@ -2,7 +2,10 @@ import { useForm } from "@mantine/form";
 import React, { useState } from "react";
 import { Button, Modal, NativeSelect, TextInput } from "@mantine/core";
 import axios from "axios";
-export default function EditSubjectForm({ data, onClose, opened }) {
+import { showNotification } from "@mantine/notifications";
+import { IconCheck, IconX } from "@tabler/icons-react";
+
+export default function EditSubjectForm({ data, onClose, opened, reqRefresh }) {
   console.log(data);
   const [formValue, setFormValue] = useState({
     subCode: data.subCode,
@@ -21,8 +24,26 @@ export default function EditSubjectForm({ data, onClose, opened }) {
         { withCredentials: true }
       )
       .then((res) => {
-        console.log(res);
-        window.location.reload();
+        showNotification({
+          title: "Success",
+          message: "Information Updated Successfully",
+          icon: <IconCheck />,
+          color: "teal",
+          autoClose: 2000,
+          radius: "xl",
+        });
+        reqRefresh("subjects");
+        onClose(undefined);
+      })
+      .catch((res) => {
+        showNotification({
+          title: "Failed",
+          message: res.data.err,
+          icon: <IconX />,
+          color: "red",
+          autoClose: 3500,
+          radius: "xl",
+        });
       });
   };
   return (

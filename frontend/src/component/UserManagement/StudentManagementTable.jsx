@@ -9,7 +9,8 @@ import {
   useMantineTheme,
   TextInput,
   NativeSelect,
-  Button,Paper
+  Button,
+  Paper,
 } from "@mantine/core";
 import axios from "axios";
 import { IconPencil, IconTrash, IconCheck, IconX } from "@tabler/icons-react";
@@ -18,7 +19,7 @@ import { closeAllModals, openModal } from "@mantine/modals";
 import React, { useState } from "react";
 import EditStudentForm from "./EditStudentForm";
 
-export default function StudentManagementTable({ data }) {
+export default function StudentManagementTable({ data, reqRefresh }) {
   const theme = useMantineTheme();
   console.log(data);
   const [studentData, setStudentData] = useState(undefined);
@@ -36,6 +37,7 @@ export default function StudentManagementTable({ data }) {
           autoClose: 2000,
           radius: "xl",
         });
+        reqRefresh("students");
       })
       .catch((res) => {
         showNotification({
@@ -203,37 +205,38 @@ export default function StudentManagementTable({ data }) {
 
   return (
     <Paper shadow="md" p="md">
-    <ScrollArea>
-      {studentData && (
-        <EditStudentForm
-          opened={studentData != undefined}
-          onClose={setStudentData}
-          data={studentData}
-        />
-      )}
-      <Table
-        sx={{ minWidth: 800 }}
-        verticalSpacing="sm"
-        // striped
-        highlightOnHover
-        withColumnBorders
-      >
-        <thead>
-          <tr>
-            <th>Student</th>
-            <th>Role</th>
-            <th>Email</th>
-            <th>Roll no.</th>
-            <th>Exam seat no.</th>
-            <th>PRN</th>
-            <th>Semester</th>
-            <th>Year</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
-    </ScrollArea>
+      <ScrollArea>
+        {studentData && (
+          <EditStudentForm
+            opened={studentData != undefined}
+            onClose={setStudentData}
+            data={studentData}
+            reqRefresh={reqRefresh}
+          />
+        )}
+        <Table
+          sx={{ minWidth: 800 }}
+          verticalSpacing="sm"
+          // striped
+          highlightOnHover
+          withColumnBorders
+        >
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Role</th>
+              <th>Email</th>
+              <th>Roll no.</th>
+              <th>Exam seat no.</th>
+              <th>PRN</th>
+              <th>Semester</th>
+              <th>Year</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </Table>
+      </ScrollArea>
     </Paper>
   );
 }

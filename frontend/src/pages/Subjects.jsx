@@ -3,7 +3,7 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import CreateSubject from "../component/Create Subject/CreateSubject";
 import ClaimSubjects from "../component/Claim Subjects/ClaimSubjects";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Editsubject from "../component/Edit Subject/Editsubject";
@@ -38,7 +38,8 @@ export default function Subjects() {
         </Center>
       </Anchor>
       <Tabs
-        variant="pills" radius="lg"
+        variant="pills"
+        radius="lg"
         defaultValue="1"
         value={tabValue}
         onTabChange={(value) => navigate(`/subject-mgmt/${value}`)}

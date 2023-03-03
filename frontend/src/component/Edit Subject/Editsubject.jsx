@@ -13,6 +13,7 @@ import {
   Modal,
   TextInput,
   Button,
+  Paper,
 } from "@mantine/core";
 import { IconPencil, IconTrash, IconCheck, IconX } from "@tabler/icons-react";
 import axios from "axios";
@@ -24,6 +25,7 @@ function Editsubject() {
   const [result, setResult] = useState([]);
   const [opened, setOpened] = useState(undefined);
   const [tempState, setTempState] = useState({});
+  const [refresh, setRefresh] = useState("first-render");
 
   // const form=useForm({
   //     initialValues: {
@@ -36,7 +38,7 @@ function Editsubject() {
   //   });
 
   console.log(tempState);
-  useEffect(() => {
+  const getSubjects = () => {
     axios
       .get("http://localhost:5000/subjects/all", { withCredentials: true })
       .then((res) => {
@@ -45,7 +47,16 @@ function Editsubject() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  };
+
+  useEffect(() => {
+    if (refresh === "first-render") {
+      getSubjects();
+    } else if (refresh === "subjects") {
+      getSubjects();
+      setRefresh(undefined);
+    }
+  }, [refresh]);
 
   const deleteUser = (id) => {
     axios
@@ -53,6 +64,7 @@ function Editsubject() {
         withCredentials: true,
       })
       .then((res) => {
+        setRefresh("subjects");
         showNotification({
           title: "Success",
           message: "User Deleted successfully",
@@ -107,7 +119,7 @@ function Editsubject() {
 
       <td>
         <Text size="sm" weight={500}>
-          {item.termWork === null ? 0 :item.termWork}
+          {item.termWork === null ? 0 : item.termWork}
         </Text>
       </td>
 
@@ -132,34 +144,34 @@ function Editsubject() {
     </tr>
   ));
 
-
-
   return (
     <>
-      <ScrollArea>
-        {opened && (
-          <EditSubjectForm
-            opened={opened != undefined}
-            onClose={setOpened}
-            data={opened}
-          />
-        )}
-        <Table sx={{ minWidth: 800 }} verticalSpacing="sm">
-          <thead>
-            <tr>
-              <th>Subject Name</th>
-              <th>Subject Code</th>
-              <th>Practical</th>
-              <th>Oral</th>
-              <th>Semester</th>
-              <th>Term Work</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>{rows}</tbody>
-        </Table>
-      </ScrollArea>
-      
+      <Paper shadow="md" p="md">
+        <ScrollArea>
+          {opened && (
+            <EditSubjectForm
+              opened={opened != undefined}
+              onClose={setOpened}
+              data={opened}
+              reqRefresh={setRefresh}
+            />
+          )}
+          <Table sx={{ minWidth: 800 }} verticalSpacing="sm">
+            <thead>
+              <tr>
+                <th>Subject Name</th>
+                <th>Subject Code</th>
+                <th>Practical</th>
+                <th>Oral</th>
+                <th>Semester</th>
+                <th>Term Work</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>{rows}</tbody>
+          </Table>
+        </ScrollArea>
+      </Paper>
     </>
   );
 }
