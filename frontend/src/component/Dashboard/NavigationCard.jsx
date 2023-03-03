@@ -70,7 +70,7 @@ export default function NavigationCard(props) {
           <Image
             src={props.image}
             alt={props.title}
-            height={200}
+            height={300}
             fit="contain"
           />
         </Card.Section>

@@ -9,7 +9,7 @@ export default function AttendanceDash({ data }) {
       {data && (
         <>
           <h1>Departmentwise Distribution</h1>
-          <Divider />
+          <Divider mb={6}/>
           <SimpleGrid cols={2} breakpoints={[{ maxWidth: 980, cols: 1, spacing: "md" }]} >
             <div>
               <AnimatedProgressBarCircle
