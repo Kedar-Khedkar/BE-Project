@@ -74,7 +74,7 @@ export default function NonStudentAccount({ data }) {
 
   return (
     <>
-      <Center mt={200}>
+      <Center mt={20}>
         <Avatar
           size={"xl"}
           radius="xl"

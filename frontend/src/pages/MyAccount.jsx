@@ -26,10 +26,10 @@ export default function MyAccount() {
         </Center>
       </Anchor>
       {userData && user.role === "student" && (
-        <StudentAccount data={userData}></StudentAccount>
+        <StudentAccount data={userData}/>
       )}
       {userData && user.role !== "student" && (
-        <NonStudentAccount data={userData}></NonStudentAccount>
+        <NonStudentAccount data={userData}/>
       )}
     </>
   );

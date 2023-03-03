@@ -115,7 +115,7 @@ export default function StudentAccount({ data }) {
 
   return (
     <>
-      <Center mt={200}>
+      <Center mt={20}>
         <Avatar size={"xl"} radius="xl" color="cyan">
           {data.student.User.fullname.split(" ")[0][0] +
             data.student.User.fullname.split(" ")[1][0]}
