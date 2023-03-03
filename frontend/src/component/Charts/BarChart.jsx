@@ -7,7 +7,7 @@ export default function BarChart({ data, title, x, y, y_tickValues }) {
   // const value = Number(data[0].deptAvg) * 100;
   return (
     <>
-      <Paper shadow="md" radius="xl" p="md" withBorder>
+      <Paper shadow="md" radius="xl" p="md" >
         <Text size={"lg"}>{`${title}`}</Text>
         <VictoryChart theme={VictoryTheme.material}>
           <VictoryBar

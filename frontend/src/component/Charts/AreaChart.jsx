@@ -6,7 +6,7 @@ export default function AreaChart({ data, title }) {
   console.log(data);
   return (
     <>
-      <Paper shadow="md" radius="xl" p="md" withBorder>
+      <Paper shadow="md" radius="xl" p="md" >
         <Text size={"lg"}>{title}</Text>
         <VictoryChart>
           <VictoryLine

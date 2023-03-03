@@ -10,7 +10,7 @@ export default function AnimatedProgressBarCircle({ data, title }) {
   // const value = Number(data[0].deptAvg) * 100;
   return (
     <>
-      <Paper shadow="md" radius="xl" p="md" withBorder>
+      <Paper shadow="md" radius="xl" p="md" >
         <Text size={"lg"}>
           {`${title}`}
           <strong> {data}%</strong>
