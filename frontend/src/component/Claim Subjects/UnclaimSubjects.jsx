@@ -57,7 +57,6 @@ export default function UnclaimSubjects({ data }) {
         </Text>
       </td>
       <td>
-        <Group spacing={0} position="right">
           <ActionIcon
             onClick={() => {
               unclaimsubject(item.Subject.subCode);
@@ -66,7 +65,7 @@ export default function UnclaimSubjects({ data }) {
           >
             <IconTrash size={16} stroke={1.5} />
           </ActionIcon>
-        </Group>
+       
       </td>
     </tr>
   ));
@@ -79,7 +78,6 @@ export default function UnclaimSubjects({ data }) {
             <tr>
               <th>Subject Code</th>
               <th>Subject Name</th>
-              <th></th>
               <th>Unclaim</th>
             </tr>
           </thead>
