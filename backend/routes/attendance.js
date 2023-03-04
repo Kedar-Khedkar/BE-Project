@@ -11,7 +11,7 @@ router
 router
   .route("/")
   .post(isLoggedIn, isFacultyOrAdmin, catchAsync(attendance.readAttendance))
-  .post(isLoggedIn, isFacultyOrAdmin, catchAsync(attendance.markAttendance));
+  .put(isLoggedIn, isFacultyOrAdmin, catchAsync(attendance.editAttendance));
 
 router
   .route("/stats")

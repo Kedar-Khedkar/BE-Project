@@ -9,16 +9,12 @@ module.exports.readAttendance =
   /* A function to find all the attendance records between two dates. */
   async (req, res) => {
     const { filters } = req.body;
-    console.log(req.body);
     const result = await Attendance.findAll({
+      attributes: ["presentee", "createdAt", "StudentUserId", "SubjectSubCode"],
       where: {
-        "$Subject.subCode$": `${filters.subject}`,
-        createdAt: {
-          [Op.between]: [`${filters.from}`, `${filters.to}`],
-        },
+        SubjectSubCode: `${filters.subject}`,
+        createdAt: `${filters.for}`,
       },
-      attributes: ["presentee", "createdAt"],
-      order: ["createdAt"],
       /* A way to include the data from other tables in the result. */
       include: [
         {
@@ -32,36 +28,33 @@ module.exports.readAttendance =
             attributes: ["fullname"],
           },
         },
-        {
-          model: Subject,
-          required: true,
-          attributes: ["subName"],
-        },
       ],
     });
-    res.send({ status: "success", objects: result, err: null });
+    res.send({
+      status: "success",
+      objects: result,
+      err: null,
+    });
   };
 
-module.exports.markAttendance =
-  /* A function that is called when a request is made to the server at
-the url `/api/attendance/mark`. It checks if the student exists, and marks the attendance for today's date in the database */
-  async (req, res) => {
-    const { rollno, presentee, subCode } = req.body;
-    console.log(rollno, presentee, subCode);
-    const { userId } = await Student.findOne({
-      attributes: ["userId"],
-      where: { rollno: rollno },
-    });
-    if (!userId) {
-      res.send({ status: "error", objects: null, err: "No such student" });
+module.exports.editAttendance = async (req, res) => {
+  await Attendance.update(
+    { presentee: false },
+    {
+      where: {
+        StudentUserId: req.body.StudentUserId,
+        createdAt: req.body.createdAt,
+        SubjectSubCode: req.body.SubjectSubCode,
+      },
     }
-    const result = await Attendance.create({
-      presentee: presentee,
-      StudentUserId: userId,
-      SubjectSubCode: subCode,
+  )
+    .then(() => {
+      res.send({ status: "success", objects: null, err: null });
+    })
+    .catch((err) => {
+      res.send({ status: "fail", objects: null, err: err });
     });
-    res.send({ status: "success", objects: result, err: null });
-  };
+};
 
 module.exports.markMultiple =
   /* A function that is called when a request is made to the server at the
@@ -72,22 +65,6 @@ records and adds them to the database. */
     const result = await Attendance.bulkCreate(attendList);
     res.send(result);
   };
-
-module.exports.statistics = async (req, res) => {
-  const stats = {};
-  stats.deptAvg = await Attendance.findAll({
-    attributes: [[Sequelize.literal("AVG(presentee)*100"), "deptAvg"]],
-  });
-  stats.dailyAvg = await Attendance.findAll({
-    attributes: [
-      [Sequelize.literal("(AVG(presentee)*100)"), "avg"],
-      [sequelize.fn("DATE", sequelize.col("createdAt")), "date"],
-    ],
-    group: ["date"],
-  });
-
-  res.send({ status: "success", objects: stats, err: null });
-};
 
 module.exports.studStats = async (req, res) => {
   const user = req.user;
@@ -113,4 +90,24 @@ module.exports.studStats = async (req, res) => {
     });
     res.send({ status: "success", objects: data, err: null });
   }
+};
+
+//   Daily count
+// Subject wise count
+// Weekly count
+
+module.exports.statistics = async (req, res) => {
+  const stats = {};
+  stats.deptAvg = await Attendance.findAll({
+    attributes: [[Sequelize.literal("AVG(presentee)*100"), "deptAvg"]],
+  });
+  stats.dailyAvg = await Attendance.findAll({
+    attributes: [
+      [Sequelize.literal("(AVG(presentee)*100)"), "avg"],
+      [sequelize.fn("DATE", sequelize.col("createdAt")), "date"],
+    ],
+    group: ["date"],
+  });
+
+  res.send({ status: "success", objects: stats, err: null });
 };
