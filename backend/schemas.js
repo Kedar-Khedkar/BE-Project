@@ -127,3 +127,23 @@ module.exports.resetpassword = Joi.object({
   password1: Joi.string().trim().lowercase().required().escapeHTML(),
   password2: Joi.string().trim().lowercase().required().escapeHTML(),
 });
+
+module.exports.userSchema = Joi.object({
+  user : Joi.object({
+    fullname: Joi.string()
+      .trim()
+      .required()
+      .escapeHTML()
+      .pattern(/^[a-zA-Z]+\s[a-zA-Z]+$/, {
+        name: "firstname<space>lastname [Alphabets Only]",
+      }),
+    email: Joi.string().trim().lowercase().email().required().escapeHTML(),
+    role: Joi.string()
+    .trim()
+    .lowercase()
+    .valid("faculty")
+    .required()
+    .escapeHTML(),
+  }).required()
+  
+}).required();

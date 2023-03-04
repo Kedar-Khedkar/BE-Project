@@ -4,6 +4,7 @@ const {
   subjectSchema,
   forgotpassword,
   resetpassword,
+  userSchema
 } = require("./schemas");
 
 const { User } = require("./models/user");
@@ -19,6 +20,16 @@ module.exports.validateStudent = (req, res, next) => {
     next();
   }
 };
+
+module.exports.validateUser = (req,res, next) => {
+  const {error} = userSchema.validate(req.body);
+  if(error){
+    const msg = error.details.map((el) => el.message).join(",");
+    new ExpressError(msg, 400);
+  }else{
+    next();
+  }
+}
 
 /* This is a middleware function that checks if the user is logged in or not. If the user is not logged
 in, it will redirect the user to the login page. */
