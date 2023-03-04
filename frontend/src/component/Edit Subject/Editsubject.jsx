@@ -20,7 +20,7 @@ import axios from "axios";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import EditSubjectForm from "./EditSubjectForm";
-
+import { closeAllModals, openConfirmModal } from "@mantine/modals";
 function Editsubject() {
   const [result, setResult] = useState([]);
   const [opened, setOpened] = useState(undefined);
@@ -67,7 +67,7 @@ function Editsubject() {
         setRefresh("subjects");
         showNotification({
           title: "Success",
-          message: "User Deleted successfully",
+          message: "Subject Deleted successfully",
           icon: <IconCheck />,
           color: "teal",
           autoClose: 2000,
@@ -134,7 +134,7 @@ function Editsubject() {
         </ActionIcon>
         <ActionIcon
           onClick={() => {
-            deleteUser(item.subCode);
+            openDeleteModal(item.subName, item.subCode);
           }}
           color="red"
         >
@@ -143,7 +143,25 @@ function Editsubject() {
       </td>
     </tr>
   ));
-
+  const openDeleteModal = (subName, subCode) =>
+    openConfirmModal({
+      title: `Delete ${subName}  subject`,
+      centered: true,
+      children: (
+        <Text>
+          Are you sure you want to delete{" "}
+          <Text span fw={700}>
+            {" "}
+            {subName}{" "}
+          </Text>{" "}
+          subject? This action is destructive.
+        </Text>
+      ),
+      labels: { confirm: "Delete subject", cancel: "cancel" },
+      confirmProps: { color: "red" },
+      onCancel: () => closeAllModals,
+      onConfirm: () => deleteUser(subCode),
+    });
   return (
     <>
       <Paper shadow="md" p="md">
