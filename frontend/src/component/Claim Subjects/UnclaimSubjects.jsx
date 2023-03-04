@@ -13,7 +13,7 @@ import {
 import { IconPencil, IconTrash } from "@tabler/icons-react";
 import axios from "axios";
 import { showNotification } from "@mantine/notifications";
-
+import { closeAllModals, openConfirmModal } from "@mantine/modals";
 export default function UnclaimSubjects({ data, reqRefresh }) {
   console.log(data);
 
@@ -60,7 +60,7 @@ export default function UnclaimSubjects({ data, reqRefresh }) {
       <td>
         <ActionIcon
           onClick={() => {
-            unclaimsubject(item.Subject.subCode);
+            openDeleteModal(item.Subject.subName,item.Subject.subCode)
           }}
           color="red"
         >
@@ -69,7 +69,20 @@ export default function UnclaimSubjects({ data, reqRefresh }) {
       </td>
     </tr>
   ));
-
+  const openDeleteModal = (subName, subCode) =>
+  openConfirmModal({
+    title: `Delete ${subName}  profile`,
+    centered: true,
+    children: (
+      <Text  >
+        Are you sure you want to unclaim <Text span  fw={700}> {subName} </Text> subject?
+      </Text>
+    ),
+    labels: { confirm: "Unclaim subject", cancel: "cancel" },
+    confirmProps: { color: "red" },
+    onCancel: () => closeAllModals,
+    onConfirm: () => unclaimsubject(subCode),
+  });
   return (
     <Paper shadow="md" p="md">
       <ScrollArea>
