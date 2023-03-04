@@ -29,6 +29,9 @@ export default function Subjects() {
       });
   };
 
+  useEffect(() => {
+    getSubjects();
+  }, []);
   return (
     <Container>
       <Anchor href="/dashboard" color={"gray"} mt={24}>
@@ -47,9 +50,7 @@ export default function Subjects() {
         <Tabs.List>
           <Tabs.Tab value="1">Create Subject</Tabs.Tab>
           <Tabs.Tab value="2">Edit Subject</Tabs.Tab>
-          <Tabs.Tab value="3" onClick={getSubjects}>
-            Claim/Unclaim Subject
-          </Tabs.Tab>
+          <Tabs.Tab value="3">Claim/Unclaim Subject</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="1" pt="xs">

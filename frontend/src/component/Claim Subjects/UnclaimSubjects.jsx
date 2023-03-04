@@ -14,7 +14,7 @@ import { IconPencil, IconTrash } from "@tabler/icons-react";
 import axios from "axios";
 import { showNotification } from "@mantine/notifications";
 
-export default function UnclaimSubjects({ data }) {
+export default function UnclaimSubjects({ data, reqRefresh }) {
   console.log(data);
 
   const unclaimsubject = (subCode) => {
@@ -29,6 +29,7 @@ export default function UnclaimSubjects({ data }) {
           color: "teal",
           disallowClose: false,
         });
+        reqRefresh();
         console.log(res);
       })
       .catch(function (err) {
@@ -57,15 +58,14 @@ export default function UnclaimSubjects({ data }) {
         </Text>
       </td>
       <td>
-          <ActionIcon
-            onClick={() => {
-              unclaimsubject(item.Subject.subCode);
-            }}
-            color="red"
-          >
-            <IconTrash size={16} stroke={1.5} />
-          </ActionIcon>
-       
+        <ActionIcon
+          onClick={() => {
+            unclaimsubject(item.Subject.subCode);
+          }}
+          color="red"
+        >
+          <IconTrash size={16} stroke={1.5} />
+        </ActionIcon>
       </td>
     </tr>
   ));
