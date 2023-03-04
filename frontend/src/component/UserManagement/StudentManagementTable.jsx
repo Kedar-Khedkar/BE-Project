@@ -15,7 +15,7 @@ import {
 import axios from "axios";
 import { IconPencil, IconTrash, IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
-import { closeAllModals, openModal } from "@mantine/modals";
+import { closeAllModals, openModal,openConfirmModal } from "@mantine/modals";
 import React, { useState } from "react";
 import EditStudentForm from "./EditStudentForm";
 
@@ -25,7 +25,7 @@ export default function StudentManagementTable({ data, reqRefresh }) {
   const [studentData, setStudentData] = useState(undefined);
   const deleteUser = (id) => {
     axios
-      .delete(`http://localhost:5000/users/${id}`, null, {
+      .delete(`http://localhost:5000/users/${id}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -49,91 +49,6 @@ export default function StudentManagementTable({ data, reqRefresh }) {
           radius: "xl",
         });
       });
-  };
-
-  const updateUser = (event) => {
-    event.preventDefault();
-    console.log(event.target);
-    console.log("Ikde request jael edit chi");
-  };
-  const editUser = (obj) => {
-    openModal({
-      title: "Edit Student",
-      centered: true,
-      overlayOpacity: 0.15,
-      overlayBlur: 3,
-      children: (
-        <>
-          <form onSubmit={updateUser}>
-            <TextInput
-              value={obj.userId}
-              display="none"
-              name="userId"
-            ></TextInput>
-            <TextInput
-              label="Name"
-              withAsterisk
-              name="fullname"
-              defaultValue={obj.User.fullname}
-            ></TextInput>
-            <NativeSelect
-              data={["admin", "faculty", "student"]}
-              label="Role"
-              defaultValue={"student"}
-              name="role"
-              withAsterisk
-            />
-            <TextInput
-              label="Email"
-              withAsterisk
-              name="email"
-              defaultValue={obj.User.email}
-            ></TextInput>
-            <TextInput
-              label="Roll Number"
-              withAsterisk
-              name="rollno"
-              defaultValue={obj.rollno}
-            ></TextInput>
-            <TextInput
-              label="Exam seat Number"
-              name="examseatno"
-              withAsterisk
-              defaultValue={obj.examseatno}
-            ></TextInput>
-            <TextInput
-              label="Permanent Registration Number"
-              withAsterisk
-              name="prn"
-              defaultValue={obj.prn}
-            ></TextInput>
-            <NativeSelect
-              data={["3", "4", "5", "6", "7", "8"]}
-              label="Semester"
-              defaultValue={obj.curr_sem}
-            />
-            <NativeSelect
-              data={["2", "3", "4"]}
-              label="Semester"
-              defaultValue={obj.curryear}
-            />
-            <Button type="submit" mt={12} leftIcon={<IconCheck />}>
-              Submit
-            </Button>
-            <Button
-              type="close"
-              mt={12}
-              ml={8}
-              color={"gray"}
-              leftIcon={<IconX />}
-              onClick={closeAllModals}
-            >
-              Cancel
-            </Button>
-          </form>
-        </>
-      ),
-    });
   };
 
   const rows = data.map((item) => (
@@ -193,7 +108,7 @@ export default function StudentManagementTable({ data, reqRefresh }) {
           <ActionIcon
             color="red"
             onClick={() => {
-              deleteUser(item.userId);
+              openDeleteModal(item.User.fullname, item.userId);
             }}
           >
             <IconTrash size={16} stroke={1.5} />
@@ -202,7 +117,21 @@ export default function StudentManagementTable({ data, reqRefresh }) {
       </td>
     </tr>
   ));
-
+  const openDeleteModal = (fullname, id) =>
+  openConfirmModal({
+    title: `Delete ${fullname}  profile`,
+    centered: true,
+    children: (
+      <Text  >
+        Are you sure you want to delete <Text span  fw={700}> {fullname}'s </Text> profile? This action is
+        destructive.
+      </Text>
+    ),
+    labels: { confirm: "Delete account", cancel: "cancel" },
+    confirmProps: { color: "red" },
+    onCancel: () => closeAllModals,
+    onConfirm: () => deleteUser(id),
+  });
   return (
     <Paper shadow="md" p="md">
       <ScrollArea>

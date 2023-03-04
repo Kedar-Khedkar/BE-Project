@@ -15,7 +15,7 @@ import {
 import axios from "axios";
 import { IconPencil, IconTrash, IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
-import { closeAllModals, openModal } from "@mantine/modals";
+import { closeAllModals, openModal, openConfirmModal } from "@mantine/modals";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 import EditFacultyForm from "./EditFacultyForm";
@@ -28,8 +28,9 @@ export default function FacultyManagementTable({ data, reqRefresh }) {
     reqRefresh("faculty");
   };
   const deleteUser = (id) => {
+   
     axios
-      .delete(`http://localhost:5000/users/${id}`, null, {
+      .delete(`http://localhost:5000/users/${id}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -97,7 +98,7 @@ export default function FacultyManagementTable({ data, reqRefresh }) {
           <ActionIcon
             color="red"
             onClick={() => {
-              deleteUser(item.id);
+              openDeleteModal(item.fullname, item.id);
             }}
           >
             <IconTrash size={16} stroke={1.5} />
@@ -107,6 +108,21 @@ export default function FacultyManagementTable({ data, reqRefresh }) {
     </tr>
   ));
 
+  const openDeleteModal = (fullname, id) =>
+    openConfirmModal({
+      title: `Delete ${fullname}  profile`,
+      centered: true,
+      children: (
+        <Text  >
+          Are you sure you want to delete <Text span  fw={700}> {fullname}'s </Text> profile? This action is
+          destructive.
+        </Text>
+      ),
+      labels: { confirm: "Delete account", cancel: "cancel" },
+      confirmProps: { color: "red" },
+      onCancel: () => closeAllModals,
+      onConfirm: () => deleteUser(id),
+    });
   return (
     <Paper shadow="md" p="md">
       <ScrollArea>
