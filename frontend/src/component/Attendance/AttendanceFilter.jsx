@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Container, NativeSelect, Grid } from "@mantine/core";
 import axios from "axios";
-import { DateRangePicker } from "@mantine/dates";
+import { DatePicker } from "@mantine/dates";
 import { IconCalendarEvent, IconBooks, IconSchool } from "@tabler/icons-react";
 
-export default function AttendanceFilter({ children, onChange }) {
+export default function AttendanceFilter({ children, onChange, reqData }) {
   const [selectData, setSelectData] = useState(["fetching data..."]);
-  const [dateRange, setDateRange] = useState([
-    new Date(),
-    new Date(new Date().setDate(new Date().getDate() + 7)),
-  ]);
+  const [date, setDate] = useState(new Date());
   const [filters, setFilters] = useState({
-    from: dateRange[0],
-    to: dateRange[1],
+    for: new Date(),
     year: "2",
     subject: "",
   });
@@ -61,16 +57,16 @@ export default function AttendanceFilter({ children, onChange }) {
           />
         </Grid.Col>
         <Grid.Col span={4}>
-          <DateRangePicker
-            label="Select Date range"
-            description="Choose two dates to display attendance between those dates"
+          <DatePicker
+            label="Select Date"
+            description="Choose the date you wish to see attendance for"
             radius="lg"
             size="md"
             withAsterisk
-            value={dateRange}
+            value={date}
             onChange={(e) => {
-              setDateRange(e);
-              setFilters({ ...filters, from: dateRange[0], to: dateRange[1] });
+              setDate(e);
+              setFilters({ ...filters, for: e });
             }}
             icon={<IconCalendarEvent size={16} />}
             placeholder="select a range"

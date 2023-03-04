@@ -22,7 +22,12 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export default function TableSelection({ data, subCode, createdAt }) {
+export default function TableSelection({
+  data,
+  subCode,
+  createdAt,
+  reqRefresh,
+}) {
   let presenteeList = [];
   console.log(data);
   data.forEach((obj) => {
@@ -73,7 +78,7 @@ export default function TableSelection({ data, subCode, createdAt }) {
       .post("http://localhost:5000/attend/multiple", presenteeList, {
         withCredentials: true,
       })
-      .then((res) =>
+      .then((res) => {
         showNotification({
           title: "Success!",
           message: "Attendance marked.",
@@ -82,8 +87,9 @@ export default function TableSelection({ data, subCode, createdAt }) {
           disallowClose: false,
           autoClose: 2000,
           radius: "xl",
-        })
-      )
+        });
+        reqRefresh("stats");
+      })
       .catch((err) =>
         showNotification({
           title: "Failed!",

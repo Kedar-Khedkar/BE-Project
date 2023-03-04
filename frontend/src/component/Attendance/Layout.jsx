@@ -6,7 +6,7 @@ import axios from "axios";
 
 import Table from "./Table";
 
-export default function Attendance() {
+export default function Attendance({ reqRefresh }) {
   const [studentList, setStudentList] = useState([]);
   const [subjectList, setSubjectList] = useState([]);
   const [selectData, setSelectData] = useState(["fetching data..."]);
@@ -95,6 +95,7 @@ export default function Attendance() {
             data={studentList}
             subCode={subjectSubCode}
             createdAt={createdAt}
+            reqRefresh={reqRefresh}
           />
         }
       </Container>
