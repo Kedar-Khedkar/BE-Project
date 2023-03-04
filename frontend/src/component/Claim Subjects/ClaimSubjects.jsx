@@ -8,12 +8,15 @@ export default function ClaimSubjects(props) {
   const [ClaimSubjects, setClaimSubjects] = useState([]);
   const [alreadyClaimed, setAlreadyClaimed] = useState([]);
 
-  useEffect(() => {
+  const getClaimed = () => {
     axios
       .get("http://localhost:5000/faculty/", { withCredentials: true })
       .then((res) => {
         setAlreadyClaimed(res.data.objects);
       });
+  };
+  useEffect(() => {
+    getClaimed();
   }, []);
 
   const handleSubmit = () => {
@@ -31,7 +34,8 @@ export default function ClaimSubjects(props) {
           color: "teal",
           disallowClose: false,
         });
-        console.log(res);
+        setClaimSubjects([]);
+        getClaimed();
       })
       .catch(function (err) {
         showNotification({
@@ -47,6 +51,7 @@ export default function ClaimSubjects(props) {
       <h2>Claim Subjects</h2>
       <MultiSelect
         // error="Pick atleast one subject"
+        value={ClaimSubjects}
         onChange={setClaimSubjects}
         data={props.data}
         label="Select the subjects to claim"
@@ -62,7 +67,10 @@ export default function ClaimSubjects(props) {
       </Button>
 
       <h2>Unclaim Subjects</h2>
-      <UnclaimSubjects data={alreadyClaimed}></UnclaimSubjects>
+      <UnclaimSubjects
+        data={alreadyClaimed}
+        reqRefresh={getClaimed}
+      ></UnclaimSubjects>
     </>
   );
 }

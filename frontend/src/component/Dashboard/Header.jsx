@@ -14,7 +14,7 @@ import {
   Kbd,
   Autocomplete,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useHotkeys, useFocusTrap } from "@mantine/hooks";
 import { useNavigate } from "react-router-dom";
 import {
   IconArrowRight,
@@ -29,6 +29,7 @@ import { showNotification } from "@mantine/notifications";
 import { redirect } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
 import data from "./Navigation.json";
+import { useRef } from "react";
 const HEADER_HEIGHT = 60;
 
 const useStyles = createStyles((theme) => ({
@@ -112,6 +113,16 @@ export default function HeaderAction({ links }) {
         });
       });
   };
+  const focusSearch = useRef(null);
+  useHotkeys([
+    [
+      "ctrl+k",
+      () => {
+        console.log("focus search");
+        focusSearch.current.focus();
+      },
+    ],
+  ]);
 
   return (
     <Header height={HEADER_HEIGHT} mb={20}>
@@ -132,6 +143,7 @@ export default function HeaderAction({ links }) {
         {user && (
           <Group spacing={5} className={classes.links}>
             <Autocomplete
+              ref={focusSearch}
               data={data}
               placeholder="Search the entire application"
               radius="xl"
