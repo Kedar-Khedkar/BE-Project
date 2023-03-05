@@ -10,7 +10,8 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
     User: {
       fullname: data.User.fullname,
       email: data.User.email,
-      id: data.userId,
+      // id: data.userId,
+      role : "student"
     },
     student: {
       curr_sem: data.curr_sem,
@@ -49,13 +50,13 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
             onClose(undefined);
           })
           .catch((res) => {
-            console.log(res);
+            
             showNotification({
               title: "Failed",
-              // message: res.data.err,
+              message: res.response.data.err,
               icon: <IconX />,
               color: "red",
-              autoClose: 3500,
+              autoClose: false,
               radius: "xl",
             });
           });
@@ -63,10 +64,10 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
       .catch((res) => {
         showNotification({
           title: "Failed",
-          message: res.data.err,
+          message: res.response.data.err,
           icon: <IconX />,
           color: "red",
-          autoClose: 3500,
+          autoClose: false,
           radius: "xl",
         });
       });

@@ -141,7 +141,7 @@ module.exports.userSchema = Joi.object({
     role: Joi.string()
     .trim()
     .lowercase()
-    .valid("faculty")
+    .valid("faculty", "student", "admin")
     .required()
     .escapeHTML(),
   }).required()

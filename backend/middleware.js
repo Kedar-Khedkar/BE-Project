@@ -25,7 +25,12 @@ module.exports.validateUser = (req,res, next) => {
   const {error} = userSchema.validate(req.body);
   if(error){
     const msg = error.details.map((el) => el.message).join(",");
-    new ExpressError(msg, 400);
+    throw new ExpressError(msg, 400);
+    // res.status(400).send({
+    //   status: "error",
+    //   objects: null,
+    //   err: msg
+    // })
   }else{
     next();
   }
@@ -66,6 +71,7 @@ module.exports.validateForgetRequest = (req, res, next) => {
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(msg, 400);
+    
   } else {
     next();
   }
