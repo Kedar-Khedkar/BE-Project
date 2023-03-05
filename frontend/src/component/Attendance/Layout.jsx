@@ -45,12 +45,9 @@ export default function Attendance({ reqRefresh }) {
     });
     if (sem !== -1) {
       axios
-        .get(
-          `http://localhost:5000/student/search?curryear=2&curr_sem=${sem}`,
-          {
-            withCredentials: true,
-          }
-        )
+        .get(`http://localhost:5000/student/search?curr_sem=${sem}`, {
+          withCredentials: true,
+        })
         .then((res) => {
           // console.log(res.data.objects);
           setStudentList(res.data.objects);

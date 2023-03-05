@@ -51,7 +51,9 @@ it updates the student data. */
       },
     });
     if (!role) {
-      res.status(404).send({ status: "error", objects: null, err: "No such account" });
+      res
+        .status(404)
+        .send({ status: "error", objects: null, err: "No such account" });
     }
     if (role !== "student") {
       res.status(403).send({
@@ -64,7 +66,8 @@ it updates the student data. */
         { ...req.body.student },
         { where: { userId: req.params.id } }
       );
-      res.send({ status: "success", objects: null, err: null });    }
+      res.send({ status: "success", objects: null, err: null });
+    }
   };
 
 module.exports.deleteStudent =
@@ -95,10 +98,10 @@ It checks if the user provided any filters and retrieves the data accordingy. */
   async (req, res) => {
     const filter = req.query;
     let students;
-    if (filter.curr_sem && filter.curryear) {
+    if (filter.curr_sem) {
       students = await Student.findAll({
         where: {
-          curryear: Number(filter.curryear),
+          // curryear: Number(filter.curryear),
           curr_sem: Number(filter.curr_sem),
         },
         include: {

@@ -93,7 +93,7 @@ export default function TableSelection({
       .catch((err) =>
         showNotification({
           title: "Failed!",
-          message: "Something went wrong.",
+          message: err.response.data.err,
           icon: <IconX />,
           color: "red",
           autoClose: 2000,
