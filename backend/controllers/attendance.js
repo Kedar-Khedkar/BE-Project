@@ -97,7 +97,9 @@ module.exports.studStats = async (req, res) => {
 // Weekly count
 
 module.exports.statistics = async (req, res) => {
-  const stats = {};
+  const stats = {
+    classwise: [],
+  };
   stats.deptAvg = await Attendance.findAll({
     attributes: [[Sequelize.literal("AVG(presentee)*100"), "deptAvg"]],
   });
@@ -107,7 +109,38 @@ module.exports.statistics = async (req, res) => {
       [sequelize.fn("DATE", sequelize.col("createdAt")), "date"],
     ],
     group: ["date"],
+    order: [["date", "Desc"]],
+    limit: 5,
   });
+  for (let year = 2; year <= 4; year++) {
+    stats.classwise.push({
+      year: year,
+      count: await Attendance.sum("presentee", {
+        where: {
+          "$Student.curryear$": year,
+          [Op.and]: sequelize.where(
+            sequelize.fn("date", sequelize.col("Attendance.createdAt")),
+            "=",
+            req.query.date
+          ),
+        },
+        include: { model: Student, attributes: [] },
+      }),
+      total: (
+        await Attendance.findAll({
+          where: {
+            "$Student.curryear$": year,
+            [Op.and]: sequelize.where(
+              sequelize.fn("date", sequelize.col("Attendance.createdAt")),
+              "=",
+              req.query.date
+            ),
+          },
+          include: { model: Student, required: true, attributes: [] },
+        })
+      ).length,
+    });
+  }
 
   res.send({ status: "success", objects: stats, err: null });
 };
