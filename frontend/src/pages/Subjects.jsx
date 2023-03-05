@@ -14,7 +14,9 @@ export default function Subjects() {
 
   const getSubjects = () => {
     axios
-      .get("http://localhost:5000/subjects/all", { withCredentials: true })
+      .get("http://localhost:5000/faculty/UnclaimedSubjects", {
+        withCredentials: true,
+      })
       .then((res) => {
         console.log(res.data.objects);
         const objects = res.data.objects;
@@ -62,7 +64,10 @@ export default function Subjects() {
         </Tabs.Panel>
 
         <Tabs.Panel value="3" pt="xs">
-          <ClaimSubjects data={subjectData}></ClaimSubjects>
+          <ClaimSubjects
+            data={subjectData}
+            reqRefresh={getSubjects}
+          ></ClaimSubjects>
         </Tabs.Panel>
       </Tabs>
     </Container>

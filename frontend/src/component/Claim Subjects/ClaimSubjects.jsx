@@ -13,6 +13,7 @@ export default function ClaimSubjects(props) {
       .get("http://localhost:5000/faculty/", { withCredentials: true })
       .then((res) => {
         setAlreadyClaimed(res.data.objects);
+        props.reqRefresh();
       });
   };
   useEffect(() => {
