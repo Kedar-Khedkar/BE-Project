@@ -10,7 +10,7 @@ import {
   useMantineTheme,
   Paper,
 } from "@mantine/core";
-import { IconPencil, IconTrash } from "@tabler/icons-react";
+import { IconCheck, IconX , IconSquareRoundedX } from "@tabler/icons-react";
 import axios from "axios";
 import { showNotification } from "@mantine/notifications";
 import { closeAllModals, openConfirmModal } from "@mantine/modals";
@@ -26,8 +26,10 @@ export default function UnclaimSubjects({ data, reqRefresh }) {
         showNotification({
           title: "Success!",
           message: "Subject unclaimed successfully",
+          icon: <IconCheck />,
           color: "teal",
-          disallowClose: false,
+          autoClose: 2000,
+          radius: "xl",
         });
         reqRefresh();
         console.log(res);
@@ -36,7 +38,10 @@ export default function UnclaimSubjects({ data, reqRefresh }) {
         showNotification({
           title: "Failed!",
           message: "Something went wrong.",
+          icon: <IconX />,
           color: "red",
+          autoClose: 3500,
+          radius: "xl",
         });
         console.log(err);
       });
@@ -64,7 +69,7 @@ export default function UnclaimSubjects({ data, reqRefresh }) {
           }}
           color="red"
         >
-          <IconTrash size={16} stroke={1.5} />
+          <IconSquareRoundedX  size={20} stroke={1.5} />
         </ActionIcon>
       </td>
     </tr>

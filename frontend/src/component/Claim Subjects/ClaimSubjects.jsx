@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { showNotification } from "@mantine/notifications";
 import UnclaimSubjects from "./UnclaimSubjects";
-
+import { IconCheck, IconX , IconTrash } from "@tabler/icons-react";
 export default function ClaimSubjects(props) {
   const [ClaimSubjects, setClaimSubjects] = useState([]);
   const [alreadyClaimed, setAlreadyClaimed] = useState([]);
@@ -31,8 +31,10 @@ export default function ClaimSubjects(props) {
         showNotification({
           title: "Success!",
           message: "Subject claimed successfully",
+          icon: <IconCheck />,
           color: "teal",
-          disallowClose: false,
+          autoClose: 2000,
+          radius: "xl",
         });
         setClaimSubjects([]);
         getClaimed();
@@ -41,7 +43,10 @@ export default function ClaimSubjects(props) {
         showNotification({
           title: "Failed!",
           message: "Something went wrong.",
+          icon: <IconX />,
           color: "red",
+          autoClose: 3500,
+          radius: "xl",
         });
         console.log(err);
       });
