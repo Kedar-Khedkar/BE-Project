@@ -12,6 +12,9 @@ export default function AttendanceTabs() {
   const { tabValue } = useParams();
   const [subjectList, setSubjectList] = useState();
   const [stats, setStats] = useState();
+  const [filters, setFilters] = useState({
+    date: new Date().toISOString().slice(0, 10),
+  });
   const getSubjects = () => {
     axios
       .get("http://localhost:5000/faculty", { withCredentials: true })
@@ -26,13 +29,13 @@ export default function AttendanceTabs() {
 
   useEffect(() => {
     axios
-      .post("http://localhost:5000/attend/stats", null, {
+      .post(`http://localhost:5000/attend/stats?date=${filters.date}`, null, {
         withCredentials: true,
       })
       .then((res) => {
         setStats(res.data.objects);
       });
-  }, []);
+  }, [filters]);
 
   return (
     <Container>
@@ -61,7 +64,11 @@ export default function AttendanceTabs() {
         <Tabs.Panel value="1" pt="xs">
           Attendance Dashboard
           {/* <AttendanceFilter onChange={getData}></AttendanceFilter> */}
-          <AttendanceDash data={stats}></AttendanceDash>
+          <AttendanceDash
+            data={stats}
+            currFilters={filters}
+            setFilters={setFilters}
+          ></AttendanceDash>
         </Tabs.Panel>
 
         <Tabs.Panel value="2" pt="xs">

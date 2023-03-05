@@ -22,6 +22,7 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
   });
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formValue);
     axios
       .put(
         `http://localhost:5000/users/${data.userId}`,
@@ -48,9 +49,10 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
             onClose(undefined);
           })
           .catch((res) => {
+            console.log(res);
             showNotification({
               title: "Failed",
-              message: res.data.err,
+              // message: res.data.err,
               icon: <IconX />,
               color: "red",
               autoClose: 3500,
