@@ -1,6 +1,7 @@
 import React from "react";
-import { Paper, Center, Text } from "@mantine/core";
+import { Paper, Center, Text, Title } from "@mantine/core";
 import { VictoryPie } from "victory";
+import { IconBan } from "@tabler/icons-react";
 
 export default function AnimatedProgressBarCircle({
   data,
@@ -20,14 +21,32 @@ export default function AnimatedProgressBarCircle({
           {`${title}`}
           <strong> {dataDisplay}</strong>
         </Text>
-        <VictoryPie
-          data={[
-            { x: data, y: Number(data) },
-            { x: 100 - data, y: 100 - Number(data) },
-          ]}
-          colorScale={color ? [color, "gray"] : ["tomato", "gray"]}
-          innerRadius={100}
-        />
+        {!isNaN(data) && (
+          <VictoryPie
+            data={[
+              { x: Math.round(Number(data) * 100) / 100, y: Number(data) },
+              {
+                x: Math.round((100 - data) * 100) / 100,
+                y: 100 - Number(data),
+              },
+            ]}
+            colorScale={color ? [color, "gray"] : ["tomato", "gray"]}
+            innerRadius={100}
+          />
+        )}
+        {isNaN(data) && (
+          <>
+            <Center m={"xl"}>
+              <IconBan size={"xl"} color={"gray"} />
+              {/* <Title m={"xl"}>No Data</Title> */}
+            </Center>
+            <Center>
+              <Title order={3} color={"gray"}>
+                No Data
+              </Title>
+            </Center>
+          </>
+        )}
         <Center>
           <Text size={"xl"} weight={"bold"}>
             {title}
