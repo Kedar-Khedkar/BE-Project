@@ -31,13 +31,15 @@ export default function EditFacultyForm({ data, onClose, opened, reqRefresh }) {
         reqRefresh();
         onClose(undefined);
       })
-      .catch((res) => {
+      .catch((err) => {
+        console.log(err.response.data.err);
         showNotification({
           title: "Failed",
-          message: res.data.err,
+          message: err.response.data.err,
           icon: <IconX />,
           color: "red",
-          autoClose: 3500,
+          autoClose: false,
+          //disallowClose: true,
           radius: "xl",
         });
       });
