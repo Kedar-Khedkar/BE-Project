@@ -197,20 +197,7 @@ const useStyles = createStyles((theme) => ({
 export default function AuthenticationTitle() {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  function get_message() {
-    var d = new Date();
-    var time = d.getHours();
-
-    if (time < 12) {
-      return "Good morning! ☕";
-    }
-    if (time > 12) {
-      return "Good afternoon! 🌆";
-    }
-    if (time === 17) {
-      return "Good evening! 🌃";
-    }
-  }
+ 
   const form = useForm({
     initialValues: { password: "", email: "" },
 
@@ -250,7 +237,7 @@ export default function AuthenticationTitle() {
           navigate("/dashboard");
           showNotification({
             title: "Logged in successfully",
-            message: `${get_message()}, Welcome to DDMS`,
+            message: "Welcome to DDMS",
             icon: <IconCheck />,
             color: "teal",
             autoClose: 4000,
@@ -261,7 +248,7 @@ export default function AuthenticationTitle() {
       .catch(function (error) {
         showNotification({
           title: "Failed",
-          message: [error.response.data," ", "email or password did not match"],
+          message: "Incorrect email or password",
           icon: <IconX />,
           color: "red",
           autoClose: 3500,

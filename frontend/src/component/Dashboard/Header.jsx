@@ -190,10 +190,10 @@ export default function HeaderAction({ links }) {
               <Menu.Target>
                 <UnstyledButton>
                   <Group>
-                    <Avatar size={40} color="blue">
-                      {user.fullname.split(" ")[0][0] +
-                        user.fullname.split(" ")[1][0]}
-                    </Avatar>
+                    <Avatar size={40} src={`https://source.boringavatars.com/beam/120/${user.fullname}/?colors=c1ddc7,f5e8c6,bbcd77,dc8051,f4d279`} />
+                      {/* {user.fullname.split(" ")[0][0] +
+                        user.fullname.split(" ")[1][0]} */}
+                    {/* </Avatar> */}
                     <div>
                       <Text>{user.fullname}</Text>
                       <Text size="xs" color="dimmed">

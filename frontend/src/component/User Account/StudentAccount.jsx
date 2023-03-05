@@ -116,10 +116,11 @@ export default function StudentAccount({ data }) {
   return (
     <>
       <Center mt={20}>
-        <Avatar size={"xl"} radius="xl" color="cyan">
+        {/* <Avatar size={"xl"} radius="xl" color="cyan">
           {data.student.User.fullname.split(" ")[0][0] +
             data.student.User.fullname.split(" ")[1][0]}
-        </Avatar>
+        </Avatar> */}
+        <Avatar size={100} src={`https://source.boringavatars.com/beam/120/${data.student.User.fullname}/?colors=c1ddc7,f5e8c6,bbcd77,dc8051,f4d279`} />
       </Center>
       <Divider
         my={"sm"}
