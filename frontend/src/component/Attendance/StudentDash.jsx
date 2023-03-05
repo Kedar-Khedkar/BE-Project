@@ -25,12 +25,16 @@ export default function StudentDash() {
               <AnimatedProgressBarCircle
                 data={data.totalAvg[0].avg}
                 title={"Your Total Attendance"}
+                dataDisplay={`${data.totalAvg[0].avg}%`}
               ></AnimatedProgressBarCircle>
             </Grid.Col>
             <Grid.Col span={8}>
               <BarChart
                 title={"Your Subjectwise total Attendance"}
-                data={data.subwise}
+                data={data.subwise.map((element) => ({
+                  ...element,
+                  avg: Math.round(Number(element.avg) * 100) / 100,
+                }))}
                 x={"SubjectSubCode"}
                 y={"avg"}
               ></BarChart>

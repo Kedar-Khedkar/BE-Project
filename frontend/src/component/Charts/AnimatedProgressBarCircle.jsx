@@ -30,7 +30,9 @@ export default function AnimatedProgressBarCircle({
                 y: 100 - Number(data),
               },
             ]}
-            colorScale={color ? [color, "gray"] : ["tomato", "gray"]}
+            colorScale={
+              color ? [color, "whitesmoke"] : ["tomato", "whitesmoke"]
+            }
             innerRadius={100}
           />
         )}
