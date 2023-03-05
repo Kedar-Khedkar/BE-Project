@@ -24,6 +24,18 @@ user has claimed and sends them back to the user. */
     res.send({ status: "success", objects: facultySubjects, err: null });
   };
 
+module.exports.getUnclaimedSubjects = async (req, res) => {
+  const claimedList = await Faculty.findAll({
+    where: { userId: req.user.id },
+    attributes: ["SubjectSubCode"],
+  });
+  const subList = claimedList.map((element) => element.SubjectSubCode);
+  const result = await Subject.findAll({
+    where: { subCode: { [Op.notIn]: subList } },
+  });
+  res.send({ status: "success", objects: result, err: null });
+};
+
 module.exports.claimSubjects =
   /* A function that is called when a user makes a post request to the
 route api/faculty/claim. It takes in the subject ids that the user

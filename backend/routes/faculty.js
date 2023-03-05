@@ -15,6 +15,10 @@ router
   .get(isLoggedIn, isFacultyOrAdmin, catchAsync(faculty.getClaimedSubjects));
 
 router
+  .route("/UnclaimedSubjects")
+  .get(isLoggedIn, isFacultyOrAdmin, catchAsync(faculty.getUnclaimedSubjects));
+
+router
   .route("/claimSubjects")
   .post(isLoggedIn, isFacultyOrAdmin, catchAsync(faculty.claimSubjects));
 
