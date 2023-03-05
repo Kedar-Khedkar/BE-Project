@@ -15,7 +15,7 @@ import { ResetPassword } from "./component/Login & Registration/ResetPassword";
 // import PreventReLogin from "./Authentication/PreventReLogin";
 // import AdminRoute from "./Authentication/AdminRoute";
 // import FacultyOrAdminRoute from "./Authentication/FacultyOrAdminRoute";
-import { Center } from "@mantine/core";
+import { Center, Loader } from "@mantine/core";
 const LoginForm = React.lazy(() =>
   import("./component/Login & Registration/Login")
 );
@@ -42,9 +42,14 @@ function App() {
     <div className="App">
       <Suspense
         fallback={
-          <Center  style={{  height: 700 }}>
-            <span class="loader"></span>
-          </Center>
+          <>
+            <Center style={{ height: 700 }}>
+              <span class="loader"></span>
+            </Center>
+            <Center>
+              <Loader size={"xl"} variant={"dots"} color={"black"} />
+            </Center>
+          </>
         }
       >
         <BrowserRouter>
