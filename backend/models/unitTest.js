@@ -1,24 +1,42 @@
 const { sequelize, Sequelize } = require("../utils/database");
 
-const unitTest = sequelize.define("unitTests", {
+const UnitTest = sequelize.define("UnitTests", {
   UT1: {
     type: Sequelize.INTEGER,
+    validate: {
+      max: 50,
+    },
   },
   UT2: {
     type: Sequelize.INTEGER,
+    validate: {
+      max: 50,
+    },
   },
   UT3: {
     type: Sequelize.INTEGER,
+    validate: {
+      max: 50,
+    },
   },
   UT4: {
     type: Sequelize.INTEGER,
+    validate: {
+      max: 50,
+    },
   },
   UT5: {
     type: Sequelize.INTEGER,
+    validate: {
+      max: 50,
+    },
   },
   UT6: {
     type: Sequelize.INTEGER,
+    validate: {
+      max: 50,
+    },
   },
 });
 
-module.exports = { unitTest };
+module.exports = { UnitTest };

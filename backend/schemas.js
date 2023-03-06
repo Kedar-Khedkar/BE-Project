@@ -129,7 +129,7 @@ module.exports.resetpassword = Joi.object({
 });
 
 module.exports.userSchema = Joi.object({
-  user : Joi.object({
+  user: Joi.object({
     fullname: Joi.string()
       .trim()
       .required()
@@ -139,11 +139,27 @@ module.exports.userSchema = Joi.object({
       }),
     email: Joi.string().trim().lowercase().email().required().escapeHTML(),
     role: Joi.string()
-    .trim()
-    .lowercase()
-    .valid("faculty", "student", "admin")
-    .required()
-    .escapeHTML(),
-  }).required()
-  
+      .trim()
+      .lowercase()
+      .valid("faculty", "student", "admin")
+      .required()
+      .escapeHTML(),
+  }).required(),
+}).required();
+
+module.exports.utSchema = Joi.object({
+  unitTest: Joi.object({
+    UT1: Joi.number().integer().max(50).allow(null),
+    UT2: Joi.number().integer().max(50).allow(null),
+    UT3: Joi.number().integer().max(50).allow(null),
+    UT4: Joi.number().integer().max(50).allow(null),
+    UT5: Joi.number().integer().max(50).allow(null),
+    UT6: Joi.number().integer().max(50).allow(null),
+    SubjectSubCode: Joi.string()
+      .trim()
+      .required()
+      .escapeHTML()
+      .pattern(/^[0-9]+$|^[0-9]+[A-Za-z]$/, { name: "subject code" }),
+    StudentUserId: Joi.number().required(),
+  }).required(),
 }).required();
