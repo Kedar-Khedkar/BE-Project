@@ -163,3 +163,16 @@ module.exports.utSchema = Joi.object({
     StudentUserId: Joi.number().required(),
   }).required(),
 }).required();
+
+
+module.exports.studentSchema = Joi.object({
+  student : Joi.object({
+    rollno: Joi.number().integer().required(),
+    curr_sem : Joi.number().integer().max(8).required(),
+    curryear: Joi.number().integer().max(5).required(),
+    examseatno: Joi.string().escapeHTML().allow(null),
+    prn: Joi.string().escapeHTML(),
+    parents_mob_no: Joi.number(),
+    parents_email: Joi.string().trim().lowercase().email().escapeHTML(),
+  })
+})

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
-const { isLoggedIn, isFacultyOrAdmin, validateUser } = require("../middleware");
+const { isLoggedIn, isFacultyOrAdmin, validateUser,validateStudentProfile } = require("../middleware");
 const student = require("../controllers/student");
 const { upload } = require("../computationalUnit/fileupload");
 // const { extractSeatnos } = require("../computationalUnit/mapSeatnos");
@@ -16,7 +16,7 @@ router
   ) /* Calling the getProfileData function in the student controller. */
   .get(isLoggedIn, catchAsync(student.getProfileData))
   /* Calling the updateProfileData function in the student controller. */
-  .put(isLoggedIn, catchAsync(student.updateProfileData))
+  .put(isLoggedIn,validateStudentProfile, catchAsync(student.updateProfileData))
   .delete(isLoggedIn, isFacultyOrAdmin, catchAsync(student.deleteStudent));
 
 router.route("/mapSeatnos").post(upload.single("file"), (req, res) => {
