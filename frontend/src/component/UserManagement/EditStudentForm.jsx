@@ -11,7 +11,7 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
       fullname: data.User.fullname,
       email: data.User.email,
       // id: data.userId,
-      role : "student"
+      role: "student",
     },
     student: {
       curr_sem: data.curr_sem,
@@ -21,6 +21,41 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
       rollno: data.rollno,
     },
   });
+  const [dataSem, setDataSem] = useState(["3", "4", "5", "6", "7", "8"]);
+  const [dataYear, setDataYear] = useState(["2", "3", "4"]);
+ /**
+  * If the year is 2, then set the semesters to 3 and 4. If the year is 3, then set the semesters to 5
+  * and 6. If the year is 4, then set the semesters to 7 and 8.
+  */
+  const handleYearSem = (year) => {
+    if (year === "2") {
+      setDataSem(["3", "4"]);
+    } else if (year === "3") {
+      setDataSem(["5", "6"]);
+    } else if (year === "4") {
+      setDataSem(["7", "8"]);
+    }
+  };
+/**
+ * If the value of the sem variable is 3 or 4, set the value of the dataYear variable to 2.
+ * 
+ * If the value of the sem variable is 5 or 6, set the value of the dataYear variable to 3.
+ * 
+ * If the value of the sem variable is 7 or 8, set the value of the dataYear variable to 4.
+ * 
+ * If the value of the sem variable is anything else, do nothing.
+ */
+  const handleSemYear = (sem) => {
+    if (sem === "3" || sem === "4") {
+      setDataYear(["2"]);
+    }
+    if (sem === "5" || sem === "6") {
+      setDataYear(["3"]);
+    }
+    if (sem === "7" || sem === "8") {
+      setDataYear(["4"]);
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formValue);
@@ -50,7 +85,6 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
             onClose(undefined);
           })
           .catch((res) => {
-            
             showNotification({
               title: "Failed",
               message: res.response.data.err,
@@ -138,7 +172,7 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
           }}
         ></TextInput>
         <NativeSelect
-          data={["3", "4", "5", "6", "7", "8"]}
+          data={dataSem}
           label="Semester"
           value={formValue.student.curr_sem}
           onChange={(e) => {
@@ -146,10 +180,11 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
               ...formValue,
               student: { ...formValue.student, curr_sem: e.target.value },
             });
+            handleSemYear(e.target.value);
           }}
         />
         <NativeSelect
-          data={["2", "3", "4"]}
+          data={dataYear}
           label="Year"
           value={formValue.student.curryear}
           onChange={(e) => {
@@ -157,6 +192,7 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
               ...formValue,
               student: { ...formValue.student, curryear: e.target.value },
             });
+            handleYearSem(e.target.value);
           }}
         />
         <Button type="submit" radius="md" mt={12} leftIcon={<IconCheck />}>
