@@ -4,11 +4,13 @@ const {
   subjectSchema,
   forgotpassword,
   resetpassword,
-  userSchema
+  userSchema,
+  utSchema,
 } = require("./schemas");
 
 const { User } = require("./models/user");
 const ExpressError = require("./utils/ExpressError");
+const { Subject } = require("./models/subject");
 
 /* This is a middleware function that validates the student registration form. */
 module.exports.validateStudent = (req, res, next) => {
@@ -21,9 +23,9 @@ module.exports.validateStudent = (req, res, next) => {
   }
 };
 
-module.exports.validateUser = (req,res, next) => {
-  const {error} = userSchema.validate(req.body);
-  if(error){
+module.exports.validateUser = (req, res, next) => {
+  const { error } = userSchema.validate(req.body);
+  if (error) {
     const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(msg, 400);
     // res.status(400).send({
@@ -31,10 +33,10 @@ module.exports.validateUser = (req,res, next) => {
     //   objects: null,
     //   err: msg
     // })
-  }else{
+  } else {
     next();
   }
-}
+};
 
 /* This is a middleware function that checks if the user is logged in or not. If the user is not logged
 in, it will redirect the user to the login page. */
@@ -71,13 +73,12 @@ module.exports.validateForgetRequest = (req, res, next) => {
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(msg, 400);
-    
   } else {
     next();
   }
 };
 
- /* This is a middleware function that validates the reset password form. */
+/* This is a middleware function that validates the reset password form. */
 module.exports.validateResetRequest = (req, res, next) => {
   const { error } = resetpassword.validate(req.body);
   if (error) {
@@ -138,5 +139,31 @@ module.exports.isAdmin = async (req, res, next) => {
       data: null,
       err: "You Don't have the required permissions",
     });
+  }
+};
+
+module.exports.validateUTquery = async (req, res, next) => {
+  const subject = await Subject.findOne({
+    where: { subCode: req.query.SubjectSubCode },
+    attributes: ["sem"],
+  });
+  if (subject.sem == req.query.sem) {
+    next();
+  } else {
+    res.status(400).send({
+      status: "error",
+      objects: null,
+      err: "Subject Code and sem do not match Invalid query",
+    });
+  }
+};
+
+module.exports.validateUnitTest = (req, res, next) => {
+  const { error } = utSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
   }
 };
