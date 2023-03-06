@@ -26,6 +26,7 @@
         "kind": "build",
         "isDefault": true
       },
+      "dependsOn": ["npm: i"],
       "type": "npm",
       "script": "dev",
       "problemMatcher": ["$eslint-compact"],
