@@ -42,11 +42,11 @@ export default function StudentAccount({ data }) {
     curryear: data.student.curryear,
   };
 
-  const initial = {
-    fullname: data.student.User.fullname,
-    email: data.student.User.email,
-  };
-  const formPersonal = useForm({ initial });
+  // const initial = {
+  //   fullname: data.student.User.fullname,
+  //   email: data.student.User.email,
+  // };
+  // const formPersonal = useForm({ initial });
 
   const form = useForm({ initialValues });
   console.log(initialValues);
@@ -81,37 +81,37 @@ export default function StudentAccount({ data }) {
       });
     console.log(form.values);
   };
-  const updatePersonalData = (event, id) => {
-    event.preventDefault();
-    axios
-      .put(
-        `http://localhost:5000/users/${id}`,
-        { user: formPersonal.values },
-        { withCredentials: true }
-      )
-      .then((res) => {
-        showNotification({
-          title: "Success",
-          message: "Information Updated Successfully",
-          icon: <IconCheck />,
-          color: "teal",
-          autoClose: 2000,
-          radius: "xl",
-        });
-        console.log(res);
-      })
-      .catch((res) => {
-        showNotification({
-          title: "Failed",
-          message: "Something went wrong",
-          icon: <IconX />,
-          color: "red",
-          autoClose: 3500,
-          radius: "xl",
-        });
-      });
-    console.log(formPersonal.values);
-  };
+  // const updatePersonalData = (event, id) => {
+  //   event.preventDefault();
+  //   axios
+  //     .put(
+  //       `http://localhost:5000/users/${id}`,
+  //       { user: formPersonal.values },
+  //       { withCredentials: true }
+  //     )
+  //     .then((res) => {
+  //       showNotification({
+  //         title: "Success",
+  //         message: "Information Updated Successfully",
+  //         icon: <IconCheck />,
+  //         color: "teal",
+  //         autoClose: 2000,
+  //         radius: "xl",
+  //       });
+  //       console.log(res);
+  //     })
+  //     .catch((res) => {
+  //       showNotification({
+  //         title: "Failed",
+  //         message: "Something went wrong",
+  //         icon: <IconX />,
+  //         color: "red",
+  //         autoClose: 3500,
+  //         radius: "xl",
+  //       });
+  //     });
+  //   console.log(formPersonal.values);
+  // };
 
   return (
     <>
@@ -201,7 +201,7 @@ export default function StudentAccount({ data }) {
             </Button>
           </form>
         </Card>
-        <h1>Personal Information</h1>
+        {/* <h1>Personal Information</h1>
         <Card>
           <form
             onSubmit={(e) => {
@@ -228,7 +228,7 @@ export default function StudentAccount({ data }) {
               Edit
             </Button>
           </form>
-        </Card>
+        </Card> */}
       </Container>
     </>
   );
