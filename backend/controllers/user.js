@@ -1,5 +1,6 @@
 const { User } = require("../models/user");
 const { Student } = require("../models/student");
+const { Parents } = require("../models/parents");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
 const { sendMail } = require("../utils/email");
@@ -21,6 +22,11 @@ database. */
     user.passSalt = bcrypt.genSaltSync(10);
     user.passHash = bcrypt.hashSync(password, user.passSalt);
     const result = await User.create(user);
+    if (result.role === "student") {
+      const id = result.id;
+      const student = await Student.create({ userId: id });
+      const parent = await Parents.create({ StudentUserId: id });
+    }
     return result;
   };
 

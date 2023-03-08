@@ -1,5 +1,6 @@
 const { Student } = require("../models/student");
 const { User } = require("../models/user");
+const { Parents } = require("../models/parents");
 
 module.exports.getProfileData = async (
   req,
@@ -25,8 +26,18 @@ the student data. */
         where: { userId: id },
         default: { userId: id },
         /* A way to include the data of another table in the response. */
-        include: { model: User, attributes: ["email", "fullname"] },
+        include: [
+          { model: User, attributes: ["email", "fullname"] },
+          { model: Parents },
+        ],
       });
+      if (student[1]) {
+        const parent = await Parents.create({
+          StudentUserId: student[0].userId,
+        });
+        student[0].parent = parent;
+      }
+
       /* This is a way to check if the student has entered all the required data. If not `isFirstLogin` is set */
       const dataRequired =
         student[0].rollno === -1 || student[0].prn === "required" || student[1];
