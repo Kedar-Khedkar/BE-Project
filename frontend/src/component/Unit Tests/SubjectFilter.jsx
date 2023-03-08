@@ -28,16 +28,7 @@ export default function SubjectFilter({ onChange }) {
     });
     console.log(SubCode, sem);
     if (sem !== -1) {
-      axios
-        .get(
-          `http://localhost:5000/unitTest?SubjectSubCode=${SubCode}&sem=${sem}`,
-          {
-            withCredentials: true,
-          }
-        )
-        .then((res) => {
-          onChange(res.data.objects);
-        });
+      onChange(SubCode, sem);
     }
   };
   return (

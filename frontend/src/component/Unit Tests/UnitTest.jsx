@@ -5,7 +5,7 @@ import { IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 
-export default function UnitTest({ data }) {
+export default function UnitTest({ data, refresh, filters }) {
   console.log(data);
   const [focus, setfocus] = useState(undefined);
   const [currEdit, setCurrEdit] = useState(undefined);
@@ -27,6 +27,7 @@ export default function UnitTest({ data }) {
             autoClose: 2000,
             radius: "xl",
           });
+          refresh(filters.subcode, filters.sem);
           // console.log(res);
         })
         .catch((res) => {

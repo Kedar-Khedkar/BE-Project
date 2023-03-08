@@ -10,6 +10,20 @@ export default function MarksTabs() {
   const navigate = useNavigate();
   const { tabValue } = useParams();
   const [unitTestData, setUnitTestData] = useState([]);
+  const [filters, setFilters] = useState({ subcode: null, sem: null });
+  const getUTData = (subcode, sem) => {
+    setFilters({ subcode: subcode, sem: sem });
+    axios
+      .get(
+        `http://localhost:5000/unitTest?SubjectSubCode=${subcode}&sem=${sem}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        setUnitTestData(res.data.objects);
+      });
+  };
   return (
     <Container>
       <Anchor href="/dashboard" color={"gray"} mt={24}>
@@ -32,8 +46,8 @@ export default function MarksTabs() {
         </Tabs.List>
 
         <Tabs.Panel value="1" pt="xs">
-          <SubjectFilter onChange={setUnitTestData} />
-          <UnitTest data={unitTestData} />
+          <SubjectFilter onChange={getUTData} />
+          <UnitTest data={unitTestData} refresh={getUTData} filters={filters} />
         </Tabs.Panel>
 
         <Tabs.Panel value="2" pt="xs"></Tabs.Panel>
