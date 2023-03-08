@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const { Student } = require("../models/student");
 const { User } = require("../models/user");
+const { Parents } = require("../models/parents");
 
 module.exports.createUsers = async (dataArray) => {
   /* Creating a salt and hash for each user and then creating the user
@@ -21,6 +22,7 @@ module.exports.associateStudentData = async (dataArray) => {
       prn: dataArray[i].prn,
     };
     await Student.create(student);
+    await Parents.create({ StudentUserId: 10 + i });
   }
 };
 
