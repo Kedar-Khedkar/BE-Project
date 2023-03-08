@@ -3,10 +3,13 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import SubjectFilter from "../component/Unit Tests/SubjectFilter";
+import UnitTest from "../component/Unit Tests/UnitTest";
 
 export default function MarksTabs() {
   const navigate = useNavigate();
   const { tabValue } = useParams();
+  const [unitTestData, setUnitTestData] = useState([]);
   return (
     <Container>
       <Anchor href="/dashboard" color={"gray"} mt={24}>
@@ -28,7 +31,10 @@ export default function MarksTabs() {
           <Tabs.Tab value="3">Generate Report</Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="1" pt="xs"></Tabs.Panel>
+        <Tabs.Panel value="1" pt="xs">
+          <SubjectFilter onChange={setUnitTestData} />
+          <UnitTest data={unitTestData} />
+        </Tabs.Panel>
 
         <Tabs.Panel value="2" pt="xs"></Tabs.Panel>
 
