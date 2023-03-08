@@ -28,7 +28,7 @@ the student data. */
         /* A way to include the data of another table in the response. */
         include: [
           { model: User, attributes: ["email", "fullname"] },
-          { model: Parents },
+          { model: Parents, attributes: ["parentsEmail", "parentsMobNo"] },
         ],
       });
       if (student[1]) {
@@ -115,19 +115,19 @@ It checks if the user provided any filters and retrieves the data accordingy. */
           // curryear: Number(filter.curryear),
           curr_sem: Number(filter.curr_sem),
         },
-        include: {
+        include: [{
           model: User,
           attributes: ["fullname", "email"],
           required: true,
-        },
+        }, {model: Parents, attributes:["parentsEmail", "parentsMobNo"]}],
       });
     } else {
       students = await Student.findAll({
-        include: {
+        include: [{
           model: User,
           attributes: ["fullname", "email"],
           required: true,
-        },
+        }, {model: Parents, attributes:["parentsEmail", "parentsMobNo"]}],
       });
     }
     res.send({ status: "success", objects: students, err: null });
