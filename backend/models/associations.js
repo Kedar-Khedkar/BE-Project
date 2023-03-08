@@ -6,6 +6,7 @@ const { Attendance } = require("./attendance");
 const { resetPassword } = require("./resetPassword");
 const { Mark } = require("./mark");
 const { UnitTest } = require("./unitTest");
+const {Parents} = require("./parents");
 
 /* Creating the relationships between the tables. */
 //ONE-TO-ONE USER-FACULTY
@@ -34,6 +35,10 @@ Student.belongsTo(User, {
   foreignKey: "userId",
 });
 
+//one-to-one student-parent
+Student.hasOne(Parents, {foreignKey: {allowNull: false}})
+Parents.belongsTo(Student);
+
 //ONE-TO-MANY SUBJECT-FACULTY
 Subject.hasMany(Faculty, { foreignKey: { allowNull: false } });
 Faculty.belongsTo(Subject);
@@ -51,3 +56,4 @@ Mark.belongsTo(Subject);
 Student.hasMany(UnitTest);
 UnitTest.belongsTo(Student);
 UnitTest.belongsTo(Subject);
+
