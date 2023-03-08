@@ -50,9 +50,9 @@ export default function UnitTest({ data }) {
       <td>
         <NumberInput
           defaultValue={element.UT1}
-          variant={focus === element.id ? "filled" : "unstyled"}
+          variant={focus === "ut1" ? "filled" : "unstyled"}
           onFocus={() => {
-            setfocus(element.id);
+            setfocus("ut1");
           }}
           max={50}
           min={0}
@@ -74,9 +74,9 @@ export default function UnitTest({ data }) {
       <td>
         <NumberInput
           defaultValue={element.UT2}
-          variant={focus === element.id ? "filled" : "unstyled"}
+          variant={focus === "ut2" ? "filled" : "unstyled"}
           onFocus={() => {
-            setfocus(element.id);
+            setfocus("ut2");
           }}
           max={50}
           min={0}
@@ -98,9 +98,9 @@ export default function UnitTest({ data }) {
       <td>
         <NumberInput
           defaultValue={element.UT3}
-          variant={focus === element.id ? "filled" : "unstyled"}
+          variant={focus === "ut3" ? "filled" : "unstyled"}
           onFocus={() => {
-            setfocus(element.id);
+            setfocus("ut3");
           }}
           max={50}
           min={0}
@@ -122,9 +122,9 @@ export default function UnitTest({ data }) {
       <td>
         <NumberInput
           defaultValue={element.UT4}
-          variant={focus === element.id ? "filled" : "unstyled"}
+          variant={focus === "ut4" ? "filled" : "unstyled"}
           onFocus={() => {
-            setfocus(element.id);
+            setfocus("ut4");
           }}
           max={50}
           min={0}
@@ -146,9 +146,9 @@ export default function UnitTest({ data }) {
       <td>
         <NumberInput
           defaultValue={element.UT5}
-          variant={focus === element.id ? "filled" : "unstyled"}
+          variant={focus === "ut5" ? "filled" : "unstyled"}
           onFocus={() => {
-            setfocus(element.id);
+            setfocus("ut5");
           }}
           max={50}
           min={0}
@@ -170,9 +170,9 @@ export default function UnitTest({ data }) {
       <td>
         <NumberInput
           defaultValue={element.UT6}
-          variant={focus === element.id ? "filled" : "unstyled"}
+          variant={focus === "ut6" ? "filled" : "unstyled"}
           onFocus={() => {
-            setfocus(element.id);
+            setfocus("ut6");
           }}
           max={50}
           min={0}
