@@ -14,4 +14,4 @@ router.route("/:id").put(
   })
 );
 
-module.exports = { router };
+module.exports = router;

@@ -11,7 +11,7 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
       fullname: data.User.fullname,
       email: data.User.email,
       // id: data.userId,
-      role : "student"
+      role: "student",
     },
     student: {
       curr_sem: data.curr_sem,
@@ -19,6 +19,10 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
       examseatno: data.examseatno,
       prn: data.prn,
       rollno: data.rollno,
+    },
+    parent: {
+      parentsEmail: data.Parent.parentsEmail,
+      parentsMobNo: data.Parent.parentsMobNo,
     },
   });
   const handleSubmit = (e) => {
@@ -38,19 +42,36 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
             { withCredentials: true }
           )
           .then((res) => {
-            showNotification({
-              title: "Success",
-              message: "Information Updated Successfully",
-              icon: <IconCheck />,
-              color: "teal",
-              autoClose: 2000,
-              radius: "xl",
-            });
-            reqRefresh("students");
-            onClose(undefined);
+            axios
+              .put(
+                `http://localhost:5000/parents/${data.userId}`,
+                { ...formValue.parent },
+                { withCredentials: true }
+              )
+              .then((res) => {
+                showNotification({
+                  title: "Success",
+                  message: "Information Updated Successfully",
+                  icon: <IconCheck />,
+                  color: "teal",
+                  autoClose: 2000,
+                  radius: "xl",
+                });
+                reqRefresh("students");
+                onClose(undefined);
+              })
+              .catch((res) => {
+                showNotification({
+                  title: "Failed",
+                  message: res.response.data.err,
+                  icon: <IconX />,
+                  color: "red",
+                  autoClose: false,
+                  radius: "xl",
+                });
+              });
           })
           .catch((res) => {
-            
             showNotification({
               title: "Failed",
               message: res.response.data.err,
@@ -161,18 +182,25 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
         />
         <TextInput
           label="Parents Mobile Number"
-          // value={formValue.student.prn}
-          // onChange={(e) => {
-          //   setFormValue({
-          //     ...formValue,
-          //     student: { ...formValue.student, prn: e.target.value },
-          //   });
-          // }}
+          value={formValue.parent.parentsMobNo}
+          onChange={(e) => {
+            setFormValue({
+              ...formValue,
+              parent: { ...formValue.parent, parentsMobNo: e.target.value },
+            });
+          }}
         ></TextInput>
-        <TextInput 
-        label="Parents Email"
+        <TextInput
+          label="Parents Email"
+          value={formValue.parent.parentsEmail}
+          onChange={(e) => {
+            setFormValue({
+              ...formValue,
+              parent: { ...formValue.parent, parentsEmail: e.target.value },
+            });
+          }}
         ></TextInput>
-        
+
         <Button type="submit" radius="md" mt={12} leftIcon={<IconCheck />}>
           Submit
         </Button>
