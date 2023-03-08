@@ -34,12 +34,17 @@ const useStyles = createStyles((theme) => ({
 export default function StudentAccount({ data }) {
   const [isNotEdit, setIsNotEdit] = useState(true);
   const { classes, theme } = useStyles();
+  console.log(data);
+  console.log(data.student.Parent.parentsEmail, data.student.Parent.parentsMobNo);
+
   const initialValues = {
     prn: data.student.prn,
     rollno: data.student.rollno,
     examseatno: data.student.examseatno,
     curr_sem: data.student.curr_sem,
     curryear: data.student.curryear,
+    // parentsMobNo: data.Parent.parentsMobNo,
+    // parentsEmail : data.Parent.parentsEmail,
   };
 
   // const initial = {
@@ -162,6 +167,7 @@ export default function StudentAccount({ data }) {
             {...form.getInputProps("email")} description="email associated with your account"/> */}
             <TextInput
               type={Number}
+              mt="md"
               disabled={isNotEdit}
               label="PRN"
               defaultValue={data.student.prn}
@@ -170,6 +176,7 @@ export default function StudentAccount({ data }) {
             />
             <TextInput
               type={Number}
+              mt="md"
               disabled={isNotEdit}
               label="Roll No"
               defaultValue={data.student.rollno}
@@ -178,6 +185,7 @@ export default function StudentAccount({ data }) {
             />
             <TextInput
               type={Number}
+              mt="md"
               disabled={isNotEdit}
               label="Exam Seat No"
               defaultValue={data.student.examseatno}
@@ -186,16 +194,31 @@ export default function StudentAccount({ data }) {
             />
             <TextInput
               type={Number}
+              mt="md"
               disabled={true}
               label="Current Semester"
               defaultValue={data.student.curr_sem}
             />
             <TextInput
               type={Number}
+              mt="md"
               disabled={true}
               label="Current Year"
               defaultValue={data.student.curryear}
             />
+            <TextInput
+            label="Parents Email"
+            mt="md"
+            disabled={true}
+            defaultValue={data.student.Parent.parentsEmail}
+            />
+            <TextInput 
+            label="Parents Mobile Number"
+            mt="md"
+            disabled={true}
+            defaultValue={data.student.Parent.parentsMobNo}
+            />
+
             <Button mt={12} type="submit" disabled={isNotEdit}>
               Edit
             </Button>
