@@ -11,29 +11,31 @@ module.exports.getOrCreate = async (req, res) => {
   for (let student = 0; student < students.length; student++) {
     let id = students[student].userId;
     result.push(
-      await UnitTest.findOrCreate({
-        where: {
-          StudentUserId: id,
-          SubjectSubCode: req.query.SubjectSubCode,
-        },
-        defaults: {
-          StudentUserId: id,
-          SubjectSubCode: req.query.SubjectSubCode,
-        },
-        include: [
-          {
-            model: Student,
-            attributes: ["rollno"],
-            order: ["rollno"],
-            required: true,
-            include: {
-              model: User,
-              attributes: ["fullname"],
-              required: true,
-            },
+      (
+        await UnitTest.findOrCreate({
+          where: {
+            StudentUserId: id,
+            SubjectSubCode: req.query.SubjectSubCode,
           },
-        ],
-      })
+          defaults: {
+            StudentUserId: id,
+            SubjectSubCode: req.query.SubjectSubCode,
+          },
+          include: [
+            {
+              model: Student,
+              attributes: ["rollno"],
+              order: ["rollno"],
+              required: true,
+              include: {
+                model: User,
+                attributes: ["fullname"],
+                required: true,
+              },
+            },
+          ],
+        })
+      )[0]
     );
   }
   res.send({ status: "success", objects: result, err: null });
