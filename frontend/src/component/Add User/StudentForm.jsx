@@ -4,7 +4,8 @@ import {
   SimpleGrid,
   TextInput,
   NumberInput,
-  Button
+  Button,
+  NativeSelect,
 } from "@mantine/core";
 import { IconUserPlus, IconCheck, IconX } from "@tabler/icons-react";
 import axios from "axios";
@@ -17,22 +18,28 @@ export function StudentForm() {
       user: {
         email: "",
         fullname: "",
-        phone: 0,
-        parentsphone: 0,
-        rollnumber: 0,
-        batch: "",
-        prnnumber: "",
         role: "student",
+      },
+      student: {
+        rollno: null,
+        examseatno: "",
+        curr_sem: "3",
+        prn: "",
+        curryear: "2",
+      },
+      parent: {
+        parentsEmail: "",
+        parentsMobNo: "",
       },
     },
 
     // functions will be used to validate values at corresponding key
     validate: {
-      user: {
-        phone: (value) => String(value).length === 10 ? null : "Invalid phone number",
-        email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
-        fullname: (value) => typeof value === "string" ? null : "Invalid name",
-      },
+      // user: {
+      //   phone: (value) => String(value).length === 10 ? null : "Invalid phone number",
+      //   email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      //   fullname: (value) => typeof value === "string" ? null : "Invalid name",
+      // },
     },
   });
   const handleSubmitStudent = (event, values) => {
@@ -55,13 +62,20 @@ export function StudentForm() {
             message: response.data.err,
             icon: <IconX />,
             color: "red",
-            autoClose: 2000,
+            autoClose: 3500,
             radius: "xl",
           });
         }
       })
-      .catch(function (response) {
-        console.log(response.data);
+      .catch(function (res) {
+        showNotification({
+          title: "Fail",
+          message: res.response.data.err,
+          icon: <IconX />,
+          color: "red",
+          autoClose: 3500,
+          radius: "xl",
+        });
       });
   };
   return (
@@ -78,56 +92,73 @@ export function StudentForm() {
                 placeholder="Your name"
                 label="Name"
                 withAsterisk
-                {...form.getInputProps("user.fullname")} />
+                {...form.getInputProps("user.fullname")}
+              />
             </div>
             <div>
               <TextInput
                 placeholder="dev@mmcoe.edu.in"
                 label="Email"
-                {...form.getInputProps("user.email")} />
-            </div>
-            <div>
-              <NumberInput
-                placeholder="0000000000"
-                label="Phone"
-                hideControls
-                {...form.getInputProps("user.phone")} />
-            </div>
-            <div>
-              <NumberInput
-                placeholder="0000000000"
-                label="Parents Phone number"
-                hideControls
-                {...form.getInputProps("user.parentsphone")} />
+                {...form.getInputProps("user.email")}
+              />
             </div>
             <div>
               <TextInput
-                placeholder="batch"
-                label="Batch"
-                {...form.getInputProps("user.batch")} />
+                placeholder="parent@email.com"
+                label="Parent's Email"
+                {...form.getInputProps("parent.parentsEmail")}
+              />
             </div>
             <div>
               <NumberInput
-                placeholder=""
+                placeholder="0000000000"
+                label="Parent's Phone number"
+                hideControls
+                {...form.getInputProps("parent.parentsMobNo")}
+              />
+            </div>
+            <div>
+              <TextInput
+                placeholder="7xxxxxxxxx"
+                label="Exam Seat number"
+                {...form.getInputProps("student.examseatno")}
+              />
+            </div>
+            <div>
+              <NumberInput
+                placeholder="1"
                 label="Roll number"
                 hideControls
-                {...form.getInputProps("user.rollnumber")} />
+                {...form.getInputProps("student.rollno")}
+              />
             </div>
             <div>
               <TextInput
-                placeholder="prn "
+                placeholder="xxxxxxxx"
                 label="PRN number"
-                {...form.getInputProps("user.prnnumber")} />
+                {...form.getInputProps("student.prn")}
+              />
+            </div>
+            <div>
+              <NativeSelect
+                placeholder="3"
+                label="Current semester"
+                data={["3", "4", "5", "6", "7", "8"]}
+                {...form.getInputProps("student.curr_sem")}
+              />
+            </div>
+            <div>
+              <NativeSelect
+                placeholder="3"
+                label="Current academic year"
+                data={["2", "3", "4"]}
+                {...form.getInputProps("student.curr  year")}
+              />
             </div>
           </SimpleGrid>
           <Space h="md" />
           <Container size={500} px={0}>
-            <Button
-              fullWidth
-            
-              type="submit"
-              leftIcon={<IconUserPlus />}
-            >
+            <Button fullWidth type="submit" leftIcon={<IconUserPlus />}>
               Add User
             </Button>
           </Container>

@@ -18,14 +18,25 @@ const genPassword =
 const register =
   /* This is a function that takes in a user and password and creates a user in the
 database. */
-  async (user, password) => {
+  async (user, password, studentdata) => {
     user.passSalt = bcrypt.genSaltSync(10);
     user.passHash = bcrypt.hashSync(password, user.passSalt);
     const result = await User.create(user);
     if (result.role === "student") {
       const id = result.id;
-      const student = await Student.create({ userId: id });
-      const parent = await Parents.create({ StudentUserId: id });
+      if (!studentdata) {
+        const student = await Student.create({ userId: id });
+        const parent = await Parents.create({ StudentUserId: id });
+      } else {
+        const student = await Student.create({
+          ...studentdata.student,
+          userId: id,
+        });
+        const parent = await Parents.create({
+          ...studentdata.parent,
+          StudentUserId: id,
+        });
+      }
     }
     return result;
   };
@@ -88,7 +99,14 @@ a user in the database. If the user is successfully created it sends email to th
     } else {
       //   let password = genPassword();
       let password = "password";
-      await register(user, password);
+      if (req.body.student && req.body.parent) {
+        await register(user, password, {
+          student: { ...req.body.student },
+          parent: { ...req.body.parent },
+        });
+      } else {
+        await register(user, password);
+      }
       // sendMail(
       //   user.email,
       //   "Account Details",
