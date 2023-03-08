@@ -1,16 +1,13 @@
-const {sequelize, Sequelize} = require("../utils/database");
+const { sequelize, Sequelize } = require("../utils/database");
 
-const Parents = 
-sequelize.define(
-    "Parents",{
-        parentsEmail: {
-            type: Sequelize.STRING,
-            unique: true,
-        },
-        parentsMobNo: {
-            type: Sequelize.STRING,
-        },
-    }
-)
+const Parent = sequelize.define("Parents", {
+  email: {
+    type: Sequelize.STRING,
+    unique: true,
+  },
+  phone: {
+    type: Sequelize.STRING,
+  },
+});
 
-module.exports = {Parents};
+module.exports = { Parent };

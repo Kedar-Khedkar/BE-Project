@@ -35,7 +35,7 @@ export default function StudentAccount({ data }) {
   const [isNotEdit, setIsNotEdit] = useState(true);
   const { classes, theme } = useStyles();
   console.log(data);
-  console.log(data.student.Parent.parentsEmail, data.student.Parent.parentsMobNo);
+  console.log(data.student.Parent.email, data.student.Parent.phone);
 
   const initialValues = {
     prn: data.student.prn,
@@ -43,8 +43,8 @@ export default function StudentAccount({ data }) {
     examseatno: data.student.examseatno,
     curr_sem: data.student.curr_sem,
     curryear: data.student.curryear,
-    // parentsMobNo: data.Parent.parentsMobNo,
-    // parentsEmail : data.Parent.parentsEmail,
+    // phone: data.Parent.phone,
+    // email : data.Parent.email,
   };
 
   // const initial = {
@@ -125,7 +125,10 @@ export default function StudentAccount({ data }) {
           {data.student.User.fullname.split(" ")[0][0] +
             data.student.User.fullname.split(" ")[1][0]}
         </Avatar> */}
-        <Avatar size={100} src={`https://source.boringavatars.com/beam/120/${data.student.User.fullname}/?colors=c1ddc7,f5e8c6,bbcd77,dc8051,f4d279`} />
+        <Avatar
+          size={100}
+          src={`https://source.boringavatars.com/beam/120/${data.student.User.fullname}/?colors=c1ddc7,f5e8c6,bbcd77,dc8051,f4d279`}
+        />
       </Center>
       <Divider
         my={"sm"}
@@ -207,16 +210,16 @@ export default function StudentAccount({ data }) {
               defaultValue={data.student.curryear}
             />
             <TextInput
-            label="Parents Email"
-            mt="md"
-            disabled={true}
-            defaultValue={data.student.Parent.parentsEmail}
+              label="Parent Email"
+              mt="md"
+              disabled={true}
+              defaultValue={data.student.Parent.email}
             />
-            <TextInput 
-            label="Parents Mobile Number"
-            mt="md"
-            disabled={true}
-            defaultValue={data.student.Parent.parentsMobNo}
+            <TextInput
+              label="Parent Mobile Number"
+              mt="md"
+              disabled={true}
+              defaultValue={data.student.Parent.phone}
             />
 
             <Button mt={12} type="submit" disabled={isNotEdit}>

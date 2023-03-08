@@ -21,8 +21,8 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
       rollno: data.rollno,
     },
     parent: {
-      parentsEmail: data.Parent.parentsEmail,
-      parentsMobNo: data.Parent.parentsMobNo,
+      email: data.Parent.email,
+      phone: data.Parent.phone,
     },
   });
   const handleSubmit = (e) => {
@@ -181,22 +181,22 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
           }}
         />
         <TextInput
-          label="Parents Mobile Number"
-          value={formValue.parent.parentsMobNo}
+          label="Parent Mobile Number"
+          value={formValue.parent.phone}
           onChange={(e) => {
             setFormValue({
               ...formValue,
-              parent: { ...formValue.parent, parentsMobNo: e.target.value },
+              parent: { ...formValue.parent, phone: e.target.value },
             });
           }}
         ></TextInput>
         <TextInput
-          label="Parents Email"
-          value={formValue.parent.parentsEmail}
+          label="Parent Email"
+          value={formValue.parent.email}
           onChange={(e) => {
             setFormValue({
               ...formValue,
-              parent: { ...formValue.parent, parentsEmail: e.target.value },
+              parent: { ...formValue.parent, email: e.target.value },
             });
           }}
         ></TextInput>

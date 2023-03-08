@@ -1,6 +1,6 @@
 const { User } = require("../models/user");
 const { Student } = require("../models/student");
-const { Parents } = require("../models/parents");
+const { Parent } = require("../models/parents");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
 const { sendMail } = require("../utils/email");
@@ -26,13 +26,13 @@ database. */
       const id = result.id;
       if (!studentdata) {
         const student = await Student.create({ userId: id });
-        const parent = await Parents.create({ StudentUserId: id });
+        const parent = await Parent.create({ StudentUserId: id });
       } else {
         const student = await Student.create({
           ...studentdata.student,
           userId: id,
         });
-        const parent = await Parents.create({
+        const parent = await Parent.create({
           ...studentdata.parent,
           StudentUserId: id,
         });

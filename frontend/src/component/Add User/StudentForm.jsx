@@ -28,8 +28,8 @@ export function StudentForm() {
         curryear: "2",
       },
       parent: {
-        parentsEmail: "",
-        parentsMobNo: "",
+        email: "",
+        phone: "",
       },
     },
 
@@ -106,7 +106,7 @@ export function StudentForm() {
               <TextInput
                 placeholder="parent@email.com"
                 label="Parent's Email"
-                {...form.getInputProps("parent.parentsEmail")}
+                {...form.getInputProps("parent.email")}
               />
             </div>
             <div>
@@ -114,7 +114,7 @@ export function StudentForm() {
                 placeholder="0000000000"
                 label="Parent's Phone number"
                 hideControls
-                {...form.getInputProps("parent.parentsMobNo")}
+                {...form.getInputProps("parent.phone")}
               />
             </div>
             <div>
