@@ -97,6 +97,12 @@ export default function StudentManagementTable({ data, reqRefresh }) {
         <Text size="sm">{item.curryear}</Text>
       </td>
       <td>
+      <Text size="sm">{item.Parent.parentsMobNo}</Text>
+      </td>
+      <td>
+      <Text size="sm">{item.Parent.parentsEmail}</Text>
+      </td>
+      <td>
         <Group>
           <ActionIcon
             onClick={() => {
@@ -160,6 +166,8 @@ export default function StudentManagementTable({ data, reqRefresh }) {
               <th>PRN</th>
               <th>Semester</th>
               <th>Year</th>
+              <th>Parent's Mobile Number</th>
+              <th>Parent's Email</th>
               <th>Actions</th>
             </tr>
           </thead>

@@ -159,6 +159,20 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
             });
           }}
         />
+        <TextInput
+          label="Parents Mobile Number"
+          // value={formValue.student.prn}
+          // onChange={(e) => {
+          //   setFormValue({
+          //     ...formValue,
+          //     student: { ...formValue.student, prn: e.target.value },
+          //   });
+          // }}
+        ></TextInput>
+        <TextInput 
+        label="Parents Email"
+        ></TextInput>
+        
         <Button type="submit" radius="md" mt={12} leftIcon={<IconCheck />}>
           Submit
         </Button>
