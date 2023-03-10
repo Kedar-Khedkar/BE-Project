@@ -42,7 +42,7 @@ export default function AttendanceFilter({ children, onChange, reqData }) {
   return (
     <Container>
       <Grid gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
-        <Grid.Col span={4}>
+        <Grid.Col span={6}>
           <NativeSelect
             data={selectData}
             label="Select Subject"
@@ -56,7 +56,7 @@ export default function AttendanceFilter({ children, onChange, reqData }) {
             icon={<IconBooks size={24} />}
           />
         </Grid.Col>
-        <Grid.Col span={4}>
+        <Grid.Col span={6}>
           <DatePicker
             label="Select Date"
             description="Choose the date you wish to see attendance for"
@@ -72,7 +72,7 @@ export default function AttendanceFilter({ children, onChange, reqData }) {
             placeholder="select a range"
           />
         </Grid.Col>
-        <Grid.Col span={4}>
+        {/* <Grid.Col span={4}>
           <NativeSelect
             data={["2", "3", "4"]}
             label="Select Year"
@@ -86,7 +86,7 @@ export default function AttendanceFilter({ children, onChange, reqData }) {
             icon={<IconSchool size={24} />}
             withAsterisk
           />
-        </Grid.Col>
+        </Grid.Col> */}
       </Grid>
       {children}
     </Container>
