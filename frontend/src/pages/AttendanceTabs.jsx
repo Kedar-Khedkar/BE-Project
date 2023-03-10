@@ -6,12 +6,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import AttendanceDash from "../component/Attendance/AttendanceDash";
 import { useNavigate, useParams } from "react-router-dom";
+import AttendanceReport from "../component/Spreadsheets/AttendanceReport";
 
 export default function AttendanceTabs() {
   const navigate = useNavigate();
   const { tabValue } = useParams();
   const [subjectList, setSubjectList] = useState();
   const [stats, setStats] = useState();
+  const [attendData, setAttendData] = useState([]);
   const [filters, setFilters] = useState({
     date: new Date().toISOString().slice(0, 10),
   });
@@ -25,6 +27,7 @@ export default function AttendanceTabs() {
   };
   const getData = (data) => {
     console.log(data);
+    setAttendData(data.objects);
   };
 
   useEffect(() => {
@@ -83,6 +86,10 @@ export default function AttendanceTabs() {
         <Tabs.Panel value="4" pt="xs">
           Generate Report
           <AttendanceFilter onChange={getData}></AttendanceFilter>
+          <AttendanceReport
+            data={attendData}
+            filters={filters}
+          ></AttendanceReport>
         </Tabs.Panel>
       </Tabs>
     </Container>
