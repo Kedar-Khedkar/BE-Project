@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.4",
+    "@handsontable/react": "^12.3.1",
     "@mantine/carousel": "^5.10.3",
     "@mantine/core": "^5.10.3",
     "@mantine/dates": "^5.10.3",
@@ -22,6 +23,7 @@
     "bootstrap-icons": "^1.9.1",
     "dayjs": "^1.11.7",
     "embla-carousel-react": "^7.0.9",
+    "handsontable": "^12.3.1",
     "js-cookie": "^3.0.1",
     "node-sass": "^7.0.3",
     "react": "^18.2.0",
