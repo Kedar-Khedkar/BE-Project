@@ -16,7 +16,7 @@ router
   ) /* Calling the getProfileData function in the student controller. */
   .get(isLoggedIn, catchAsync(student.getProfileData))
   /* Calling the updateProfileData function in the student controller. */
-  .put(isLoggedIn,validateStudentProfile, catchAsync(student.updateProfileData))
+  .put(isLoggedIn, catchAsync(student.updateProfileData))
   .delete(isLoggedIn, isFacultyOrAdmin, catchAsync(student.deleteStudent));
 
 router.route("/mapSeatnos").post(upload.single("file"), (req, res) => {
