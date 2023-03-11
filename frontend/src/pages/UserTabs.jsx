@@ -57,7 +57,7 @@ export default function UserTabs() {
   }, [refresh]);
 
   return (
-    <Container>
+    <Container size={"xl"}>
       <Anchor href="/dashboard" color={"gray"} mt={24}>
         <Center inline>
           {<IconArrowLeft size={24} stroke={1.5} />}

@@ -15,7 +15,7 @@ import {
 import axios from "axios";
 import { IconPencil, IconTrash, IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
-import { closeAllModals, openModal,openConfirmModal } from "@mantine/modals";
+import { closeAllModals, openModal, openConfirmModal } from "@mantine/modals";
 import React, { useState } from "react";
 import EditStudentForm from "./EditStudentForm";
 
@@ -97,6 +97,12 @@ export default function StudentManagementTable({ data, reqRefresh }) {
         <Text size="sm">{item.curryear}</Text>
       </td>
       <td>
+        <Text size="sm">{item.Parent.phone}</Text>
+      </td>
+      <td>
+        <Text size="sm">{item.Parent.email}</Text>
+      </td>
+      <td>
         <Group>
           <ActionIcon
             onClick={() => {
@@ -118,20 +124,24 @@ export default function StudentManagementTable({ data, reqRefresh }) {
     </tr>
   ));
   const openDeleteModal = (fullname, id) =>
-  openConfirmModal({
-    title: `Delete ${fullname}  profile`,
-    centered: true,
-    children: (
-      <Text  >
-        Are you sure you want to delete <Text span  fw={700}> {fullname}'s </Text> profile? This action is
-        destructive.
-      </Text>
-    ),
-    labels: { confirm: "Delete account", cancel: "cancel" },
-    confirmProps: { color: "red" },
-    onCancel: () => closeAllModals,
-    onConfirm: () => deleteUser(id),
-  });
+    openConfirmModal({
+      title: `Delete ${fullname}  profile`,
+      centered: true,
+      children: (
+        <Text>
+          Are you sure you want to delete{" "}
+          <Text span fw={700}>
+            {" "}
+            {fullname}'s{" "}
+          </Text>{" "}
+          profile? This action is destructive.
+        </Text>
+      ),
+      labels: { confirm: "Delete account", cancel: "cancel" },
+      confirmProps: { color: "red" },
+      onCancel: () => closeAllModals,
+      onConfirm: () => deleteUser(id),
+    });
   return (
     <Paper shadow="md" p="md">
       <ScrollArea>
@@ -160,6 +170,8 @@ export default function StudentManagementTable({ data, reqRefresh }) {
               <th>PRN</th>
               <th>Semester</th>
               <th>Year</th>
+              <th>Parent's Mobile Number</th>
+              <th>Parent's Email</th>
               <th>Actions</th>
             </tr>
           </thead>

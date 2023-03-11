@@ -20,6 +20,10 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
       prn: data.prn,
       rollno: data.rollno,
     },
+    parent: {
+      email: data.Parent.email,
+      phone: data.Parent.phone,
+    },
   });
   const [dataSem, setDataSem] = useState(["3", "4", "5", "6", "7", "8"]);
   const [dataYear, setDataYear] = useState(["2", "3", "4"]);
@@ -73,16 +77,34 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
             { withCredentials: true }
           )
           .then((res) => {
-            showNotification({
-              title: "Success",
-              message: "Information Updated Successfully",
-              icon: <IconCheck />,
-              color: "teal",
-              autoClose: 2000,
-              radius: "xl",
-            });
-            reqRefresh("students");
-            onClose(undefined);
+            axios
+              .put(
+                `http://localhost:5000/parents/${data.userId}`,
+                { ...formValue.parent },
+                { withCredentials: true }
+              )
+              .then((res) => {
+                showNotification({
+                  title: "Success",
+                  message: "Information Updated Successfully",
+                  icon: <IconCheck />,
+                  color: "teal",
+                  autoClose: 2000,
+                  radius: "xl",
+                });
+                reqRefresh("students");
+                onClose(undefined);
+              })
+              .catch((res) => {
+                showNotification({
+                  title: "Failed",
+                  message: res.response.data.err,
+                  icon: <IconX />,
+                  color: "red",
+                  autoClose: false,
+                  radius: "xl",
+                });
+              });
           })
           .catch((res) => {
             showNotification({
@@ -195,6 +217,27 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
             handleYearSem(e.target.value);
           }}
         />
+        <TextInput
+          label="Parent Mobile Number"
+          value={formValue.parent.phone}
+          onChange={(e) => {
+            setFormValue({
+              ...formValue,
+              parent: { ...formValue.parent, phone: e.target.value },
+            });
+          }}
+        ></TextInput>
+        <TextInput
+          label="Parent Email"
+          value={formValue.parent.email}
+          onChange={(e) => {
+            setFormValue({
+              ...formValue,
+              parent: { ...formValue.parent, email: e.target.value },
+            });
+          }}
+        ></TextInput>
+
         <Button type="submit" radius="md" mt={12} leftIcon={<IconCheck />}>
           Submit
         </Button>

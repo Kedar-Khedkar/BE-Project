@@ -34,19 +34,24 @@ const useStyles = createStyles((theme) => ({
 export default function StudentAccount({ data }) {
   const [isNotEdit, setIsNotEdit] = useState(true);
   const { classes, theme } = useStyles();
+  console.log(data);
+  console.log(data.student.Parent.email, data.student.Parent.phone);
+
   const initialValues = {
     prn: data.student.prn,
     rollno: data.student.rollno,
     examseatno: data.student.examseatno,
     curr_sem: data.student.curr_sem,
     curryear: data.student.curryear,
+    // phone: data.Parent.phone,
+    // email : data.Parent.email,
   };
 
-  const initial = {
-    fullname: data.student.User.fullname,
-    email: data.student.User.email,
-  };
-  const formPersonal = useForm({ initial });
+  // const initial = {
+  //   fullname: data.student.User.fullname,
+  //   email: data.student.User.email,
+  // };
+  // const formPersonal = useForm({ initial });
 
   const form = useForm({ initialValues });
   console.log(initialValues);
@@ -81,37 +86,37 @@ export default function StudentAccount({ data }) {
       });
     console.log(form.values);
   };
-  const updatePersonalData = (event, id) => {
-    event.preventDefault();
-    axios
-      .put(
-        `http://localhost:5000/users/${id}`,
-        { user: formPersonal.values },
-        { withCredentials: true }
-      )
-      .then((res) => {
-        showNotification({
-          title: "Success",
-          message: "Information Updated Successfully",
-          icon: <IconCheck />,
-          color: "teal",
-          autoClose: 2000,
-          radius: "xl",
-        });
-        console.log(res);
-      })
-      .catch((res) => {
-        showNotification({
-          title: "Failed",
-          message: "Something went wrong",
-          icon: <IconX />,
-          color: "red",
-          autoClose: 3500,
-          radius: "xl",
-        });
-      });
-    console.log(formPersonal.values);
-  };
+  // const updatePersonalData = (event, id) => {
+  //   event.preventDefault();
+  //   axios
+  //     .put(
+  //       `http://localhost:5000/users/${id}`,
+  //       { user: formPersonal.values },
+  //       { withCredentials: true }
+  //     )
+  //     .then((res) => {
+  //       showNotification({
+  //         title: "Success",
+  //         message: "Information Updated Successfully",
+  //         icon: <IconCheck />,
+  //         color: "teal",
+  //         autoClose: 2000,
+  //         radius: "xl",
+  //       });
+  //       console.log(res);
+  //     })
+  //     .catch((res) => {
+  //       showNotification({
+  //         title: "Failed",
+  //         message: "Something went wrong",
+  //         icon: <IconX />,
+  //         color: "red",
+  //         autoClose: 3500,
+  //         radius: "xl",
+  //       });
+  //     });
+  //   console.log(formPersonal.values);
+  // };
 
   return (
     <>
@@ -120,7 +125,10 @@ export default function StudentAccount({ data }) {
           {data.student.User.fullname.split(" ")[0][0] +
             data.student.User.fullname.split(" ")[1][0]}
         </Avatar> */}
-        <Avatar size={100} src={`https://source.boringavatars.com/beam/120/${data.student.User.fullname}/?colors=c1ddc7,f5e8c6,bbcd77,dc8051,f4d279`} />
+        <Avatar
+          size={100}
+          src={`https://source.boringavatars.com/beam/120/${data.student.User.fullname}/?colors=c1ddc7,f5e8c6,bbcd77,dc8051,f4d279`}
+        />
       </Center>
       <Divider
         my={"sm"}
@@ -162,6 +170,7 @@ export default function StudentAccount({ data }) {
             {...form.getInputProps("email")} description="email associated with your account"/> */}
             <TextInput
               type={Number}
+              mt="md"
               disabled={isNotEdit}
               label="PRN"
               defaultValue={data.student.prn}
@@ -170,6 +179,7 @@ export default function StudentAccount({ data }) {
             />
             <TextInput
               type={Number}
+              mt="md"
               disabled={isNotEdit}
               label="Roll No"
               defaultValue={data.student.rollno}
@@ -178,6 +188,7 @@ export default function StudentAccount({ data }) {
             />
             <TextInput
               type={Number}
+              mt="md"
               disabled={isNotEdit}
               label="Exam Seat No"
               defaultValue={data.student.examseatno}
@@ -186,22 +197,37 @@ export default function StudentAccount({ data }) {
             />
             <TextInput
               type={Number}
+              mt="md"
               disabled={true}
               label="Current Semester"
               defaultValue={data.student.curr_sem}
             />
             <TextInput
               type={Number}
+              mt="md"
               disabled={true}
               label="Current Year"
               defaultValue={data.student.curryear}
             />
+            <TextInput
+              label="Parent Email"
+              mt="md"
+              disabled={true}
+              defaultValue={data.student.Parent.email}
+            />
+            <TextInput
+              label="Parent Mobile Number"
+              mt="md"
+              disabled={true}
+              defaultValue={data.student.Parent.phone}
+            />
+
             <Button mt={12} type="submit" disabled={isNotEdit}>
               Edit
             </Button>
           </form>
         </Card>
-        <h1>Personal Information</h1>
+        {/* <h1>Personal Information</h1>
         <Card>
           <form
             onSubmit={(e) => {
@@ -228,7 +254,7 @@ export default function StudentAccount({ data }) {
               Edit
             </Button>
           </form>
-        </Card>
+        </Card> */}
       </Container>
     </>
   );

@@ -1,5 +1,6 @@
 const { Student } = require("../models/student");
 const { User } = require("../models/user");
+const { Parent } = require("../models/parents");
 
 module.exports.getProfileData = async (
   req,
@@ -25,8 +26,18 @@ the student data. */
         where: { userId: id },
         default: { userId: id },
         /* A way to include the data of another table in the response. */
-        include: { model: User, attributes: ["email", "fullname"] },
+        include: [
+          { model: User, attributes: ["email", "fullname"] },
+          { model: Parent, attributes: ["email", "phone"] },
+        ],
       });
+      if (student[1]) {
+        const parent = await Parent.create({
+          StudentUserId: student[0].userId,
+        });
+        student[0].parent = parent;
+      }
+
       /* This is a way to check if the student has entered all the required data. If not `isFirstLogin` is set */
       const dataRequired =
         student[0].rollno === -1 || student[0].prn === "required" || student[1];
@@ -104,19 +115,25 @@ It checks if the user provided any filters and retrieves the data accordingy. */
           // curryear: Number(filter.curryear),
           curr_sem: Number(filter.curr_sem),
         },
-        include: {
-          model: User,
-          attributes: ["fullname", "email"],
-          required: true,
-        },
+        include: [
+          {
+            model: User,
+            attributes: ["fullname", "email"],
+            required: true,
+          },
+          { model: Parent, attributes: ["email", "phone"] },
+        ],
       });
     } else {
       students = await Student.findAll({
-        include: {
-          model: User,
-          attributes: ["fullname", "email"],
-          required: true,
-        },
+        include: [
+          {
+            model: User,
+            attributes: ["fullname", "email"],
+            required: true,
+          },
+          { model: Parent, attributes: ["email", "phone"] },
+        ],
       });
     }
     res.send({ status: "success", objects: students, err: null });
