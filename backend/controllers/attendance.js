@@ -109,36 +109,40 @@ module.exports.statistics = async (req, res) => {
       [sequelize.fn("DATE", sequelize.col("createdAt")), "date"],
     ],
     group: ["date"],
-    order: [["date", "Desc"]],
+    order: [["date"]],
     limit: 5,
   });
   for (let year = 2; year <= 4; year++) {
     stats.classwise.push({
       year: year,
-      count: await Attendance.sum("presentee", {
+      avg: await Attendance.findAll({
         where: {
-          "$Student.curryear$": year,
+          "$Subject.sem$": { [Op.or]: [year * 2, year * 2 - 1] },
           [Op.and]: sequelize.where(
             sequelize.fn("date", sequelize.col("Attendance.createdAt")),
             "=",
             req.query.date
           ),
         },
-        include: { model: Student, attributes: [] },
+        include: { model: Subject, attributes: [], required: true },
+        attributes: [[Sequelize.literal("AVG(presentee)*100"), "deptAvg"]],
       }),
-      total: (
-        await Attendance.findAll({
-          where: {
-            "$Student.curryear$": year,
-            [Op.and]: sequelize.where(
-              sequelize.fn("date", sequelize.col("Attendance.createdAt")),
-              "=",
-              req.query.date
-            ),
-          },
-          include: { model: Student, required: true, attributes: [] },
-        })
-      ).length,
+      subwise: await Attendance.findAll({
+        attributes: [
+          [Sequelize.literal("AVG(presentee)*100"), "avg"],
+          "SubjectSubCode",
+        ],
+        where: {
+          "$Subject.sem$": { [Op.or]: [year * 2, year * 2 - 1] },
+          [Op.and]: sequelize.where(
+            sequelize.fn("date", sequelize.col("Attendance.createdAt")),
+            "=",
+            req.query.date
+          ),
+        },
+        include: { model: Subject, attributes: [], required: true },
+        group: ["SubjectSubCode"],
+      }),
     });
   }
 
