@@ -54,20 +54,20 @@ for i in range(len(pdfminer_lines)):
   else:
     data['subcode'] = line[:10].strip()
     line = line[43:].split()
-    data['ise'] = line[0][:3] 
-    data['ese'] = line[1][:3]
+    # data['ise'] = line[0][:3] 
+    # data['ese'] = line[1][:3]
     data['total'] = line[2][:3]
     data['tw'] = line[3][:3]
     data['pr'] = line[4][:3]
-    data['or'] = line[5][:3]
-    data['tot%'] = line[6]
+    # data['or'] = line[5][:3]
+    data['tot'] = line[6]
     data['crd'] = line[7]
     data['grd'] = line[8]
     data['gp'] = line[9]
     data['cp'] = line[10]
-    data['p&r'] = line[11]
-    data['ord'] = line[12]
-    extracted_data.append(json.dumps(data))
+    # data['Pr'] = line[11]
+    # data['ord'] = line[12]
+    extracted_data.append(data)
   #print(data) 
 
 
