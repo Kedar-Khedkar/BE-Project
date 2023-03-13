@@ -4,6 +4,7 @@ import NavigationCard from "./NavigationCard";
 import user from "../../assets/Images/new-entries-animate.svg";
 import attendance from "../../assets/Images/confirmed-attendance-animate.svg";
 import subjects from "../../assets/Images/thesis-animate.svg";
+import marks from "../../assets/Images/grades-animate.svg"
 import StudentDash from "../Attendance/StudentDash";
 import secureLocalStorage from "react-secure-storage";
 import backgroundImage from "../../assets/Images/ttten1.svg";
@@ -44,7 +45,7 @@ export default function Dashboard() {
               <NavigationCard
                 title={"Marks"}
                 link={"/marks-mgmt/1"}
-                image={subjects}
+                image={marks}
               />
             )}
           </SimpleGrid>

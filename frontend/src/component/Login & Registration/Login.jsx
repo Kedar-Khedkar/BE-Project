@@ -164,6 +164,7 @@
 //     </>
 //   );
 // }
+
 import {
   TextInput,
   PasswordInput,
@@ -181,7 +182,7 @@ import {
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { showNotification } from "@mantine/notifications";
-import loginImg from "../../assets/Images/login-animate.svg";
+import loginImg from "../../assets/Images/computer-login-animate.svg";
 import { useForm , isEmail} from "@mantine/form";
 import React, { useState } from "react";
 import axios from "axios";
@@ -204,7 +205,7 @@ export default function AuthenticationTitle() {
     // functions will be used to validate values at corresponding key
     validate: {
       password: (value) =>
-        value.length < 2 ? "Name must have at least 2 letters" : null,
+        value.length < 2 ? "Password should be atleast 8 characters long" : null,
       // email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
       email: isEmail('Invalid email')
     },
@@ -305,7 +306,6 @@ export default function AuthenticationTitle() {
                 mt="md"
                 placeholder="Password"
                 withAsterisk
-                description="Password must include at least one letter, number and special character"
                 error="Please enter correct password"
 
                 {...form.getInputProps("password")}
@@ -330,3 +330,4 @@ export default function AuthenticationTitle() {
     </Container>
   );
 }
+
