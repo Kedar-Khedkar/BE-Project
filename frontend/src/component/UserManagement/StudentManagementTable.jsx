@@ -95,6 +95,12 @@ export default function StudentManagementTable({ data, reqRefresh }) {
         <Text size="sm">{item.curryear}</Text>
       </td>
       <td>
+        <Text size="sm">{item.Parent.phone}</Text>
+      </td>
+      <td>
+        <Text size="sm">{item.Parent.email}</Text>
+      </td>
+      <td>
         <Group>
           <Tooltip label="Edit user" color="dark" withArrow>
             <ActionIcon
@@ -166,6 +172,8 @@ export default function StudentManagementTable({ data, reqRefresh }) {
               <th>PRN</th>
               <th>Semester</th>
               <th>Year</th>
+              <th>Parent's Mobile Number</th>
+              <th>Parent's Email</th>
               <th>Actions</th>
             </tr>
           </thead>

@@ -13,7 +13,7 @@ const {
   validateForgetRequest,
   validateResetRequest,
   isAdmin,
-  validateUser
+  validateUser,
 } = require("../middleware");
 const { sequelize, Sequelize } = require("../utils/database");
 const path = require("path");
@@ -21,7 +21,7 @@ const Op = Sequelize.Op;
 
 router
   .route("/:id")
-  .put(isLoggedIn,validateUser, isAdmin, catchAsync(user.editUser))
+  .put(isLoggedIn, validateUser, isAdmin, catchAsync(user.editUser))
   .delete(isLoggedIn, isAdmin, catchAsync(user.deleteUser));
 
 /* This is a route for login. It is using passport.js for authentication. */
@@ -39,9 +39,10 @@ router.route("/logout").post(isLoggedIn, user.logout);
 
 /* This is a route for student registration. It is using `validateStudent` middleware for validation
 and `catchAsync` for error handling. */
-router
-  .route("/studentRegister")
-  .post(validateStudent, catchAsync(user.studentRegister));
+router.route("/studentRegister").post(
+  //validateStudent,
+  catchAsync(user.studentRegister)
+);
 
 /* This is a route for faculty registration. It is using `validateFaculty` middleware for validation
 and `catchAsync` for error handling. */

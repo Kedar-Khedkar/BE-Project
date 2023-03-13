@@ -260,7 +260,7 @@
 //           </Col>
 //           <Col md>
 //             <Form.Group className="mb-3" controlId="formPhoneNumber">
-//               <Form.Label>Parents Phone Number</Form.Label>
+//               <Form.Label>Parent Phone Number</Form.Label>
 //               <Form.Control
 //                 type="number"
 //                 placeholder="Enter parents phone number"

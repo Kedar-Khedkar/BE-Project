@@ -27,6 +27,7 @@ const studentRoutes = require("./routes/student");
 const attendanceRoutes = require("./routes/attendance");
 const markRoutes = require("./routes/mark");
 const unitTestRoutes = require("./routes/unitTest");
+const parentRoutes = require("./routes/parent");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -87,6 +88,7 @@ app.use("/student", studentRoutes);
 app.use("/attend", attendanceRoutes);
 app.use("/marks", markRoutes);
 app.use("/unitTest", unitTestRoutes);
+app.use("/parents", parentRoutes);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(documentation));
 
