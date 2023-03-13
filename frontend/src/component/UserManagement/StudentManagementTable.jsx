@@ -7,15 +7,13 @@ import {
   Anchor,
   ScrollArea,
   useMantineTheme,
-  TextInput,
-  NativeSelect,
-  Button,
+  Tooltip,
   Paper,
 } from "@mantine/core";
 import axios from "axios";
 import { IconPencil, IconTrash, IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
-import { closeAllModals, openModal,openConfirmModal } from "@mantine/modals";
+import { closeAllModals, openModal, openConfirmModal } from "@mantine/modals";
 import React, { useState } from "react";
 import EditStudentForm from "./EditStudentForm";
 
@@ -98,13 +96,16 @@ export default function StudentManagementTable({ data, reqRefresh }) {
       </td>
       <td>
         <Group>
-          <ActionIcon
-            onClick={() => {
-              setStudentData(item);
-            }}
-          >
-            <IconPencil size={16} stroke={1.5} />
-          </ActionIcon>
+          <Tooltip label="Edit user" color="dark" withArrow>
+            <ActionIcon
+              onClick={() => {
+                setStudentData(item);
+              }}
+            >
+              <IconPencil size={16} stroke={1.5} />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label="Delete user" color="dark" withArrow>
           <ActionIcon
             color="red"
             onClick={() => {
@@ -113,25 +114,30 @@ export default function StudentManagementTable({ data, reqRefresh }) {
           >
             <IconTrash size={16} stroke={1.5} />
           </ActionIcon>
+          </Tooltip >
         </Group>
       </td>
     </tr>
   ));
   const openDeleteModal = (fullname, id) =>
-  openConfirmModal({
-    title: `Delete ${fullname}  profile`,
-    centered: true,
-    children: (
-      <Text  >
-        Are you sure you want to delete <Text span  fw={700}> {fullname}'s </Text> profile? This action is
-        destructive.
-      </Text>
-    ),
-    labels: { confirm: "Delete account", cancel: "cancel" },
-    confirmProps: { color: "red" },
-    onCancel: () => closeAllModals,
-    onConfirm: () => deleteUser(id),
-  });
+    openConfirmModal({
+      title: `Delete ${fullname}  profile`,
+      centered: true,
+      children: (
+        <Text>
+          Are you sure you want to delete{" "}
+          <Text span fw={700}>
+            {" "}
+            {fullname}'s{" "}
+          </Text>{" "}
+          profile? This action is destructive.
+        </Text>
+      ),
+      labels: { confirm: "Delete account", cancel: "cancel" },
+      confirmProps: { color: "red" },
+      onCancel: () => closeAllModals,
+      onConfirm: () => deleteUser(id),
+    });
   return (
     <Paper shadow="md" p="md">
       <ScrollArea>

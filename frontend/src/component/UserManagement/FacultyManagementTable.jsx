@@ -7,9 +7,7 @@ import {
   Anchor,
   ScrollArea,
   useMantineTheme,
-  TextInput,
-  NativeSelect,
-  Button,
+  Tooltip,
   Paper,
 } from "@mantine/core";
 import axios from "axios";
@@ -28,7 +26,6 @@ export default function FacultyManagementTable({ data, reqRefresh }) {
     reqRefresh("faculty");
   };
   const deleteUser = (id) => {
-   
     axios
       .delete(`http://localhost:5000/users/${id}`, {
         withCredentials: true,
@@ -87,22 +84,26 @@ export default function FacultyManagementTable({ data, reqRefresh }) {
       </td>
       <td>
         <Group>
-          <ActionIcon
-            onClick={async () => {
-              setFormData(item);
-              console.log(formdata);
-            }}
-          >
-            <IconPencil size={16} stroke={1.5} />
-          </ActionIcon>
-          <ActionIcon
-            color="red"
-            onClick={() => {
-              openDeleteModal(item.fullname, item.id);
-            }}
-          >
-            <IconTrash size={16} stroke={1.5} />
-          </ActionIcon>
+          <Tooltip label="Edit user" color="dark" withArrow>
+            <ActionIcon
+              onClick={async () => {
+                setFormData(item);
+                console.log(formdata);
+              }}
+            >
+              <IconPencil size={16} stroke={1.5} />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label="Delete user" color="dark" withArrow>
+            <ActionIcon
+              color="red"
+              onClick={() => {
+                openDeleteModal(item.fullname, item.id);
+              }}
+            >
+              <IconTrash size={16} stroke={1.5} />
+            </ActionIcon>
+          </Tooltip>
         </Group>
       </td>
     </tr>
@@ -113,9 +114,13 @@ export default function FacultyManagementTable({ data, reqRefresh }) {
       title: `Delete ${fullname}  profile`,
       centered: true,
       children: (
-        <Text  >
-          Are you sure you want to delete <Text span  fw={700}> {fullname}'s </Text> profile? This action is
-          destructive.
+        <Text>
+          Are you sure you want to delete{" "}
+          <Text span fw={700}>
+            {" "}
+            {fullname}'s{" "}
+          </Text>{" "}
+          profile? This action is destructive.
         </Text>
       ),
       labels: { confirm: "Delete account", cancel: "cancel" },
