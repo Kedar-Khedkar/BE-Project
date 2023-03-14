@@ -7,12 +7,14 @@ import { useEffect, useState } from "react";
 import AttendanceDash from "../component/Attendance/AttendanceDash";
 import { useNavigate, useParams } from "react-router-dom";
 import AttendanceReport from "../component/Spreadsheets/AttendanceReport";
+import EditAttendance from "../component/Attendance/EditAttendance";
 
 export default function AttendanceTabs() {
   const navigate = useNavigate();
   const { tabValue } = useParams();
   const [subjectList, setSubjectList] = useState();
   const [stats, setStats] = useState();
+  const [reqData, setreqData] = useState(false);
   const [attendData, setAttendData] = useState([]);
   const [filters, setFilters] = useState({
     date: new Date().toISOString().slice(0, 10),
@@ -80,7 +82,11 @@ export default function AttendanceTabs() {
 
         <Tabs.Panel value="3" pt="xs">
           Edit Previous Attendance
-          <AttendanceFilter onChange={getData}></AttendanceFilter>
+          <AttendanceFilter
+            onChange={getData}
+            reqData={reqData}
+          ></AttendanceFilter>
+          <EditAttendance data={attendData} reqRefresh={setreqData} />
         </Tabs.Panel>
 
         <Tabs.Panel value="4" pt="xs">

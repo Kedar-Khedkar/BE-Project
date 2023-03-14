@@ -12,7 +12,7 @@ export default function AttendanceFilter({ children, onChange, reqData }) {
     year: "2",
     subject: "",
   });
-  useEffect(() => {
+  const getData = (filters) => {
     if (filters.subject !== "Select") {
       console.log({ filters: { ...filters } });
       axios
@@ -26,7 +26,10 @@ export default function AttendanceFilter({ children, onChange, reqData }) {
           onChange(res.data);
         });
     }
-  }, [filters]);
+  };
+  useEffect(() => {
+    getData(filters);
+  }, [filters, reqData]);
   useEffect(() => {
     axios
       .get("http://localhost:5000/faculty", { withCredentials: true })

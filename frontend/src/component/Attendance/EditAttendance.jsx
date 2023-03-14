@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Badge, NativeSelect, Table } from "@mantine/core";
 import axios from "axios";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 
-export default function EditAttendance({ data, reqRefresh }) {
+export default function EditAttendance({ data, reqRefresh, filters }) {
   console.log(data);
+  console.log("[RENDER]");
+  const [isEdit, setIsEdit] = useState(undefined);
   const updatePresentee = (obj) => {
+    console.log(obj);
     obj.presentee = obj.presentee == "Present" ? true : false;
     axios
       .put(
@@ -23,7 +26,7 @@ export default function EditAttendance({ data, reqRefresh }) {
           autoClose: 2000,
           radius: "xl",
         });
-        reqRefresh("edit");
+        reqRefresh(Math.random());
       })
       .catch((res) => {
         console.log(res);
@@ -46,6 +49,9 @@ export default function EditAttendance({ data, reqRefresh }) {
         <NativeSelect
           data={["Present", "Absent"]}
           value={element.presentee ? "Present" : "Absent"}
+          onFocus={(e) => {
+            setIsEdit(element.StudentUserId);
+          }}
           onChange={(e) => {
             updatePresentee({
               StudentUserId: element.StudentUserId,
@@ -54,7 +60,7 @@ export default function EditAttendance({ data, reqRefresh }) {
               presentee: e.target.value,
             });
           }}
-          variant="unstyled"
+          variant={isEdit === element.StudentUserId ? "filled" : "unstyled"}
         ></NativeSelect>
       </td>
     </tr>
