@@ -39,7 +39,7 @@ module.exports.readAttendance =
 
 module.exports.editAttendance = async (req, res) => {
   await Attendance.update(
-    { presentee: false },
+    { ...req.body },
     {
       where: {
         StudentUserId: req.body.StudentUserId,
@@ -52,7 +52,7 @@ module.exports.editAttendance = async (req, res) => {
       res.send({ status: "success", objects: null, err: null });
     })
     .catch((err) => {
-      res.send({ status: "fail", objects: null, err: err });
+      res.status(500).send({ status: "fail", objects: null, err: err });
     });
 };
 
