@@ -54,22 +54,34 @@ for i in range(len(pdfminer_lines)):
   else:
     data['subcode'] = line[:10].strip()
     line = line[43:].split()
-    # data['ise'] = line[0][:3] 
-    # data['ese'] = line[1][:3]
+    data['ise'] = line[0][:3] 
+    data['ese'] = line[1][:3]
     data['total'] = line[2][:3]
     data['tw'] = line[3][:3]
     data['pr'] = line[4][:3]
-    # data['or'] = line[5][:3]
+    data['or'] = line[5][:3]
     data['tot'] = line[6]
     data['crd'] = line[7]
     data['grd'] = line[8]
     data['gp'] = line[9]
     data['cp'] = line[10]
-    # data['Pr'] = line[11]
-    # data['ord'] = line[12]
-    extracted_data.append(data)
-  #print(data) 
+    data['Pr'] = line[11]
+    data['ord'] = line[12]
+    print(data)
+#     extracted_data.append(data)
+#     #print(extracted_data[-1])
+# alldata = {"data": extracted_data }
+# print(alldata) 
 
 
 
-print(extracted_data)
+#print(extracted_data)
+
+# thisdict =	[{
+#   "brand": "Ford",
+#   "model": "Mustang",
+#   "year": 1964
+# }]
+# ##data = []
+# alldata = {"data": thisdict}
+# print(json.dumps(thisdict))

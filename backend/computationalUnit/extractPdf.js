@@ -36,10 +36,19 @@ const { stdout } = require('process');
 const filePath = '/home/mitali/Downloads/CEGP012620_S.E.(2019 PAT.)(INFORMATIOM TECHNOLOGY) (1).pdf';
 const args = ["extractpdf.py", filePath];
 const pythonProcess = spawn('python', args);
-
+const buffer = []
   pythonProcess.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
-    console.log(typeof data)
+    const res = data.toString();
+    // const jsonData = eval(`(${res})`);
+    // console.log(jsonData);
+    // console.log(jsonData.brand);
+    // console.log(jsonData.model);
+
+    buffer.push(data)
+    // console.log(res);
+    //console.log(res[0])
+    
+    console.log(typeof data);
     // send data back to client as response
     //res.send(data.toString());
   });
@@ -50,5 +59,7 @@ const pythonProcess = spawn('python', args);
 
   pythonProcess.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
+    const jsonData = Buffer.concat(buffer).toString("utf-8");
+    console.log(JSON.parse(jsonData))
   });
 
