@@ -11,7 +11,7 @@ import {
   Center,
   Box,
 } from '@mantine/core';
-//import { IconArrowLeft } from '@tabler/icons';
+import { IconArrowLeft } from '@tabler/icons-react';
 import axios  from 'axios';
 import { useSearchParams } from 'react-router-dom';
 import { PasswordInput } from '@mantine/core';
@@ -91,10 +91,10 @@ export function ResetPassword() {
       <Title className={classes.title} align="center">
         Reset Password
       </Title>
-      <Text color="dimmed" size="sm" align="center">
+      {/* <Text color="dimmed" size="sm" align="center">
         Enter new password
-      </Text>
-
+      </Text> */}
+      
       <Paper withBorder shadow="md" p={30} radius="md" mt="xl">
       <PasswordInput
       label="Change visibility toggle icon"
@@ -125,6 +125,12 @@ export function ResetPassword() {
           >Reset password</Button>
         </Group>
       </Paper>
+      <Anchor href="http://localhost:3000" color="dimmed" size="sm" className={classes.control}>
+              <Center inline>
+                {<IconArrowLeft size={12} stroke={1.5} />}
+                <Box ml={5}>Back to login page</Box>
+              </Center>
+            </Anchor>
       </form>
     </Container>
   );
