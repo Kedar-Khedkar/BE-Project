@@ -3,6 +3,7 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import ImageCropper from "../component/ImageCrop/ImageCropper";
 import SubjectFilter from "../component/Unit Tests/SubjectFilter";
 import UnitTest from "../component/Unit Tests/UnitTest";
 import ExtractMarks from "../component/Extract Marks/ExtractMarks";
@@ -50,7 +51,9 @@ export default function MarksTabs() {
           <UnitTest data={unitTestData} refresh={getUTData} filters={filters} />
         </Tabs.Panel>
 
-        <Tabs.Panel value="2" pt="xs"></Tabs.Panel>
+        <Tabs.Panel value="2" pt="xs">
+          <ImageCropper />
+        </Tabs.Panel>
 
         <Tabs.Panel value="3" pt="xs">
           <ExtractMarks />
