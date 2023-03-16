@@ -9,9 +9,11 @@ import pytesseract
 from concurrent.futures import ThreadPoolExecutor
 import PyPDF2
 import re
-
-pdf_path = 'CEGP012620_S.E.(2019 PAT.)(INFORMATIOM TECHNOLOGY) (1).pdf'
-
+import sys
+# pdf_path = 'CEGP012620_S.E.(2019 PAT.)(INFORMATIOM TECHNOLOGY) (1).pdf'
+# coords = [[270,790, 240,3150]]
+pdf_path = sys.argv[0]
+coords = sys.argv[1]
 def convert_to_image(page_number):
     pil_image = pdf2image.convert_from_path(pdf_path,dpi=300,first_page=page_number, last_page=page_number)[0]
     np_array = np.array(pil_image)
@@ -19,7 +21,6 @@ def convert_to_image(page_number):
     print("Image Converted for:", page_number)
     return bgr_array
 
-rect = [270,790, 240,3150]
 def crop_image(image, rect):
     print("Image Cropped")
     return image[rect[0]:rect[1], rect[2]:rect[3]]
@@ -48,7 +49,6 @@ def process_table(cropped_img):
             table.pop(row_idx)
     df = pd.DataFrame(table)
     df = df.mask(df.eq('None')).dropna()
-    display(df)
     db_data = df.to_json(orient='records')
     return db_data
 
@@ -69,4 +69,6 @@ with open(pdf_path, 'rb') as f:
 # print(results)
 result = []
 for page in range(1,num_pages+1):
-    result.append(process_table(crop_image(convert_to_image(page), rect)))
+    for rect in coords:
+        result.append(process_table(crop_image(convert_to_image(page), rect)))
+print(result)
