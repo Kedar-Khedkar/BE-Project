@@ -1,87 +1,72 @@
-import sys
-import json
-file = str(sys.argv[1])
-import io
-import re
+import numpy as np
+import pdf2image
+import cv2
 import pandas as pd
-from io import StringIO
+from tabula import read_pdf
+from pdf2image import convert_from_path
+import matplotlib.pyplot as plt
+import pytesseract
+from concurrent.futures import ThreadPoolExecutor
+import PyPDF2
+import re
 
-from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
-from pdfminer.converter import TextConverter
-from pdfminer.layout import LAParams
-from pdfminer.pdfpage import PDFPage
-from pdfminer.pdfparser import PDFParser
-from pdfminer.pdfdocument import PDFDocument
-import json
+pdf_path = 'CEGP012620_S.E.(2019 PAT.)(INFORMATIOM TECHNOLOGY) (1).pdf'
 
-pdfminer_string = StringIO()
-with open(file, "rb") as in_file:
-    parser = PDFParser(in_file)
-    doc = PDFDocument(parser)
-    rsrcmgr = PDFResourceManager()
-    device = TextConverter(rsrcmgr,
-                           pdfminer_string,
-                           laparams=LAParams())
-    interpreter = PDFPageInterpreter(rsrcmgr, device)
-    for page in PDFPage.create_pages(doc):
-        interpreter.process_page(page)
-pdfminer_lines = pdfminer_string.getvalue().splitlines()
-pdfminer_lines = [ln.lower() for ln in pdfminer_lines if ln]
+def convert_to_image(page_number):
+    pil_image = pdf2image.convert_from_path(pdf_path,dpi=300,first_page=page_number, last_page=page_number)[0]
+    np_array = np.array(pil_image)
+    bgr_array = cv2.cvtColor(np_array, cv2.COLOR_RGB2BGR)
+    print("Image Converted for:", page_number)
+    return bgr_array
 
-def stopLines(line):
-  if line == ' ': return True
-  line = line.lower()
-  if 'savitri' in line or 'college' in line or 'branch' in line or 'sgpa' in line or 'course' in line:
-    return True
-  if '.....' in line:
-    return True
+rect = [270,790, 240,3150]
+def crop_image(image, rect):
+    print("Image Cropped")
+    return image[rect[0]:rect[1], rect[2]:rect[3]]
+# plt.imshow(crop_image(image, rect))
 
-data = {}
-currsem = 0
-extracted_data = []
-for i in range(len(pdfminer_lines)):
-  line = pdfminer_lines[i]
-  if stopLines(line): continue
-  if 'seat' in line:
-    line = line.split()
-    data['seatno'] = line[2]
-    data['prn'] = line[-3]
-  elif 'sem' in line:
-    if currsem == 1:
-      currsem = 2
-    else: currsem = 1
-    data['sem'] = currsem
-  else:
-    data['subcode'] = line[:10].strip()
-    line = line[43:].split()
-    data['ise'] = line[0][:3] 
-    data['ese'] = line[1][:3]
-    data['total'] = line[2][:3]
-    data['tw'] = line[3][:3]
-    data['pr'] = line[4][:3]
-    data['or'] = line[5][:3]
-    data['tot'] = line[6]
-    data['crd'] = line[7]
-    data['grd'] = line[8]
-    data['gp'] = line[9]
-    data['cp'] = line[10]
-    data['Pr'] = line[11]
-    data['ord'] = line[12]
-    print(data)
-#     extracted_data.append(data)
-#     #print(extracted_data[-1])
-# alldata = {"data": extracted_data }
-# print(alldata) 
+def process_table(cropped_img):
+    text = pytesseract.image_to_string(cropped_img, config='--psm 6 --user-patterns [&.]')
+    # print(text)
+    print("Data Extracted")
+    table = text[:len(text)-1].split('\n')
+    headers = table.pop(0).split(' ')
+#     headers.pop(1)
+    headers = ['COURSE', 'ISE', 'ESE', 'TOTAL', 'TW', 'PR', 'OR', 'Tot%', 'Crd', 'Grd', 'GP', 'CP', 'P&R', 'ORD']
+    # print(headers)
+    table = [re.sub(r'\b(?:[A-Za-z&]{3,}|OF|&|\.(?!\d)|IN|IT)\b','' ,row) for row in table]
+    table = [row.split(' ') for row in table]
+    for row_idx in range(len(table)):
+        row = table[row_idx]
+        updated_row = []
+        for element in row:
+            element = element.strip('&.>* ')
+            if element != '':
+                updated_row.append(element)
+        table[row_idx] = updated_row
+        if(len(table[row_idx])== 0): 
+            table.pop(row_idx)
+    df = pd.DataFrame(table)
+    df = df.mask(df.eq('None')).dropna()
+    display(df)
+    db_data = df.to_json(orient='records')
+    return db_data
 
 
+with open(pdf_path, 'rb') as f:
+    pdf = PyPDF2.PdfReader(f)
+    num_pages = len(pdf.pages)
+#     print(num_pages)
+# def process_page_wrapper(page_number):
+#     print("Extracting Page: ", page_number)
+#     data = process_table(crop_image(convert_to_image(page_number), rect))
+#     print("Extracted:", page_number)
+#     return data
 
-#print(extracted_data)
-
-# thisdict =	[{
-#   "brand": "Ford",
-#   "model": "Mustang",
-#   "year": 1964
-# }]
-# ##data = []
-# alldata = {"data": thisdict}
-# print(json.dumps(thisdict))
+# with ThreadPoolExecutor(max_workers=4) as executor:
+#     futures = [executor.submit(process_page_wrapper, page_number) for page_number in range(1,num_pages+1)]
+#     results = [future.result() for future in futures]
+# print(results)
+result = []
+for page in range(1,num_pages+1):
+    result.append(process_table(crop_image(convert_to_image(page), rect)))
