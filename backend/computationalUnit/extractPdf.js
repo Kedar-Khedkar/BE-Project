@@ -30,36 +30,36 @@
 // //extractpdf(file)
 // module.exports = {extractpdf}
 
-const { spawn } = require('child_process');
-const { stdout } = require('process');
+// const { spawn } = require('child_process');
+// const { stdout } = require('process');
 
-const filePath = '/home/mitali/Downloads/CEGP012620_S.E.(2019 PAT.)(INFORMATIOM TECHNOLOGY) (1).pdf';
-const args = ["extractpdf.py", filePath];
-const pythonProcess = spawn('python', args);
-const buffer = []
-  pythonProcess.stdout.on('data', (data) => {
-    const res = data.toString();
-    // const jsonData = eval(`(${res})`);
-    // console.log(jsonData);
-    // console.log(jsonData.brand);
-    // console.log(jsonData.model);
+// const filePath = '/home/mitali/Downloads/CEGP012620_S.E.(2019 PAT.)(INFORMATIOM TECHNOLOGY) (1).pdf';
+// const args = ["extractpdf.py", filePath];
+// const pythonProcess = spawn('python', args);
+// const buffer = []
+//   pythonProcess.stdout.on('data', (data) => {
+//     const res = data.toString();
+//     // const jsonData = eval(`(${res})`);
+//     // console.log(jsonData);
+//     // console.log(jsonData.brand);
+//     // console.log(jsonData.model);
 
-    buffer.push(data)
-    // console.log(res);
-    //console.log(res[0])
+//     buffer.push(data)
+//     // console.log(res);
+//     //console.log(res[0])
     
-    console.log(typeof data);
-    // send data back to client as response
-    //res.send(data.toString());
-  });
+//     console.log(typeof data);
+//     // send data back to client as response
+//     //res.send(data.toString());
+//   });
 
-  pythonProcess.stderr.on('data', (data) => {
-    console.error(`stderr: ${data}`);
-  });
+//   pythonProcess.stderr.on('data', (data) => {
+//     console.error(`stderr: ${data}`);
+//   });
 
-  pythonProcess.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-    const jsonData = Buffer.concat(buffer).toString("utf-8");
-    console.log(JSON.parse(jsonData))
-  });
+//   pythonProcess.on('close', (code) => {
+//     console.log(`child process exited with code ${code}`);
+//     const jsonData = Buffer.concat(buffer).toString("utf-8");
+//     console.log(JSON.parse(jsonData))
+//   });
 
