@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import SubjectFilter from "../component/Unit Tests/SubjectFilter";
 import UnitTest from "../component/Unit Tests/UnitTest";
-
+import ExtractMarks from "../component/Extract Marks/ExtractMarks";
 export default function MarksTabs() {
   const navigate = useNavigate();
   const { tabValue } = useParams();
@@ -26,7 +26,7 @@ export default function MarksTabs() {
   };
   return (
     <Container>
-      <Anchor href="/dashboard" color={"gray"} mt={24}>
+      <Anchor href="/dashboard" mt={24}>
         <Center inline>
           {<IconArrowLeft size={24} stroke={1.5} />}
           <Box ml={5}>Back to Dashboard</Box>
@@ -42,7 +42,7 @@ export default function MarksTabs() {
         <Tabs.List>
           <Tabs.Tab value="1">Unit Tests</Tabs.Tab>
           <Tabs.Tab value="2">In-sem</Tabs.Tab>
-          <Tabs.Tab value="3">Generate Report</Tabs.Tab>
+          <Tabs.Tab value="3">Extract Marks</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="1" pt="xs">
@@ -52,7 +52,9 @@ export default function MarksTabs() {
 
         <Tabs.Panel value="2" pt="xs"></Tabs.Panel>
 
-        <Tabs.Panel value="3" pt="xs"></Tabs.Panel>
+        <Tabs.Panel value="3" pt="xs">
+          <ExtractMarks />
+        </Tabs.Panel>
       </Tabs>
     </Container>
   );
