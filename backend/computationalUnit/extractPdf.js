@@ -3,7 +3,7 @@
 // const extractpdf = (file) => {
 //     const options = {
 //         mode: 'json',
-//         pythonOptions: ['-u'], 
+//         pythonOptions: ['-u'],
 //           scriptPath: './',
 //           args: [file],
 //     };
@@ -30,36 +30,23 @@
 // //extractpdf(file)
 // module.exports = {extractpdf}
 
-// const { spawn } = require('child_process');
-// const { stdout } = require('process');
+const { spawn } = require("child_process");
+const spawnProcess = (coords) => {
+  const pdf_path = "CEGP012620_S.E.(2019 PAT.)(INFORMATIOM TECHNOLOGY) (1).pdf";
+  const args = ["extractpdf.py", pdf_path, coords];
+  const pythonProcess = spawn("python", args);
+  // const buffer = []
+  pythonProcess.stdout.on("data", (data) => {
+    console.log(data);
+  });
 
-// const filePath = '/home/mitali/Downloads/CEGP012620_S.E.(2019 PAT.)(INFORMATIOM TECHNOLOGY) (1).pdf';
-// const args = ["extractpdf.py", filePath];
-// const pythonProcess = spawn('python', args);
-// const buffer = []
-//   pythonProcess.stdout.on('data', (data) => {
-//     const res = data.toString();
-//     // const jsonData = eval(`(${res})`);
-//     // console.log(jsonData);
-//     // console.log(jsonData.brand);
-//     // console.log(jsonData.model);
+  pythonProcess.stderr.on("data", (data) => {
+    console.error(`stderr: ${data}`);
+  });
 
-//     buffer.push(data)
-//     // console.log(res);
-//     //console.log(res[0])
-    
-//     console.log(typeof data);
-//     // send data back to client as response
-//     //res.send(data.toString());
-//   });
+  pythonProcess.on("close", (code) => {
+    console.log(`child process exited with code ${code}`);
+  });
+};
 
-//   pythonProcess.stderr.on('data', (data) => {
-//     console.error(`stderr: ${data}`);
-//   });
-
-//   pythonProcess.on('close', (code) => {
-//     console.log(`child process exited with code ${code}`);
-//     const jsonData = Buffer.concat(buffer).toString("utf-8");
-//     console.log(JSON.parse(jsonData))
-//   });
-
+module.exports = { spawnProcess };
