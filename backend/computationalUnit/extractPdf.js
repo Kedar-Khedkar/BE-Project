@@ -32,8 +32,8 @@
 
 const { spawn } = require("child_process");
 const spawnProcess = (coords) => {
-  const pdf_path = "CEGP012620_S.E.(2019 PAT.)(INFORMATIOM TECHNOLOGY) (1).pdf";
-  const args = ["extractpdf.py", pdf_path, coords];
+  const pdf_path = "./CEGP012620_S.E.(2019 PAT.)(INFORMATIOM TECHNOLOGY) (1).pdf";
+  const args = ["computationalUnit/extractpdf.py", pdf_path, coords];
   const pythonProcess = spawn("python", args);
   // const buffer = []
   pythonProcess.stdout.on("data", (data) => {

@@ -3,8 +3,9 @@ const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
 const fs = require("fs");
 const { isLoggedIn, isFacultyOrAdmin } = require("../middleware");
-const { extractpdf } = require("../computationalUnit/extractPdf");
+const { spawnProcess } = require("../computationalUnit/extractPdf");
 const { upload } = require("../computationalUnit/fileupload");
+
 
 router.route("/upload").post(
     upload.single("file"),
@@ -13,6 +14,14 @@ router.route("/upload").post(
         res.send(filePath)
     })
     
+)
+
+router.route("/cropCoordinates").post(
+    catchAsync(async(req, res) => {
+        const {coords} = req.body;
+        spawnProcess(coords);
+        res.send(coords)
+    })
 )
 
 module.exports = router;
