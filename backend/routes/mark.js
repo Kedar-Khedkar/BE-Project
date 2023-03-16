@@ -10,7 +10,9 @@ router.route("/upload").post(
     upload.single("file"),
     catchAsync(async(req,res) => {
         const filePath = req.file.path;
+        res.send(filePath)
     })
+    
 )
 
 module.exports = router;
