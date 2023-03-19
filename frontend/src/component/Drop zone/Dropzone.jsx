@@ -27,6 +27,7 @@ export default function DropzoneButton({
         radius: "xl",
       });
     }
+    /* Sending the file to the server. */
     const formData = new FormData();
     formData.append("file", uploaded[0]);
     axios
@@ -43,6 +44,7 @@ export default function DropzoneButton({
   };
   return (
     <>
+       {/* A dropzone component that allows you to upload files.  */}
       <Dropzone
         onDrop={(files) => {
           setdropzoneText(files[0].name);
