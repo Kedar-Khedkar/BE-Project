@@ -14,13 +14,21 @@ import sys
 # coords = [[270,790, 240,3150]]
 pdf_path = sys.argv[1]
 ip_list = list(map(int, sys.argv[2].split(',')))
-num_pages = int(sys.argv[3])
+seatno_list = list(map(int, sys.argv[3].split(',')))
+num_pages = int(sys.argv[4])
 coords = []
+seatNos = []
 if len(ip_list) > 4:
     for i in range(0,len(ip_list)-3, 4):
         coords.append(ip_list[i:i+4])
 else:
     coords.append(ip_list)
+
+if len(seatno_list) > 4:
+    for i in range(0,len(seatno_list)-3, 4):
+        seatNos.append(seatno_list[i:i+4])
+else:
+    seatNos.append(seatno_list)
 
 # print(coords)
 def convert_to_image(page_number):
@@ -35,7 +43,10 @@ def crop_image(image, rect):
     return image[rect[0]:rect[1], rect[2]:rect[3]]
 # plt.imshow(crop_image(image, rect))
 
-def process_table(cropped_img):
+def extract_seatno(cropped_img):
+    return pytesseract.image_to_string(cropped_img, config='--psm 6 --user-patterns [$&.]').replace('$','').strip()
+
+def process_table(cropped_img, seatno):
     text = pytesseract.image_to_string(cropped_img, config='--psm 6 --user-patterns [&.]')
     # print(text)
     # print("Data Extracted")
@@ -61,18 +72,13 @@ def process_table(cropped_img):
     df = df.replace('\/\d+', "", regex=True)
     df = df.drop(['TOTAL','Tot%', 'Crd', 'Grd', 'GP', 'CP', 'P&R', 'ORD'], axis=1)
     df[['Insem', 'Endsem', 'TW','OR','PR']] = df[['Insem', 'Endsem', 'TW','OR','PR']].apply(pd.to_numeric, errors='coerce').astype('Int32')
+    df['seatno'] = seatno
     db_data = df.to_json(orient='records')
     return db_data
 
-
-# with open(pdf_path, 'rb+') as f:
-#     pdf = PyPDF2.PdfReader(f)
-#     num_pages = pdf.getNumPages()
-
-# result = []
 for page in range(1,num_pages+1):
-    for rect in coords:
-        # print("coordinates:", rect)
-        print(process_table(crop_image(convert_to_image(page), rect)))
+    image = convert_to_image(page)
+    for rect in zip(seatNos,coords):
+        print(process_table(crop_image(image, rect[1]), extract_seatno(crop_image(image, rect[0]))))
         print("|")
         sys.stdout.flush()

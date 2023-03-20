@@ -1,24 +1,29 @@
 const { spawn } = require("child_process");
 
-const spawnProcess = (coords, pages, res) => {
+const spawnProcess = (coords, seatNos, pages, path) => {
   return new Promise(function (success, error) {
     // Send SSE headers
-    res.writeHead(200, {
-      "Content-Type": "text/event-stream",
-      "Cache-Control": "no-cache",
-      Connection: "keep-alive",
-    });
+    //res.writeHead(200, {
+    //   "Content-Type": "text/event-stream",
+    //   "Cache-Control": "no-cache",
+    //   Connection: "keep-alive",
+    // });
     let result = [];
     let tempStr = "";
     let count = 0;
-    const pdf_path =
-      "computationalUnit/CEGP012620_S.E.(2019 PAT.)(INFORMATIOM TECHNOLOGY) (1).pdf";
-    const args = ["computationalUnit/extractpdf.py", pdf_path, coords, pages];
+    const pdf_path = path;
+    const args = [
+      "computationalUnit/extractpdf.py",
+      pdf_path,
+      coords,
+      seatNos,
+      pages,
+    ];
     const pythonProcess = spawn("python", args);
 
     pythonProcess.stdout.on("data", (data) => {
       count++;
-      res.write(`Processed: ${(count / pages) * 100}\n\n`);
+      //res.write(`Processed: ${(count / pages) * 100}\n\n`);
       console.log(`Processed: ${(count / pages) * 100}`);
       tempStr += data;
     });
@@ -41,7 +46,7 @@ const spawnProcess = (coords, pages, res) => {
         }
       });
       console.log(`child process exited with code ${code}`);
-      res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
+      //res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
       success(result);
     });
   });
