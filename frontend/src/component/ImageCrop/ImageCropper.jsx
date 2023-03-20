@@ -1,9 +1,10 @@
-import image from "./img.jpg";
+// import image from "./img.jpg";
 import { Button } from "@mantine/core";
 import React, { useState, useRef } from "react";
 import axios from "axios";
 
-export function ImageWithRectangles() {
+export function ImageWithRectangles(props) {
+  console.log(props);
   const [rectangles, setRectangles] = useState([]);
   const [drawing, setDrawing] = useState(false);
   const canvasRef = useRef(null);
@@ -90,9 +91,9 @@ export function ImageWithRectangles() {
     let coords = [];
     let seatnos = [];
     let pages = 4;
-    let name = "public/uploads/1679328403906.pdf";
-    let width = 3509;
-    let height = 2480;
+    let name = props.filepath;
+    let width = props.width;
+    let height = props.height;
     let displayHt = clientDimensions.clientHeight;
     let displayWdth = clientDimensions.clientWidth;
     console.log(displayWdth, displayHt);
@@ -144,7 +145,7 @@ export function ImageWithRectangles() {
       >
         <img
           id="selectorImg"
-          src={image}
+          src={`${props.imagePath}`}
           alt=""
           // width={800}
           // height={600}
