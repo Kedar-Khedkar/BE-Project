@@ -7,10 +7,12 @@ import { showNotification } from "@mantine/notifications";
 import { useState } from "react";
 import { Stepper, Button, Group } from "@mantine/core";
 import { ImageWithRectangles } from "../ImageCrop/ImageCropper";
+import MarkExtractExcel from "../Spreadsheets/MarkExtract";
 
 export default function ExtractMarks() {
   const [active, setActive] = useState(0);
   const [imageSelectorProps, setImageSelectorProps] = useState(undefined);
+  const [extractedData, setExtractedData] = useState(undefined);
   const nextStep = () =>
     setActive((current) => (current < 3 ? current + 1 : current));
   const prevStep = () =>
@@ -18,6 +20,11 @@ export default function ExtractMarks() {
   const handleResponse = (res) => {
     console.log(res);
     setImageSelectorProps(res.data.objects);
+    nextStep();
+  };
+  const getExtractedData = (response) => {
+    console.log(response);
+    setExtractedData(response);
     nextStep();
   };
   return (
@@ -43,11 +50,15 @@ export default function ExtractMarks() {
           description="Mark sections to extract data"
         >
           {imageSelectorProps && (
-            <ImageWithRectangles props={imageSelectorProps} />
+            <ImageWithRectangles
+              image={imageSelectorProps}
+              response={getExtractedData}
+            />
           )}
         </Stepper.Step>
         <Stepper.Step label="Final step" description="Extracted Data">
           Full extracted table
+          <MarkExtractExcel data={extractedData} />
         </Stepper.Step>
         <Stepper.Completed>
           Completed, click back button to get to previous step

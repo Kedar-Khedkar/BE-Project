@@ -4,7 +4,9 @@ import React, { useState, useRef } from "react";
 import axios from "axios";
 
 export function ImageWithRectangles(props) {
-  console.log(props);
+  const image = props.image;
+  const response = props.res;
+  console.log(image);
   const [rectangles, setRectangles] = useState([]);
   const [drawing, setDrawing] = useState(false);
   const canvasRef = useRef(null);
@@ -91,9 +93,9 @@ export function ImageWithRectangles(props) {
     let coords = [];
     let seatnos = [];
     let pages = 4;
-    let name = props.filepath;
-    let width = props.width;
-    let height = props.height;
+    let name = image.filepath;
+    let width = image.width;
+    let height = image.height;
     let displayHt = clientDimensions.clientHeight;
     let displayWdth = clientDimensions.clientWidth;
     console.log(displayWdth, displayHt);
@@ -129,7 +131,7 @@ export function ImageWithRectangles(props) {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res);
+        props.response(res.data.objects);
       });
   };
 
@@ -143,16 +145,18 @@ export function ImageWithRectangles(props) {
         onMouseMove={drawRect}
         onMouseUp={endDrawing}
       >
-        <img
-          id="selectorImg"
-          src={`${props.imagePath}`}
-          alt=""
-          // width={800}
-          // height={600}
-          ref={imgRef}
-          onLoad={onImageLoad}
-          style={{ overflow: "scroll" }}
-        />
+        {image && (
+          <img
+            id="selectorImg"
+            src={`${image.imagePath}`}
+            alt=""
+            // width={800}
+            // height={600}
+            ref={imgRef}
+            onLoad={onImageLoad}
+            style={{ overflow: "scroll" }}
+          />
+        )}
       </canvas>
       <Button onClick={onReset}>Reset</Button>
       <Button onClick={onExport}>Export</Button>
