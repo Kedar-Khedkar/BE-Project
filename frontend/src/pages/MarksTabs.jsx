@@ -3,10 +3,10 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {ImageWithRectangles} from "../component/ImageCrop/ImageCropper"
+import { ImageWithRectangles } from "../component/ImageCrop/ImageCropper";
 import SubjectFilter from "../component/Unit Tests/SubjectFilter";
 import UnitTest from "../component/Unit Tests/UnitTest";
-import ExtractMarks from "../component/Extract Marks/ExtractMarks";
+import ExtractMarks from "../component/Extract Marks/MarksDropZone";
 export default function MarksTabs() {
   const navigate = useNavigate();
   const { tabValue } = useParams();
