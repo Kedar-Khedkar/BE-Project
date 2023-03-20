@@ -4,9 +4,9 @@ const convertToImage = (path) => {
   return new Promise(function (success, error) {
     const args = ["computationalUnit/pdfToImage.py", path];
     const pythonProcess = spawn("python", args);
-    let servPath = "";
+    let servPath;
     pythonProcess.stdout.on("data", (data) => {
-      servPath += `${data}`;
+      servPath = JSON.parse(data);
     });
 
     pythonProcess.stderr.on("data", (data) => {
@@ -15,7 +15,7 @@ const convertToImage = (path) => {
     });
 
     pythonProcess.on("close", (code) => {
-      success(servPath.trim());
+      success(servPath);
     });
   });
 };

@@ -10,6 +10,7 @@ from concurrent.futures import ThreadPoolExecutor
 import PyPDF2
 import re
 import sys
+import json
 from PIL import Image
 from random import random
 
@@ -24,6 +25,8 @@ def convert_to_image(page_number):
     return bgr_array
 
 im = Image.fromarray(convert_to_image(1))
+width, height = im.size
 im_name = f'{int(random()*10000)}.jpeg'
 im.save("./public/temp/" + im_name)
-print(im_name)
+print(json.dumps({"name": im_name, "width": width, "height": height}))
+sys.stdout.flush()

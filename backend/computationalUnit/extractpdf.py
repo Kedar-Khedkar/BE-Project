@@ -61,12 +61,13 @@ def process_table(cropped_img, seatno):
         row = table[row_idx]
         updated_row = []
         for element in row:
-            element = element.strip('&.>* ')
+            element = element.strip('&.>*x ')
             if element != '':
                 updated_row.append(element)
         table[row_idx] = updated_row
-        if(len(table[row_idx])== 0): 
-            table.pop(row_idx)
+    for row in table:
+        if len(row) == 0:
+            table.remove(row)
     df = pd.DataFrame(table, columns=headers)
     df = df.mask(df.eq('None')).dropna()
     df = df.replace('\/\d+', "", regex=True)

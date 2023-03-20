@@ -1,12 +1,17 @@
 import image from "./img.jpg";
-import { Button } from '@mantine/core';
+import { Button } from "@mantine/core";
 import React, { useState, useRef } from "react";
+import axios from "axios";
 
 export function ImageWithRectangles() {
   const [rectangles, setRectangles] = useState([]);
   const [drawing, setDrawing] = useState(false);
   const canvasRef = useRef(null);
   const imgRef = useRef(null);
+  const [clientDimensions, setClientDimensions] = useState({
+    clientWidth: 0,
+    clientHeight: 0,
+  });
 
   const startDrawing = (e) => {
     const { offsetX, offsetY } = e.nativeEvent;
@@ -20,9 +25,9 @@ export function ImageWithRectangles() {
   const endDrawing = () => {
     setDrawing(false);
     const lastRectangle = rectangles[rectangles.length - 1];
-    console.log("Coordinates:", lastRectangle.x, lastRectangle.y);
-    console.log("Width:", Math.abs(lastRectangle.width));
-    console.log("Height:", Math.abs(lastRectangle.height));
+    // console.log("Coordinates:", lastRectangle.x, lastRectangle.y);
+    // console.log("Width:", Math.abs(lastRectangle.width));
+    // console.log("Height:", Math.abs(lastRectangle.height));
   };
 
   const drawRect = (e) => {
@@ -60,8 +65,13 @@ export function ImageWithRectangles() {
     });
   };
 
-  const onImageLoad = () => {
+  const onImageLoad = (e) => {
     const canvas = canvasRef.current;
+    const { naturalWidth, naturalHeight } = e.target;
+    setClientDimensions({
+      clientWidth: naturalWidth,
+      clientHeight: naturalHeight,
+    });
     canvas.width = imgRef.current.width;
     canvas.height = imgRef.current.height;
     const ctx = canvas.getContext("2d");
@@ -77,7 +87,49 @@ export function ImageWithRectangles() {
   };
 
   const onExport = () => {
-    console.log(JSON.stringify(rectangles));
+    let coords = [];
+    let seatnos = [];
+    let pages = 4;
+    let name = "public/uploads/1679328403906.pdf";
+    let width = 3509;
+    let height = 2480;
+    let displayHt = clientDimensions.clientHeight;
+    let displayWdth = clientDimensions.clientWidth;
+    console.log(displayWdth, displayHt);
+    let scaleX = width / displayWdth;
+    let scaleY = height / displayHt;
+    console.log("SCALING FACTORS:", scaleX, scaleY);
+    rectangles.forEach((rect) => {
+      if (rect.width !== 0 && rect.height !== 0) {
+        let tmp = [
+          Math.round(rect.y * scaleY),
+          Math.round((rect.y + rect.height) * scaleY),
+          Math.round(rect.x * scaleX),
+          Math.round((rect.x + rect.width) * scaleX),
+        ];
+        if (rect.width > 1000) {
+          coords.push(tmp);
+        } else {
+          seatnos.push(tmp);
+        }
+      }
+    });
+
+    console.log(document.querySelector("#selectorImg").clientHeight);
+    const reqBody = {
+      coords: coords,
+      seatnos: seatnos,
+      pages: pages,
+      name: name,
+    };
+    console.log(JSON.stringify(reqBody));
+    axios
+      .post("http://localhost:5000/marks/cropCoordinates", reqBody, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res);
+      });
   };
 
   return (
@@ -91,11 +143,14 @@ export function ImageWithRectangles() {
         onMouseUp={endDrawing}
       >
         <img
+          id="selectorImg"
           src={image}
           alt=""
+          // width={800}
+          // height={600}
           ref={imgRef}
           onLoad={onImageLoad}
-          style={{ display: "none" }}
+          style={{ overflow: "scroll" }}
         />
       </canvas>
       <Button onClick={onReset}>Reset</Button>
