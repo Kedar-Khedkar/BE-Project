@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { HotTable } from "@handsontable/react";
 import "handsontable/dist/handsontable.full.min.css";
 import { HyperFormula } from "hyperformula";
@@ -8,6 +8,14 @@ import { IconDownload } from "@tabler/icons-react";
 
 export default function MarkExtractExcel({ data }) {
   registerAllModules();
+  const [tableData, setTableData] = useState([]);
+  useEffect(() => {
+    data.forEach((student) => {
+      student.forEach((subject) => {
+        setTableData((prev) => [...prev, subject]);
+      });
+    });
+  }, []);
   HyperFormula.buildEmpty({
     licenseKey: "internal-use-in-handsontable",
   });
@@ -55,42 +63,40 @@ export default function MarkExtractExcel({ data }) {
             engine: HyperFormula,
           }}
           licenseKey="non-commercial-and-evaluation"
-          // dataSchema={[
-          //   {
-          //     SubjectSubCode: null,
-          //     Insem: null,
-          //     Endsem: null,
-          //     TW: null,
-          //     PR: null,
-          //     OR: null,
-          //     seatno: null,
-          //   },
-          // ]}
-          data={data}
+          dataSchema={{
+            SubjectSubCode: null,
+            Insem: null,
+            Endsem: null,
+            TW: null,
+            PR: null,
+            OR: null,
+            seatno: null,
+          }}
+          data={tableData}
           height="auto"
           width="100%"
           stretchH="all"
           dropdownMenu
           rowHeaders={true}
           columnSorting={{ indicator: true }}
-          // colHeaders={[
-          //   "Subject Code",
-          //   "Insem",
-          //   "Endsem",
-          //   "TW",
-          //   "PR",
-          //   "OR",
-          //   "Seat Number",
-          // ]}
-          // columns={[
-          //   { data: "SubjectSubCode" },
-          //   { data: "Insem" },
-          //   { data: "Endsem" },
-          //   { data: "TW" },
-          //   { data: "PR" },
-          //   { data: "OR" },
-          //   { data: "seatno" },
-          // ]}
+          colHeaders={[
+            "Subject Code",
+            "Insem",
+            "Endsem",
+            "TW",
+            "PR",
+            "OR",
+            "Seat Number",
+          ]}
+          columns={[
+            { data: "SubjectSubCode" },
+            { data: "Insem" },
+            { data: "Endsem" },
+            { data: "TW" },
+            { data: "PR" },
+            { data: "OR" },
+            { data: "seatno" },
+          ]}
         />
         <Button
           mt={12}
