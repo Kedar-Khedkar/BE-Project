@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ImageWithRectangles } from "../component/ImageCrop/ImageCropper";
 import SubjectFilter from "../component/Unit Tests/SubjectFilter";
 import UnitTest from "../component/Unit Tests/UnitTest";
-import ExtractMarks from "../component/Extract Marks/MarksDropZone";
+import ExtractMarks from "../component/Extract Marks/ExtractMarks";
 export default function MarksTabs() {
   const navigate = useNavigate();
   const { tabValue } = useParams();
