@@ -1,6 +1,6 @@
 const { spawn } = require("child_process");
 
-const spawnProcess = (coords, pages, seatnos, res) => {
+const spawnProcess = (coords, pages, res) => {
   return new Promise(function (success, error) {
     // Send SSE headers
     res.writeHead(200, {
