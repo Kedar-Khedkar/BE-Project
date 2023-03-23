@@ -26,7 +26,7 @@ export default function MarksTabs() {
       });
   };
   return (
-    <Container>
+    <Container fluid>
       <Anchor href="/dashboard" mt={24}>
         <Center inline>
           {<IconArrowLeft size={24} stroke={1.5} />}
