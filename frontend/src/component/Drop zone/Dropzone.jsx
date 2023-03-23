@@ -1,7 +1,7 @@
 import { Button, Grid, Text, Stack } from "@mantine/core";
 import { Dropzone } from "@mantine/dropzone";
 import { showNotification } from "@mantine/notifications";
-import { IconAlertTriangleFilled,IconUpload } from "@tabler/icons-react";
+import { IconAlertTriangleFilled, IconUpload } from "@tabler/icons-react";
 import axios from "axios";
 import { useState } from "react";
 
@@ -11,6 +11,7 @@ export default function DropzoneButton({
   onResponse,
   onError,
   icon,
+  overlay,
 }) {
   const [uploaded, setUploaded] = useState(undefined);
   const [dropzoneText, setdropzoneText] = useState(
@@ -26,6 +27,9 @@ export default function DropzoneButton({
         autoClose: 2000,
         radius: "xl",
       });
+    }
+    if (uploaded && overlay) {
+      overlay(true);
     }
     /* Sending the file to the server. */
     const formData = new FormData();
@@ -44,7 +48,7 @@ export default function DropzoneButton({
   };
   return (
     <>
-       {/* A dropzone component that allows you to upload files.  */}
+      {/* A dropzone component that allows you to upload files.  */}
       <Dropzone
         onDrop={(files) => {
           setdropzoneText(files[0].name);
@@ -84,9 +88,9 @@ export default function DropzoneButton({
         </Stack>
       </Dropzone>
       <Stack spacing="sm">
-      <Button onClick={upload} mt={20} leftIcon={<IconUpload />}>
-        Upload
-      </Button>
+        <Button onClick={upload} mt={20} leftIcon={<IconUpload />}>
+          Upload
+        </Button>
       </Stack>
     </>
   );

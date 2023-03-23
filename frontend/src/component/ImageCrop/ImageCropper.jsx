@@ -1,5 +1,5 @@
 // import image from "./img.jpg";
-import { Button } from "@mantine/core";
+import { Box, Button, ScrollArea, SimpleGrid, Container } from "@mantine/core";
 import React, { useState, useRef } from "react";
 import axios from "axios";
 
@@ -90,9 +90,10 @@ export function ImageWithRectangles(props) {
   };
 
   const onExport = () => {
+    image.overlay(true);
     let coords = [];
     let seatnos = [];
-    let pages = 4;
+    let pages = 2;
     let name = image.filepath;
     let width = image.width;
     let height = image.height;
@@ -110,7 +111,7 @@ export function ImageWithRectangles(props) {
           Math.round(rect.x * scaleX),
           Math.round((rect.x + rect.width) * scaleX),
         ];
-        if (rect.width > 1000) {
+        if (rect.height > 200) {
           coords.push(tmp);
         } else {
           seatnos.push(tmp);
@@ -136,30 +137,49 @@ export function ImageWithRectangles(props) {
   };
 
   return (
-    <div>
-      <canvas
-        ref={canvasRef}
-        width={800}
-        height={600}
-        onMouseDown={startDrawing}
-        onMouseMove={drawRect}
-        onMouseUp={endDrawing}
+    <Container size={"xl"}>
+      <ScrollArea
+        h={800}
+        sx={(theme) => ({
+          // "background-color": "whitesmoke",
+          "border-radius": theme.radius.xl,
+          border: "1px solid lightgrey",
+        })}
       >
-        {image && (
-          <img
-            id="selectorImg"
-            src={`${image.imagePath}`}
-            alt=""
-            // width={800}
-            // height={600}
-            ref={imgRef}
-            onLoad={onImageLoad}
-            style={{ overflow: "scroll" }}
-          />
-        )}
-      </canvas>
-      <Button onClick={onReset}>Reset</Button>
-      <Button onClick={onExport}>Export</Button>
-    </div>
+        <Box
+          p={24}
+          sx={(theme) => ({
+            "background-color": "whitesmoke",
+            cursor: "crosshair",
+          })}
+        >
+          <canvas
+            ref={canvasRef}
+            width={800}
+            height={600}
+            onMouseDown={startDrawing}
+            onMouseMove={drawRect}
+            onMouseUp={endDrawing}
+          >
+            {image && (
+              <img
+                id="selectorImg"
+                src={`${image.imagePath}`}
+                alt=""
+                // width={800}
+                // height={600}
+                ref={imgRef}
+                onLoad={onImageLoad}
+                style={{ overflow: "scroll" }}
+              />
+            )}
+          </canvas>
+        </Box>
+      </ScrollArea>
+      <SimpleGrid cols={2} m={12}>
+        <Button onClick={onReset}>Reset Rectangles and Draw Again</Button>
+        <Button onClick={onExport}>Extract Data</Button>
+      </SimpleGrid>
+    </Container>
   );
 }

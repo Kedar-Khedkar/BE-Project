@@ -10,11 +10,13 @@ export default function MarkExtractExcel({ data }) {
   registerAllModules();
   const [tableData, setTableData] = useState([]);
   useEffect(() => {
+    let temp = [];
     data.forEach((student) => {
       student.forEach((subject) => {
-        setTableData((prev) => [...prev, subject]);
+        temp.push(subject);
       });
     });
+    setTableData(temp);
   }, []);
   HyperFormula.buildEmpty({
     licenseKey: "internal-use-in-handsontable",
