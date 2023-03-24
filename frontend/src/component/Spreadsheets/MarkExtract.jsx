@@ -7,6 +7,7 @@ import { Button, Container, Paper, Text, Title } from "@mantine/core";
 import { IconDownload } from "@tabler/icons-react";
 
 export default function MarkExtractExcel({ data }) {
+  console.log(data);
   registerAllModules();
   const [tableData, setTableData] = useState([]);
   useEffect(() => {
@@ -43,7 +44,7 @@ export default function MarkExtractExcel({ data }) {
     };
   });
   return (
-    <Container mt={40}>
+    <Container mt={40} fluid>
       <Paper shadow={"md"} p="md">
         <Title order={3}>Extracted Data:</Title>
         <Text td={"underline"}>
@@ -69,9 +70,17 @@ export default function MarkExtractExcel({ data }) {
             SubjectSubCode: null,
             Insem: null,
             Endsem: null,
+            TOTAL: null,
             TW: null,
             PR: null,
             OR: null,
+            "Tot%": null,
+            Crd: null,
+            Grd: null,
+            GP: null,
+            CP: null,
+            "P&R": null,
+            ORD: null,
             seatno: null,
           }}
           data={tableData}
@@ -85,18 +94,34 @@ export default function MarkExtractExcel({ data }) {
             "Subject Code",
             "Insem",
             "Endsem",
+            "TOTAL",
             "TW",
             "PR",
             "OR",
-            "Seat Number",
+            "Tot%",
+            "Crd",
+            "Grd",
+            "GP",
+            "CP",
+            "P&R",
+            "ORD",
+            "seatno",
           ]}
           columns={[
             { data: "SubjectSubCode" },
             { data: "Insem" },
             { data: "Endsem" },
+            { data: "TOTAL" },
             { data: "TW" },
             { data: "PR" },
             { data: "OR" },
+            { data: "Tot%" },
+            { data: "Crd" },
+            { data: "Grd" },
+            { data: "GP" },
+            { data: "CP" },
+            { data: "P&R" },
+            { data: "ORD" },
             { data: "seatno" },
           ]}
         />

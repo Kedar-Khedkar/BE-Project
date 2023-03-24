@@ -1,5 +1,12 @@
 // import image from "./img.jpg";
-import { Box, Button, ScrollArea, SimpleGrid, Container } from "@mantine/core";
+import {
+  Box,
+  Button,
+  ScrollArea,
+  SimpleGrid,
+  Container,
+  NumberInput,
+} from "@mantine/core";
 import React, { useState, useRef } from "react";
 import axios from "axios";
 
@@ -9,6 +16,7 @@ export function ImageWithRectangles(props) {
   console.log(image);
   const [rectangles, setRectangles] = useState([]);
   const [drawing, setDrawing] = useState(false);
+  const [pages, setPages] = useState(0);
   const canvasRef = useRef(null);
   const imgRef = useRef(null);
   const [clientDimensions, setClientDimensions] = useState({
@@ -93,7 +101,6 @@ export function ImageWithRectangles(props) {
     image.overlay(true);
     let coords = [];
     let seatnos = [];
-    let pages = 2;
     let name = image.filepath;
     let width = image.width;
     let height = image.height;
@@ -125,6 +132,7 @@ export function ImageWithRectangles(props) {
       seatnos: seatnos,
       pages: pages,
       name: name,
+      image: image.imagePath,
     };
     console.log(JSON.stringify(reqBody));
     axios
@@ -138,48 +146,62 @@ export function ImageWithRectangles(props) {
 
   return (
     <Container size={"xl"}>
-      <ScrollArea
-        h={800}
-        sx={(theme) => ({
-          // "background-color": "whitesmoke",
-          "border-radius": theme.radius.xl,
-          border: "1px solid lightgrey",
-        })}
-      >
-        <Box
-          p={24}
-          sx={(theme) => ({
-            "background-color": "whitesmoke",
-            cursor: "crosshair",
-          })}
-        >
-          <canvas
-            ref={canvasRef}
-            width={800}
-            height={600}
-            onMouseDown={startDrawing}
-            onMouseMove={drawRect}
-            onMouseUp={endDrawing}
+      <Container m={24}>
+        <NumberInput
+          onChange={setPages}
+          value={pages}
+          label={"Select Pages:"}
+          description={"Select The Number Of Pages to extract data from"}
+          radius={"md"}
+          withAsterisk
+        />
+      </Container>
+      {pages !== 0 && (
+        <>
+          <ScrollArea
+            h={600}
+            sx={(theme) => ({
+              // "background-color": "whitesmoke",
+              "border-radius": theme.radius.xl,
+              border: "1px solid lightgrey",
+            })}
           >
-            {image && (
-              <img
-                id="selectorImg"
-                src={`${image.imagePath}`}
-                alt=""
-                // width={800}
-                // height={600}
-                ref={imgRef}
-                onLoad={onImageLoad}
-                style={{ overflow: "scroll" }}
-              />
-            )}
-          </canvas>
-        </Box>
-      </ScrollArea>
-      <SimpleGrid cols={2} m={12}>
-        <Button onClick={onReset}>Reset Rectangles and Draw Again</Button>
-        <Button onClick={onExport}>Extract Data</Button>
-      </SimpleGrid>
+            <Box
+              p={24}
+              sx={(theme) => ({
+                "background-color": "whitesmoke",
+                cursor: "crosshair",
+              })}
+            >
+              <canvas
+                ref={canvasRef}
+                width={800}
+                height={600}
+                onMouseDown={startDrawing}
+                onMouseMove={drawRect}
+                onMouseUp={endDrawing}
+              >
+                {image && (
+                  <img
+                    id="selectorImg"
+                    src={`http://localhost:5000/temp/${image.imagePath}`}
+                    alt=""
+                    // width={800}
+                    // height={600}
+                    ref={imgRef}
+                    onLoad={onImageLoad}
+                    style={{ overflow: "scroll" }}
+                  />
+                )}
+              </canvas>
+            </Box>
+          </ScrollArea>
+          <SimpleGrid cols={2} m={12}>
+            <Button onClick={onReset}>Reset Rectangles and Draw Again</Button>
+            <Button onClick={onExport}>Extract Data</Button>
+          </SimpleGrid>
+        </>
+      )}
     </Container>
   );
 }
