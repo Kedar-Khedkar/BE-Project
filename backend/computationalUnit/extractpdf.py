@@ -23,6 +23,7 @@ num_pages = int(sys.argv[4])
 coords = []
 seatNos = []
 config = '--psm 6 --oem 1'
+prevSeatno = None
 
 # This is to split the coordinates into groups of 4.
 if len(ip_list) > 4:
@@ -78,6 +79,9 @@ def extract_seatno(cropped_img):
             return word
     return None
 
+def cleanGrd(string):
+    return re.sub(r'[^A-Z\+]', '', string)
+
 def process_row(row, no_of_cols):
     """
     It takes a row of data, removes all the unwanted characters, and returns the row
@@ -93,10 +97,20 @@ def process_row(row, no_of_cols):
         element = row[idx]
         element = element.strip('&.>*x# ')
         updated_row.append(element)
+    if not re.search(r'^[0-9]+$|^[0-9]+[A-Za-z]$', updated_row[0]):
+        return []
     if len(updated_row) != no_of_cols:
         printToErr(updated_row)
         return []
     return updated_row
+
+def expandImg(cropped_img, dpi=300):
+    new_width = int(cropped_img.shape[1] * dpi / 72)
+    new_height = int(cropped_img.shape[0] * dpi / 72)
+
+    # resize the image using cv2.resize
+    resized_img = cv2.resize(cropped_img, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
+    return resized_img
 
 def process_table(cropped_img, seatno):
     """
@@ -119,15 +133,24 @@ def process_table(cropped_img, seatno):
     df = df.mask(df.eq('None')).dropna()
     df = df.replace('\/\d+', "", regex=True)
     df[['Insem', 'Endsem', 'TOTAL', 'TW', 'PR', 'OR', 'Tot%', 'Crd', 'GP', 'CP', 'P&R', 'ORD']] = df[['Insem', 'Endsem', 'TOTAL', 'TW', 'PR', 'OR', 'Tot%', 'Crd', 'GP', 'CP', 'P&R', 'ORD']].apply(pd.to_numeric, errors='coerce').astype('Int32')
-    df['seatno'] = seatno
+    df['Grd'] = df['Grd'].apply(cleanGrd)
+    if(seatno):
+        df['seatno'] = seatno
+    else:
+        tmp = prevSeatno[1:]
+        df['seatno'] = prevSeatno[0] + str(int(tmp)+1)
     db_data = df.to_json(orient='records')
-    return db_data
+    return (db_data, df['seatno'][0])
 
 # Iterating over the pages of the PDF, and for each page, it is iterating over the seat numbers and
 # the coordinates of the tables.
 for page in range(1,num_pages+1):
     image = convert_to_image(page)
     for rect in zip(seatNos,coords):
-        print(process_table(crop_image(image, rect[1]), extract_seatno(crop_image(image, rect[0]))))
+        img = crop_image(image, rect[1]);
+        img = expandImg(img, 400)
+        tbl = process_table(img, extract_seatno(crop_image(image, rect[0])))
+        prevSeatno = tbl[1]
+        print(tbl[0])
         print("|")
         sys.stdout.flush()

@@ -1,5 +1,9 @@
 const { spawn } = require("child_process");
 
+// const cleanResult = (result, errors) => {
+
+// };
+
 const spawnProcess = (coords, seatNos, pages, path) => {
   return new Promise(function (success, error) {
     // Send SSE headers
@@ -47,6 +51,7 @@ const spawnProcess = (coords, seatNos, pages, path) => {
       });
       console.log(`child process exited with code ${code}`);
       //res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
+      // {result, errors} = cleanResult(result, errors);
       success({ result: result, errors: errors });
     });
   });
