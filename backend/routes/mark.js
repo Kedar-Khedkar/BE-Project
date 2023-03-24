@@ -20,7 +20,7 @@ router.route("/upload").post(
       status: "success",
       objects: {
         filepath: filePath,
-        imagePath: `http://localhost:5000/temp/${imageProps.name}`,
+        imagePath: `${imageProps.name}`,
         width: imageProps.width,
         height: imageProps.height,
       },
@@ -31,8 +31,16 @@ router.route("/upload").post(
 
 router.route("/cropCoordinates").post(
   catchAsync(async (req, res) => {
-    const { coords, seatnos, pages, name } = req.body;
+    const { coords, seatnos, pages, name, image } = req.body;
     const { result, errors } = await spawnProcess(coords, seatnos, pages, name);
+    fs.unlink(name, (err) => {
+      if (err) throw err;
+      console.log("deleted:", name);
+    });
+    fs.unlink(`public/temp/${image}`, (err) => {
+      if (err) throw err;
+      console.log("deleted", "image");
+    });
     // result.forEach(async (student) => {
     //   let { userId } = await Student.findOne({
     //     where: { examseatno: student[0].seatno },
