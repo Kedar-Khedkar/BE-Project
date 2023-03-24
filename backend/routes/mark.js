@@ -8,6 +8,7 @@ const { convertToImage } = require("../computationalUnit/pdfToImage");
 const { upload } = require("../computationalUnit/fileupload");
 const { Mark } = require("../models/mark");
 const { Student } = require("../models/student");
+const { Subject } = require("../models/subject");
 
 router.route("/upload").post(
   upload.single("file"),
@@ -31,19 +32,26 @@ router.route("/upload").post(
 router.route("/cropCoordinates").post(
   catchAsync(async (req, res) => {
     const { coords, seatnos, pages, name } = req.body;
-    const result = await spawnProcess(coords, seatnos, pages, name);
+    const { result, errors } = await spawnProcess(coords, seatnos, pages, name);
     // result.forEach(async (student) => {
-    //   let id = await Student.findOne({
+    //   let { userId } = await Student.findOne({
     //     where: { examseatno: student[0].seatno },
+    //     attributes: ["userId"],
+    //   });
+    //   let { SubjectSubCode } = await Subject.findOne({
+    //     where: { SubjectSubCode: SubjectSubCode },
+    //     attributes: ["SubjectSubCode"],
     //   });
     //   student.forEach((subject) => {
-    //     subject.StudentUserId = id;
+    //     subject.StudentUserId = userId;
+    //     subject.SubjectSubCode = SubjectSubCode;
     //     delete subject.seatno;
     //   });
-    //   let insertion = await Mark.bulkCreate(student);
-    //   console.log(insertion);
+    //   if (SubjectSubCode && userId) {
+    //     let insertion = await Mark.bulkCreate(student);
+    //   }
     // });
-    res.send({ status: "success", objects: result, err: null });
+    res.send({ status: "success", objects: result, err: errors });
     // res.end();
   })
 );
