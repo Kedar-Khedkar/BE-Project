@@ -50,8 +50,8 @@ Attendance.belongsTo(Subject);
 Student.hasMany(Attendance);
 Attendance.belongsTo(Student);
 
-Student.hasMany(Mark);
-Mark.belongsTo(Subject);
+Student.belongsToMany(Subject, { through: Mark });
+Subject.belongsToMany(Student, { through: Mark });
 
 Student.hasMany(UnitTest);
 UnitTest.belongsTo(Student);
