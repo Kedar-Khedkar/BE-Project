@@ -9,40 +9,83 @@ import { IconDownload } from "@tabler/icons-react";
 export default function MarkExtractExcel({ data }) {
   console.log(data);
   registerAllModules();
-  const [tableData, setTableData] = useState([]);
-  // useEffect(() => {
-  //   let temp = [];
-  //   data.forEach((student) => {
-  //     student.forEach((subject) => {
-  //       temp.push(subject);
-  //     });
-  //   });
-  //   setTableData(temp);
-  // }, []);
+  const [subHeaders, setSubHeaders] = useState([]);
+  const [headers, setHeaders] = useState([]);
+  const [tabData, setTabData] = useState([]);
+  useEffect(() => {
+    let temp = [];
+    let tempData = [];
+    data.forEach((student) => {
+      let row = [];
+      row.push(student.examseatno);
+      row.push(student.User.fullname);
+      student.Marks.forEach((sub) => {
+        temp.push({
+          label: `${sub.Subject.subName} (${sub.SubjectSubCode})`,
+          colspan: 13,
+        });
+        Object.keys(sub).forEach((key) => {
+          if (
+            key != "Subject" &&
+            key != "SubjectSubCode" &&
+            key != "createdAt" &&
+            key != "updatedAt" &&
+            key != "StudentUserId"
+          ) {
+            row.push(sub[key]);
+          }
+        });
+      });
+      tempData.push(row);
+    });
+    setHeaders(temp);
+    let tmpSubs = [];
+    for (let i = 0; i < headers.length; i++) {
+      tmpSubs.push(
+        "Insem",
+        "Endsem",
+        "TOTAL",
+        "TW",
+        "PR",
+        "OR",
+        "Tot%",
+        "Crd",
+        "Grd",
+        "GP",
+        "CP",
+        "P&R",
+        "ORD"
+      );
+    }
+    setSubHeaders(tmpSubs);
+    setTabData(tempData);
+  }, []);
+  console.log(JSON.stringify(tabData));
   HyperFormula.buildEmpty({
     licenseKey: "internal-use-in-handsontable",
   });
 
   const hotRef = useRef(null);
   let buttonClickCallback;
-  // useEffect(() => {
-  //   const hot = hotRef.current.hotInstance;
-  //   const exportPlugin = hot.getPlugin("exportFile");
-  //   buttonClickCallback = () => {
-  //     exportPlugin.downloadFile("csv", {
-  //       bom: false,
-  //       columnDelimiter: ",",
-  //       columnHeaders: true,
-  //       exportHiddenColumns: true,
-  //       exportHiddenRows: true,
-  //       fileExtension: "csv",
-  //       filename: `Mark_report_${new Date().toDateString()}`,
-  //       mimeType: "text/csv",
-  //       rowDelimiter: "\r\n",
-  //       rowHeaders: true,
-  //     });
-  //   };
-  // });
+  useEffect(() => {
+    const hot = hotRef.current.hotInstance;
+    const exportPlugin = hot.getPlugin("exportFile");
+    buttonClickCallback = () => {
+      exportPlugin.downloadFile("csv", {
+        bom: false,
+        columnDelimiter: ",",
+        columnHeaders: true,
+        nestedHeaders: true,
+        exportHiddenColumns: true,
+        exportHiddenRows: true,
+        fileExtension: "csv",
+        filename: `Mark_report_${new Date().toDateString()}`,
+        mimeType: "text/csv",
+        rowDelimiter: "\r\n",
+        rowHeaders: true,
+      });
+    };
+  });
   return (
     <Container mt={40} fluid>
       <Paper shadow={"md"} p="md">
@@ -127,25 +170,34 @@ export default function MarkExtractExcel({ data }) {
           ]}
          
         /> */}
-         <HotTable
-    data={[
-      ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1','H1', 'I1', 'J1',"j2"],
-      ['A2', 'B2', 'C2', 'D2', 'E2', 'F2', 'G2', 'H2', 'I2', 'J2','H1', 'I1', 'J1'],
-      ['A3', 'B3', 'C3', 'D3', 'E3', 'F3', 'G3', 'H3', 'I3', 'J3','H1', 'I1', 'J1'],
-      ['A4', 'B4', 'C4', 'D4', 'E4', 'F4', 'G4', 'H4', 'I4', 'J4','H1', 'I1', 'J1'],
-      ['A5', 'B5', 'C5', 'D5', 'E5', 'F5', 'G5', 'H5', 'I5', 'J5','H1', 'I1', 'J1'],
-    ]}
-    colHeaders={true}
-    rowHeaders={true}
-    height="auto"
-    nestedHeaders={[
-        // khali continuation madhe add kar column names
-      [ { label: 'E', colspan: 7}, { label: 'F', colspan: 7 }],
-    //  ani headers cha count varcha colspan cha total pahije
-      ['N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W','T', 'U', 'V', 'W']
-    ]}
-    licenseKey="non-commercial-and-evaluation"
-      ></HotTable>
+        <HotTable
+          contextMenu
+          manualColumnMove
+          manualColumnResize
+          manualRowMove
+          manualRowResize
+          allowInsertColumn
+          allowInsertRow
+          allowRemoveColumn
+          allowRemoveRow
+          columnSorting={true}
+          ref={hotRef}
+          formulas={{
+            engine: HyperFormula,
+          }}
+          data={tabData}
+          colHeaders={true}
+          rowHeaders={true}
+          fixedColumnsStart={2}
+          height="auto"
+          colWidths={[100, 100, 50]}
+          rowHeights={50}
+          nestedHeaders={[
+            [{ label: " ", colspan: 2 }, ...headers],
+            ["Seat No.", "Name Of Student", ...subHeaders],
+          ]}
+          licenseKey="non-commercial-and-evaluation"
+        ></HotTable>
         <Button
           mt={12}
           fullWidth
