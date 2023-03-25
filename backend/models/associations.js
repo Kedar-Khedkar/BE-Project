@@ -50,8 +50,13 @@ Attendance.belongsTo(Subject);
 Student.hasMany(Attendance);
 Attendance.belongsTo(Student);
 
+//SUPER MANY-TO-MANY Relationship STUDENT-MARK-SUBJECT DOCUMENTATION: https://sequelize.org/docs/v6/advanced-association-concepts/advanced-many-to-many/#the-best-of-both-worlds-the-super-many-to-many-relationship
 Student.belongsToMany(Subject, { through: Mark });
 Subject.belongsToMany(Student, { through: Mark });
+Student.hasMany(Mark);
+Mark.belongsTo(Student);
+Subject.hasMany(Mark);
+Mark.belongsTo(Subject);
 
 Student.hasMany(UnitTest);
 UnitTest.belongsTo(Student);

@@ -22,10 +22,10 @@ const Mark = sequelize.define("Marks", {
   "Tot%": {
     type: Sequelize.INTEGER,
   },
-  CRD: {
+  Crd: {
     type: Sequelize.INTEGER,
   },
-  GRD: {
+  Grd: {
     type: Sequelize.STRING,
   },
   GP: {
