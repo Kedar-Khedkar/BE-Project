@@ -39,6 +39,11 @@ export default function MarkExtractExcel({ data }) {
       tempData.push(row);
     });
     setHeaders(temp);
+
+    setTabData(tempData);
+  }, []);
+
+  useEffect(() => {
     let tmpSubs = [];
     for (let i = 0; i < headers.length; i++) {
       tmpSubs.push(
@@ -58,9 +63,9 @@ export default function MarkExtractExcel({ data }) {
       );
     }
     setSubHeaders(tmpSubs);
-    setTabData(tempData);
-  }, []);
-  console.log(JSON.stringify(tabData));
+  }, [headers]);
+
+  // console.log(JSON.stringify(tabData));
   HyperFormula.buildEmpty({
     licenseKey: "internal-use-in-handsontable",
   });
@@ -94,82 +99,6 @@ export default function MarkExtractExcel({ data }) {
           NOTE: The below table supports full spreadsheets functionality, you
           can customize this report and download according to your needs.
         </Text>
-        {/* <HotTable
-          contextMenu
-          manualColumnMove
-          manualColumnResize
-          manualRowMove
-          manualRowResize
-          allowInsertColumn
-          allowInsertRow
-          allowRemoveColumn
-          allowRemoveRow
-          ref={hotRef}
-          formulas={{
-            engine: HyperFormula,
-          }}
-          licenseKey="non-commercial-and-evaluation"
-          dataSchema={{
-            SubjectSubCode: null,
-            Insem: null,
-            Endsem: null,
-            TOTAL: null,
-            TW: null,
-            PR: null,
-            OR: null,
-            "Tot%": null,
-            Crd: null,
-            Grd: null,
-            GP: null,
-            CP: null,
-            "P&R": null,
-            ORD: null,
-            seatno: null,
-          }}
-          // data={tableData}
-          // data={[]}
-          height="auto"
-          width="100%"
-          stretchH="all"
-          dropdownMenu
-          rowHeaders={true}
-          columnSorting={{ indicator: true }}
-          colHeaders={[
-            "Subject Code",
-            "Insem",
-            "Endsem",
-            "TOTAL",
-            "TW",
-            "PR",
-            "OR",
-            "Tot%",
-            "Crd",
-            "Grd",
-            "GP",
-            "CP",
-            "P&R",
-            "ORD",
-            "seatno",
-          ]}
-          columns={[
-            { data: "SubjectSubCode" },
-            { data: "Insem" },
-            { data: "Endsem" },
-            { data: "TOTAL" },
-            { data: "TW" },
-            { data: "PR" },
-            { data: "OR" },
-            { data: "Tot%" },
-            { data: "Crd" },
-            { data: "Grd" },
-            { data: "GP" },
-            { data: "CP" },
-            { data: "P&R" },
-            { data: "ORD" },
-            { data: "seatno" },
-          ]}
-         
-        /> */}
         <HotTable
           contextMenu
           manualColumnMove
@@ -180,6 +109,7 @@ export default function MarkExtractExcel({ data }) {
           allowInsertRow
           allowRemoveColumn
           allowRemoveRow
+          className="htCenter"
           columnSorting={true}
           ref={hotRef}
           formulas={{
