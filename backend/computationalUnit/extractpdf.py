@@ -27,16 +27,14 @@ prevSeatno = None
 
 # This is to split the coordinates into groups of 4.
 if len(ip_list) > 4:
-    for i in range(0,len(ip_list)-3, 4):
-        coords.append(ip_list[i:i+4])
+    coords = [ip_list[i:i+4] for i in range(0, len(ip_list)-3, 4)]
 else:
-    coords.append(ip_list)
+    coords = [ip_list]
 
 if len(seatno_list) > 4:
-    for i in range(0,len(seatno_list)-3, 4):
-        seatNos.append(seatno_list[i:i+4])
+    seatNos = [seatno_list[i:i+4] for i in range(0, len(seatno_list)-3, 4)]
 else:
-    seatNos.append(seatno_list)
+    seatNos = [seatno_list]
 
 def printToErr(*args, **kwargs):
     """
@@ -66,16 +64,11 @@ def crop_image(image, rect):
     return image[rect[0]:rect[1], rect[2]:rect[3]]
 
 def extract_seatno(cropped_img):
-    """
-    It takes in a cropped image of the seat number, and returns the seat number if it can find one,
-    otherwise it returns None
-    @param cropped_img - The image to be processed.
-    @returns The seat number is being returned.
-    """
     text = pytesseract.image_to_string(cropped_img, config=config).replace('$','').strip()
     text = text.split(' ')
+    seatno_re = re.compile(r'^[A-Z]\d{9}$')
     for word in text:
-        if re.match(r'^[A-Z]\d{9}$', word):
+        if seatno_re.match(word):
             return word
     return None
 
@@ -90,6 +83,7 @@ def process_row(row, no_of_cols):
     @returns A list of lists.
     """
     updated_row = []
+    subCode_re = re.compile(r'^[0-9]+[A-Z]*$')
     subCode = row[0]
     row = row[-13:]
     row.insert(0, subCode)
@@ -97,7 +91,7 @@ def process_row(row, no_of_cols):
         element = row[idx]
         element = element.strip('&.>*x# ')
         updated_row.append(element)
-    if not re.search(r'^[0-9]+$|^[0-9]+[A-Za-z]$', updated_row[0]):
+    if not subCode_re.match(updated_row[0]):
         return []
     if len(updated_row) != no_of_cols:
         printToErr(updated_row)
@@ -105,12 +99,13 @@ def process_row(row, no_of_cols):
     return updated_row
 
 def expandImg(cropped_img, dpi=300):
-    new_width = int(cropped_img.shape[1] * dpi / 72)
-    new_height = int(cropped_img.shape[0] * dpi / 72)
+    new_w = int(cropped_img.shape[1] * dpi / 72)
+    new_h = int(cropped_img.shape[0] * dpi / 72)
 
     # resize the image using cv2.resize
-    resized_img = cv2.resize(cropped_img, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
-    return resized_img
+    resized_img = cv2.resize(cropped_img, (new_w, new_h), interpolation=cv2.INTER_LINEAR)
+    magnified_img = cv2.GaussianBlur(resized_img, (3, 3), 0)
+    return magnified_img
 
 def process_table(cropped_img, seatno):
     """
