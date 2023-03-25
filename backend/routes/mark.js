@@ -8,6 +8,7 @@ const { convertToImage } = require("../computationalUnit/pdfToImage");
 const { upload } = require("../computationalUnit/fileupload");
 const { Mark } = require("../models/mark");
 const { Student } = require("../models/student");
+const { Subject } = require("../models/subject");
 
 router.route("/upload").post(
   upload.single("file"),
@@ -19,7 +20,7 @@ router.route("/upload").post(
       status: "success",
       objects: {
         filepath: filePath,
-        imagePath: `http://localhost:5000/temp/${imageProps.name}`,
+        imagePath: `${imageProps.name}`,
         width: imageProps.width,
         height: imageProps.height,
       },
@@ -30,20 +31,35 @@ router.route("/upload").post(
 
 router.route("/cropCoordinates").post(
   catchAsync(async (req, res) => {
-    const { coords, seatnos, pages, name } = req.body;
-    const result = await spawnProcess(coords, seatnos, pages, name);
+    const { coords, seatnos, pages, name, image } = req.body;
+    const { result, errors } = await spawnProcess(coords, seatnos, pages, name);
+    fs.unlink(name, (err) => {
+      if (err) throw err;
+      console.log("deleted:", name);
+    });
+    fs.unlink(`public/temp/${image}`, (err) => {
+      if (err) throw err;
+      console.log("deleted", "image");
+    });
     // result.forEach(async (student) => {
-    //   let id = await Student.findOne({
+    //   let { userId } = await Student.findOne({
     //     where: { examseatno: student[0].seatno },
+    //     attributes: ["userId"],
+    //   });
+    //   let { SubjectSubCode } = await Subject.findOne({
+    //     where: { SubjectSubCode: SubjectSubCode },
+    //     attributes: ["SubjectSubCode"],
     //   });
     //   student.forEach((subject) => {
-    //     subject.StudentUserId = id;
+    //     subject.StudentUserId = userId;
+    //     subject.SubjectSubCode = SubjectSubCode;
     //     delete subject.seatno;
     //   });
-    //   let insertion = await Mark.bulkCreate(student);
-    //   console.log(insertion);
+    //   if (SubjectSubCode && userId) {
+    //     let insertion = await Mark.bulkCreate(student);
+    //   }
     // });
-    res.send({ status: "success", objects: result, err: null });
+    res.send({ status: "success", objects: result, err: errors });
     // res.end();
   })
 );

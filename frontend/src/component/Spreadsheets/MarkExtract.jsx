@@ -7,6 +7,7 @@ import { Button, Container, Paper, Text, Title } from "@mantine/core";
 import { IconDownload } from "@tabler/icons-react";
 
 export default function MarkExtractExcel({ data }) {
+  console.log(data);
   registerAllModules();
   const [tableData, setTableData] = useState([]);
   // useEffect(() => {
@@ -43,7 +44,7 @@ export default function MarkExtractExcel({ data }) {
   //   };
   // });
   return (
-    <Container mt={40}>
+    <Container mt={40} fluid>
       <Paper shadow={"md"} p="md">
         <Title order={3}>Extracted Data:</Title>
         <Text td={"underline"}>
@@ -69,9 +70,17 @@ export default function MarkExtractExcel({ data }) {
             SubjectSubCode: null,
             Insem: null,
             Endsem: null,
+            TOTAL: null,
             TW: null,
             PR: null,
             OR: null,
+            "Tot%": null,
+            Crd: null,
+            Grd: null,
+            GP: null,
+            CP: null,
+            "P&R": null,
+            ORD: null,
             seatno: null,
           }}
           // data={tableData}
@@ -82,18 +91,39 @@ export default function MarkExtractExcel({ data }) {
           dropdownMenu
           rowHeaders={true}
           columnSorting={{ indicator: true }}
-          data={[
-            ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1'],
-            ['A2', 'B2', 'C2', 'D2', 'E2', 'F2', 'G2', 'H2', 'I2', 'J2'],
-            ['A3', 'B3', 'C3', 'D3', 'E3', 'F3', 'G3', 'H3', 'I3', 'J3'],
-            ['A4', 'B4', 'C4', 'D4', 'E4', 'F4', 'G4', 'H4', 'I4', 'J4'],
-            ['A5', 'B5', 'C5', 'D5', 'E5', 'F5', 'G5', 'H5', 'I5', 'J5'],
+          colHeaders={[
+            "Subject Code",
+            "Insem",
+            "Endsem",
+            "TOTAL",
+            "TW",
+            "PR",
+            "OR",
+            "Tot%",
+            "Crd",
+            "Grd",
+            "GP",
+            "CP",
+            "P&R",
+            "ORD",
+            "seatno",
           ]}
-          nestedHeaders={[
-            ['A', { label: 'B', colspan: 8 }, 'C'],
-            ['D', { label: 'E', colspan: 4 }, { label: 'F', colspan: 4 }, 'G'],
-            ['H', { label: 'I', colspan: 2 }, { label: 'J', colspan: 2 }, { label: 'K', colspan: 2 }, { label: 'L', colspan: 2 }, 'M'],
-            ['N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W']
+          columns={[
+            { data: "SubjectSubCode" },
+            { data: "Insem" },
+            { data: "Endsem" },
+            { data: "TOTAL" },
+            { data: "TW" },
+            { data: "PR" },
+            { data: "OR" },
+            { data: "Tot%" },
+            { data: "Crd" },
+            { data: "Grd" },
+            { data: "GP" },
+            { data: "CP" },
+            { data: "P&R" },
+            { data: "ORD" },
+            { data: "seatno" },
           ]}
          
         /> */}

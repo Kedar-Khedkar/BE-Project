@@ -1,5 +1,9 @@
 const { spawn } = require("child_process");
 
+// const cleanResult = (result, errors) => {
+
+// };
+
 const spawnProcess = (coords, seatNos, pages, path) => {
   return new Promise(function (success, error) {
     // Send SSE headers
@@ -9,6 +13,7 @@ const spawnProcess = (coords, seatNos, pages, path) => {
     //   Connection: "keep-alive",
     // });
     let result = [];
+    let errors = [];
     let tempStr = "";
     let count = 0;
     const pdf_path = path;
@@ -29,8 +34,7 @@ const spawnProcess = (coords, seatNos, pages, path) => {
     });
 
     pythonProcess.stderr.on("data", (data) => {
-      console.error(`stderr: ${data}`);
-      error(data);
+      errors.push(`${data}`);
     });
 
     pythonProcess.on("close", (code) => {
@@ -47,7 +51,8 @@ const spawnProcess = (coords, seatNos, pages, path) => {
       });
       console.log(`child process exited with code ${code}`);
       //res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
-      success(result);
+      // {result, errors} = cleanResult(result, errors);
+      success({ result: result, errors: errors });
     });
   });
 };

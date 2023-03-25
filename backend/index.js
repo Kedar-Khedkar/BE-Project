@@ -69,7 +69,7 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 // sequelize.sync({ force: true });
-sequelize.sync();
+sequelize.sync({ alter: true });
 
 app.use(passport.initialize());
 app.use(passport.session());
