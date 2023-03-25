@@ -3,12 +3,16 @@ const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
 const fs = require("fs");
 const { isLoggedIn, isFacultyOrAdmin } = require("../middleware");
-const { spawnProcess } = require("../computationalUnit/extractPdf");
+const {
+  spawnProcess,
+  cleanResult,
+} = require("../computationalUnit/extractPdf");
 const { convertToImage } = require("../computationalUnit/pdfToImage");
 const { upload } = require("../computationalUnit/fileupload");
 const { Mark } = require("../models/mark");
 const { Student } = require("../models/student");
 const { Subject } = require("../models/subject");
+const { User } = require("../models/user");
 
 router.route("/upload").post(
   upload.single("file"),
@@ -32,7 +36,26 @@ router.route("/upload").post(
 router.route("/cropCoordinates").post(
   catchAsync(async (req, res) => {
     const { coords, seatnos, pages, name, image } = req.body;
-    const { result, errors } = await spawnProcess(coords, seatnos, pages, name);
+    const { result, errors } = await cleanResult(
+      await spawnProcess(coords, seatnos, pages, name)
+    );
+    await Mark.bulkCreate(result, {
+      updateOnDuplicate: [
+        "Insem",
+        "Endsem",
+        "TOTAL",
+        "TW",
+        "PR",
+        "OR",
+        "Tot%",
+        "Crd",
+        "Grd",
+        "GP",
+        "CP",
+        "P&R",
+        "ORD",
+      ],
+    });
     fs.unlink(name, (err) => {
       if (err) throw err;
       console.log("deleted:", name);
@@ -41,25 +64,20 @@ router.route("/cropCoordinates").post(
       if (err) throw err;
       console.log("deleted", "image");
     });
-    // result.forEach(async (student) => {
-    //   let { userId } = await Student.findOne({
-    //     where: { examseatno: student[0].seatno },
-    //     attributes: ["userId"],
-    //   });
-    //   let { SubjectSubCode } = await Subject.findOne({
-    //     where: { SubjectSubCode: SubjectSubCode },
-    //     attributes: ["SubjectSubCode"],
-    //   });
-    //   student.forEach((subject) => {
-    //     subject.StudentUserId = userId;
-    //     subject.SubjectSubCode = SubjectSubCode;
-    //     delete subject.seatno;
-    //   });
-    //   if (SubjectSubCode && userId) {
-    //     let insertion = await Mark.bulkCreate(student);
-    //   }
-    // });
-    res.send({ status: "success", objects: result, err: errors });
+
+    const report = await Student.findAll({
+      attributes: ["examseatno"],
+      include: [
+        { model: User, attributes: ["fullname"], required: true },
+        {
+          model: Mark,
+          required: true,
+          include: { model: Subject, required: true, attributes: ["subName"] },
+        },
+      ],
+    });
+
+    res.send({ status: "success", objects: report, err: errors });
     // res.end();
   })
 );
