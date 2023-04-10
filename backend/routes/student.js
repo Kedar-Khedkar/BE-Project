@@ -34,7 +34,8 @@ router.route("/mapSeatnos").post(
   catchAsync(async (req, res) => {
     /* This is a function that extracts the seat numbers from the uploaded file and then deletes the
   file. */
-    let errors = [];
+    const errors = [];
+    const response = [];
     const result = await extract_seatno(req.file.path);
     for (let i = 0; i < result.length; i++) {
       for (let j = 0; j < result[i].length; j++) {
@@ -53,7 +54,16 @@ router.route("/mapSeatnos").post(
               where: { [Op.or]: { userId: user.id, prn: result[i][j].prn } },
             }
           );
+          response.push(
+            await Student.findOne({
+              where: {
+                [Op.or]: { userId: user.id, prn: result[i][j].prn },
+                examseatno: result[i][j].examseatno,
+              },
+            })
+          );
         } else {
+          result[i][j].errmsg = "Couldn't Find or Map the Student";
           errors.push(result[i][j]);
         }
       }
@@ -61,7 +71,11 @@ router.route("/mapSeatnos").post(
     fs.unlink(req.file.path, (error) => {
       if (error) throw error;
     });
-    res.send({ status: "success", objects: null, err: errors });
+    if (errors.length > 0) {
+      res.send({ status: "failed", objects: response, err: errors });
+    } else {
+      res.send({ status: "success", objects: response, err: errors });
+    }
   })
 );
 
