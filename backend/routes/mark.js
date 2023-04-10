@@ -14,7 +14,7 @@ const { Student } = require("../models/student");
 const { Subject } = require("../models/subject");
 const { User } = require("../models/user");
 
-router.route("/upload").post(
+router.route("/upload").post(isLoggedIn, isFacultyOrAdmin,
   upload.single("file"),
   catchAsync(async (req, res) => {
     const filePath = req.file.path;
@@ -33,7 +33,7 @@ router.route("/upload").post(
   })
 );
 
-router.route("/cropCoordinates").post(
+router.route("/cropCoordinates").post(isLoggedIn, isFacultyOrAdmin,
   catchAsync(async (req, res) => {
     const { coords, seatnos, pages, name, image } = req.body;
     const { result, errors } = await cleanResult(
