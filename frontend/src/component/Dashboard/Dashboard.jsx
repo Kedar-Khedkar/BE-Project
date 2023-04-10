@@ -5,6 +5,7 @@ import user from "../../assets/Images/new-entries-animate.svg";
 import attendance from "../../assets/Images/confirmed-attendance-animate.svg";
 import subjects from "../../assets/Images/thesis-animate.svg";
 import marks from "../../assets/Images/grades-animate.svg"
+import miscellaneous from "../../assets/Images/wireframing-animate.svg"
 import StudentDash from "../Attendance/StudentDash";
 import secureLocalStorage from "react-secure-storage";
 import backgroundImage from "../../assets/Images/ttten1.svg";
@@ -59,8 +60,15 @@ export default function Dashboard() {
                 image={marks}
               />
             )}
+            {role !== "student" && (
+              <NavigationCard
+                title={"Miscellaneous"}
+                link={"/miscellaneous"}
+                image={miscellaneous}
+              />
+            )}
           </SimpleGrid>
-          {role === "student" && <StudentDash></StudentDash>}
+          {role === "student" && <StudentDash/>}
         </Container>
       </div>
     </>

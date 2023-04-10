@@ -17,6 +17,7 @@ import { ResetPassword } from "./component/Login & Registration/ResetPassword";
 // import FacultyOrAdminRoute from "./Authentication/FacultyOrAdminRoute";
 import { Center, Loader } from "@mantine/core";
 import MarksTabs from "./pages/MarksTabs";
+import MiscellaneousTabs from "./pages/MiscellaneousTabs";
 const LoginForm = React.lazy(() =>
   import("./component/Login & Registration/Login")
 );
@@ -111,6 +112,16 @@ function App() {
                 <AuthenticatedRoute>
                   <FacultyOrAdminRoute>
                     <MarksTabs />
+                  </FacultyOrAdminRoute>
+                </AuthenticatedRoute>
+              }
+            />
+            <Route
+              path="/miscellaneous"
+              element={
+                <AuthenticatedRoute>
+                  <FacultyOrAdminRoute>
+                    <MiscellaneousTabs />
                   </FacultyOrAdminRoute>
                 </AuthenticatedRoute>
               }
