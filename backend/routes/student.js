@@ -60,6 +60,12 @@ router.route("/mapSeatnos").post(
                 [Op.or]: { userId: user.id, prn: result[i][j].prn },
                 examseatno: result[i][j].examseatno,
               },
+              include: {
+                model: User,
+                required: true,
+                attributes: ["fullname"],
+              },
+              attributes: ["rollno", "examseatno"],
             })
           );
         } else {

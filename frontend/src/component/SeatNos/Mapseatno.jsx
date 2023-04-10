@@ -1,14 +1,18 @@
 import { IconPdf, IconFileText, IconCheck, IconX } from "@tabler/icons-react";
 import { openModal } from "@mantine/modals";
+import React, { useState } from "react";
 import { showNotification } from "@mantine/notifications";
-import { Badge, Table } from "@mantine/core";
+import { Badge, Center, Table, Title } from "@mantine/core";
 import DropzoneButton from "../Drop zone/Dropzone";
 import { PDF_MIME_TYPE } from "@mantine/dropzone";
+import SeatToRoll from "../Spreadsheets/SeatToRoll";
 
 export default function Mapseatno() {
+  const [spreadSheetData, setSpreadSheetData] = useState([]);
   const handleResponse = (res) => {
     console.log(res);
     const { data } = res;
+    setSpreadSheetData(data.objects);
     if (data.status === "success") {
       showNotification({
         title: "Success!",
@@ -56,11 +60,23 @@ export default function Mapseatno() {
     }
   };
   return (
-    <DropzoneButton
-      uploadLink={"http://localhost:5000/student/mapSeatnos"}
-      onResponse={handleResponse}
-      icon={<IconPdf color="#1a7fdb" size={36} />}
-      accept={PDF_MIME_TYPE}
-    />
+    <>
+      {spreadSheetData.length === 0 ? (
+        <>
+          <Title>
+            <Center>Upload The Name List file</Center>{" "}
+            <Center>then download the Generated Mappings</Center>
+          </Title>
+          <DropzoneButton
+            uploadLink={"http://localhost:5000/student/mapSeatnos"}
+            onResponse={handleResponse}
+            icon={<IconPdf color="#1a7fdb" size={36} />}
+            accept={PDF_MIME_TYPE}
+          />
+        </>
+      ) : (
+        <SeatToRoll data={spreadSheetData} />
+      )}
+    </>
   );
 }
