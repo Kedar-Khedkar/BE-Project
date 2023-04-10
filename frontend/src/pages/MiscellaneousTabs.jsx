@@ -2,6 +2,7 @@ import React from "react";
 import { Tabs, Container, Anchor, Box, Center } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { useNavigate, useParams } from "react-router-dom";
+import Notifications from "../component/Notifications/Notifications";
 export default function MiscellaneousTabs() {
   const { tabValue } = useParams();
   const navigate = useNavigate();
@@ -28,7 +29,9 @@ export default function MiscellaneousTabs() {
 
           <Tabs.Panel value="1" pt="xs"></Tabs.Panel>
 
-          <Tabs.Panel value="2" pt="xs"></Tabs.Panel>
+          <Tabs.Panel value="2" pt="xs">
+            <Notifications></Notifications>
+          </Tabs.Panel>
         </Tabs>
       </Container>
     </>
