@@ -28,7 +28,7 @@ const attendanceRoutes = require("./routes/attendance");
 const markRoutes = require("./routes/mark");
 const unitTestRoutes = require("./routes/unitTest");
 const parentRoutes = require("./routes/parent");
-const notifRoutes = require("./routes/notification")
+const notifRoutes = require("./routes/notification");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -69,7 +69,7 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 // sequelize.sync({ force: true });
-sequelize.sync({ alter: true });
+sequelize.sync();
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -90,7 +90,7 @@ app.use("/attend", attendanceRoutes);
 app.use("/marks", markRoutes);
 app.use("/unitTest", unitTestRoutes);
 app.use("/parents", parentRoutes);
-app.use("/notify",notifRoutes)
+app.use("/notify", notifRoutes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(documentation));
 
 app.all("*", (req, res, next) => {
