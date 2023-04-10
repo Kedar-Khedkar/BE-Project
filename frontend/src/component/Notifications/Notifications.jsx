@@ -2,7 +2,9 @@ import { Grid } from '@mantine/core';
 import { Container, NativeSelect,ScrollArea, Button, Checkbox,Table, SimpleGrid } from '@mantine/core';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-
+import React from "react";
+import { MantineProvider } from "@mantine/core";
+import RichTextEditor from '../RichTextEditor/RichTextEditor';
 
 export default function Notifications () {
     const [data, setData] = useState([]);
@@ -93,6 +95,10 @@ export default function Notifications () {
         </tbody>
       </Table>
 
+      <div>
+      <h3>Enter the message</h3>
+      <RichTextEditor />
+    </div>
 
       <Button
       size="lg"
