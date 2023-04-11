@@ -12,6 +12,7 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import { useNavigate, useParams } from "react-router-dom";
 import Notifications from "../component/Notifications/Notifications";
 import Mapseatno from "../component/SeatNos/Mapseatno";
+import RollNoManagement from "../component/RollNoManagement/RollNoManagement";
 
 export default function MiscellaneousTabs() {
   const { tabValue } = useParams();
@@ -37,6 +38,7 @@ export default function MiscellaneousTabs() {
             <Tabs.Tab value="1">Student Promotion</Tabs.Tab>
             <Tabs.Tab value="2">Attendance Notification</Tabs.Tab>
             <Tabs.Tab value="3">Map Seatnos</Tabs.Tab>
+            <Tabs.Tab value="4">Roll No Management</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="1" pt="xs"></Tabs.Panel>
@@ -46,6 +48,9 @@ export default function MiscellaneousTabs() {
           </Tabs.Panel>
           <Tabs.Panel value="3" pt="xs">
             <Mapseatno />
+          </Tabs.Panel>
+          <Tabs.Panel value="4" pt="xs">
+            <RollNoManagement></RollNoManagement>
           </Tabs.Panel>
         </Tabs>
       </Container>
