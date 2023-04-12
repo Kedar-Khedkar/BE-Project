@@ -10,6 +10,7 @@ export default function Notifications () {
     const [data, setData] = useState([]);
     const [filter, setFilter] = useState({curryear: 2, curr_sem: 3})
     const [selection, setSelection] = useState([]);
+    const [message, setMessage]=useState("")
     useEffect(()=>{
         //request
             axios.get("http://localhost:5000/student/search", {withCredentials: true, params: filter})
@@ -22,6 +23,24 @@ export default function Notifications () {
         //setData
         //usestate second arg [data]
     },[filter])
+
+    const result=[]
+    const error=[]
+
+
+    const handleSubmit=() => {
+      // axios.post('localhost:5000/notify/sms')
+      selection.forEach((selected) => {
+      //   console.log({
+      //     "phoneNumber":selected.parents_mob_no,
+      //     "message": message.blocks[0].text
+      // })
+          axios.post('http://localhost:5000/notify/sms', {
+            "phoneNumber":"+91" + selected.Parent.phone,
+            "message": message.blocks[0].text
+        }, {withCredentials: true}).then((res)=>result.push).catch((res)=>error.push)
+      })
+    }
 
     const toggleRow = (obj) => {
         setSelection((current) =>
@@ -97,13 +116,13 @@ export default function Notifications () {
 
       <div>
       <h3>Enter the message</h3>
-      <RichTextEditor />
+      <RichTextEditor  update={setMessage}/>
     </div>
 
       <Button
       size="lg"
       mt={40}
-      onClick={()=>{console.log(selection)}}
+      onClick={()=>{handleSubmit()}}
       >
         Send Message
       </Button>

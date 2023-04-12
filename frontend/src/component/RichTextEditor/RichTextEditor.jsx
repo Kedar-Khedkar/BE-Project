@@ -10,14 +10,16 @@ import {
 import "draft-js/dist/Draft.css";
 import "./RichTextEditor.css";
 
-function RichTextEditor() {
+function RichTextEditor({update}) {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
   //const [alignment, setAlignment] = useState("left");
 
   const ref = useRef(null);
+  // useEffect(() => {
 
+  // },[editorState])
   const handleKeyCommand = (command) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
@@ -65,12 +67,12 @@ function RichTextEditor() {
     return "handled";
   };
 
-  useEffect(() => {
-    // log the content state whenever it changes
-    console.log(
-      convertToRaw(editorState.getCurrentContent())
-    );
-  }, [editorState]);
+  // useEffect(() => {
+  //   // log the content state whenever it changes
+  //   console.log(
+  //     convertToRaw(editorState.getCurrentContent())
+  //   );
+  // }, [editorState]);
 
   const content = convertToRaw(editorState.getCurrentContent());
 
@@ -108,7 +110,7 @@ function RichTextEditor() {
       <div className="editor" onClick={() => ref.current.focus()}>
         <Editor
           editorState={editorState}
-          onChange={setEditorState}
+          onChange={(e)=>{setEditorState(e); update( convertToRaw(editorState.getCurrentContent()))}}
           handleKeyCommand={handleKeyCommand}
           keyBindingFn={mapKeyToEditorCommand}
           handlePastedText={handlePastedText}
