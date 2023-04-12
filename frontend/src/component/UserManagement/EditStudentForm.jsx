@@ -25,39 +25,31 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
       phone: data.Parent.phone,
     },
   });
-  const [dataSem, setDataSem] = useState(["3", "4", "5", "6", "7", "8"]);
-  const [dataYear, setDataYear] = useState(["2", "3", "4"]);
- /**
-  * If the year is 2, then set the semesters to 3 and 4. If the year is 3, then set the semesters to 5
-  * and 6. If the year is 4, then set the semesters to 7 and 8.
-  */
-  const handleYearSem = (year) => {
-    if (year === "2") {
-      setDataSem(["3", "4"]);
-    } else if (year === "3") {
-      setDataSem(["5", "6"]);
-    } else if (year === "4") {
-      setDataSem(["7", "8"]);
-    }
-  };
-/**
- * If the value of the sem variable is 3 or 4, set the value of the dataYear variable to 2.
- * 
- * If the value of the sem variable is 5 or 6, set the value of the dataYear variable to 3.
- * 
- * If the value of the sem variable is 7 or 8, set the value of the dataYear variable to 4.
- * 
- * If the value of the sem variable is anything else, do nothing.
- */
+  const dataSem = ["3", "4", "5", "6", "7", "8"]
+  const [dataYear, setDataYear] = useState(formValue.student.curryear);
+
+
+  /**
+   * If the value of the sem variable is 3 or 4, set the value of the dataYear variable to 2.
+   *
+   * If the value of the sem variable is 5 or 6, set the value of the dataYear variable to 3.
+   *
+   * If the value of the sem variable is 7 or 8, set the value of the dataYear variable to 4.
+   *
+   * If the value of the sem variable is anything else, do nothing.
+   */
   const handleSemYear = (sem) => {
     if (sem === "3" || sem === "4") {
-      setDataYear(["2"]);
+      setDataYear("2");
+      return "2";
     }
     if (sem === "5" || sem === "6") {
-      setDataYear(["3"]);
+      setDataYear("3");
+      return "3";
     }
     if (sem === "7" || sem === "8") {
-      setDataYear(["4"]);
+      setDataYear("4");
+      return "4";
     }
   };
   const handleSubmit = (e) => {
@@ -146,7 +138,7 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
               User: { ...formValue.User, fullname: e.target.value },
             });
           }}
-        ></TextInput>
+        />
         <TextInput
           label="Email"
           withAsterisk
@@ -159,7 +151,7 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
               User: { ...formValue.User, email: e.target.value },
             });
           }}
-        ></TextInput>
+        />
         <TextInput
           label="Roll Number"
           withAsterisk
@@ -172,7 +164,7 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
               student: { ...formValue.student, rollno: e.target.value },
             });
           }}
-        ></TextInput>
+        />
         <TextInput
           label="Exam seat Number"
           value={formValue.student.examseatno}
@@ -182,7 +174,7 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
               student: { ...formValue.student, examseatno: e.target.value },
             });
           }}
-        ></TextInput>
+        />
         <TextInput
           label="Permanent Registration Number"
           value={formValue.student.prn}
@@ -192,7 +184,7 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
               student: { ...formValue.student, prn: e.target.value },
             });
           }}
-        ></TextInput>
+        />
         <NativeSelect
           data={dataSem}
           label="Semester"
@@ -200,22 +192,18 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
           onChange={(e) => {
             setFormValue({
               ...formValue,
-              student: { ...formValue.student, curr_sem: e.target.value },
+              student: {
+                ...formValue.student,
+                curr_sem: e.target.value,
+                curryear: handleSemYear(e.target.value),
+              },
             });
-            handleSemYear(e.target.value);
           }}
         />
-        <NativeSelect
-          data={dataYear}
-          label="Year"
-          value={formValue.student.curryear}
-          onChange={(e) => {
-            setFormValue({
-              ...formValue,
-              student: { ...formValue.student, curryear: e.target.value },
-            });
-            handleYearSem(e.target.value);
-          }}
+        <TextInput
+         label="Year"
+         value={dataYear}
+         disabled
         />
         <TextInput
           label="Parent Mobile Number"
@@ -226,7 +214,7 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
               parent: { ...formValue.parent, phone: e.target.value },
             });
           }}
-        ></TextInput>
+        />
         <TextInput
           label="Parent Email"
           value={formValue.parent.email}
@@ -236,7 +224,7 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
               parent: { ...formValue.parent, email: e.target.value },
             });
           }}
-        ></TextInput>
+        />
 
         <Button type="submit" radius="md" mt={12} leftIcon={<IconCheck />}>
           Submit
