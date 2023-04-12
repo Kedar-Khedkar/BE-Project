@@ -2,6 +2,7 @@ import React from "react";
 import { Tabs, Container, Anchor, Box, Center } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { useNavigate, useParams } from "react-router-dom";
+import StudentPromotion from "../component/Student Promotion/StudentPromotion";
 export default function MiscellaneousTabs() {
   const { tabValue } = useParams();
   const navigate = useNavigate();
@@ -26,7 +27,9 @@ export default function MiscellaneousTabs() {
             <Tabs.Tab value="2">Attendance Notification</Tabs.Tab>
           </Tabs.List>
 
-          <Tabs.Panel value="1" pt="xs"></Tabs.Panel>
+          <Tabs.Panel value="1" pt="xs">
+            <StudentPromotion/>
+          </Tabs.Panel>
 
           <Tabs.Panel value="2" pt="xs"></Tabs.Panel>
         </Tabs>
