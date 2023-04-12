@@ -20,6 +20,8 @@ const { Faculty } = require("./models/faculty");
 const associations = require("./models/associations");
 const documentation = require("./documentation/swagger_output.json");
 
+const { register } = require("./controllers/user");
+
 const userRoutes = require("./routes/user");
 const subjectRoutes = require("./routes/subject");
 const facultyRoutes = require("./routes/faculty");
@@ -28,7 +30,7 @@ const attendanceRoutes = require("./routes/attendance");
 const markRoutes = require("./routes/mark");
 const unitTestRoutes = require("./routes/unitTest");
 const parentRoutes = require("./routes/parent");
-const notifRoutes = require("./routes/notification")
+const notifRoutes = require("./routes/notification");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -69,8 +71,23 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 // sequelize.sync({ force: true });
-sequelize.sync({ alter: true });
+sequelize.sync();
 
+const initialize = async () => {
+  const admin = await User.findOne({ where: { role: "admin" } });
+  if (admin == null) {
+    await register(
+      { fullname: "admin", role: "admin", email: "admin@gmail.com" },
+      "password"
+    );
+    console.log("Admin Credentials\nCHANGE @ FIRST LOGIN:", {
+      fullname: "admin",
+      role: "admin",
+      email: "admin@gmail.com",
+      password: "password",
+    });
+  }
+};
 app.use(passport.initialize());
 app.use(passport.session());
 auth(passport);
@@ -90,7 +107,7 @@ app.use("/attend", attendanceRoutes);
 app.use("/marks", markRoutes);
 app.use("/unitTest", unitTestRoutes);
 app.use("/parents", parentRoutes);
-app.use("/notify",notifRoutes)
+app.use("/notify", notifRoutes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(documentation));
 
 app.all("*", (req, res, next) => {
@@ -107,6 +124,7 @@ app.use((err, req, res, next) => {
     .send({ status: "error", objects: null, err: err.message });
 });
 
-app.listen(5000, () => {
+app.listen(5000, async () => {
+  await initialize();
   console.log("Listening on Port 5000");
 });
