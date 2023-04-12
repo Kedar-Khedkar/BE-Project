@@ -117,7 +117,7 @@ function App() {
               }
             />
             <Route
-              path="/miscellaneous"
+              path="/miscellaneous-mgmt/:tabValue"
               element={
                 <AuthenticatedRoute>
                   <FacultyOrAdminRoute>

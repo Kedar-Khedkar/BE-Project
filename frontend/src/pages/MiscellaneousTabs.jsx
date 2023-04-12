@@ -33,7 +33,7 @@ export default function MiscellaneousTabs() {
           radius="lg"
           defaultValue="1"
           value={tabValue}
-          // onTabChange={(value) => navigate(`/subject-mgmt/${value}`)}
+          onTabChange={(value) => navigate(`/miscellaneous-mgmt/${value}`)}
         >
           <Tabs.List>
             <Tabs.Tab value="1">Student Promotion</Tabs.Tab>
