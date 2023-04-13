@@ -7,6 +7,7 @@ import FacultyManagementTable from "../component/UserManagement/FacultyManagemen
 import RestoreUsersTable from "../component/UserManagement/RestoreUsersTable";
 import StudentManagementTable from "../component/UserManagement/StudentManagementTable";
 import { useNavigate, useParams } from "react-router-dom";
+import Userscribe from "../component/Scribe/Userscribe";
 
 export default function UserTabs() {
   const navigate = useNavigate();
@@ -78,6 +79,7 @@ export default function UserTabs() {
           <Tabs.Tab value="2">Manage Faculty</Tabs.Tab>
           <Tabs.Tab value="3">Manage Students</Tabs.Tab>
           <Tabs.Tab value="4">Restore Deleted accounts</Tabs.Tab>
+          <Tabs.Tab value="5">How to use</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="1" pt="xs">
@@ -97,6 +99,10 @@ export default function UserTabs() {
         <Tabs.Panel value="4" pt="xs">
           Restore or Permanently Delete, previously deleted, accounts.
           <RestoreUsersTable data={trashedUsers} reqRefresh={setRefresh} />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="5" pt="xs">
+          <Userscribe/>
         </Tabs.Panel>
       </Tabs>
     </Container>
