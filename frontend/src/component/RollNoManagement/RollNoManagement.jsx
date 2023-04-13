@@ -1,4 +1,4 @@
-import { Grid } from "@mantine/core";
+import { Badge, Grid } from "@mantine/core";
 import {
   Container,
   NativeSelect,
@@ -21,6 +21,7 @@ import { HyperFormula } from "hyperformula";
 import { registerAllModules } from "handsontable/registry";
 import { showNotification } from "@mantine/notifications";
 import { IconPencil, IconCheck, IconX } from "@tabler/icons-react";
+import { openModal } from "@mantine/modals";
 
 export default function RollNoManagement() {
   registerAllModules();
@@ -73,44 +74,74 @@ export default function RollNoManagement() {
     });
   };
  
-  let result = [];
-  let err = [];
-  const handleSubmit = () => {
-    result = [];
-    err = [];
+  // let result = [];
+  // let err = [];
+  const handleSubmit = async() => {
+    let result = [];
+    let err = [];
     const hot = hotTableRef.current.hotInstance;
     const sortedRows = hot.getData();
-    sortedRows.forEach((ele) => {
-      const id = ele[2];
-      axios
+
+    for(let i=0; i< sortedRows.length; i++){
+      const ele = sortedRows[i];
+      const id = ele[2]
+      await axios
         .put(
           `http://localhost:5000/student/${id}`,
           { student: { rollno: ele[1] } },
           { withCredentials: true }
         )
         .then((res) => {
-          console.log(res);
-          result.push(res.data.status);
+          //console.log(res);
+          result.push(res.data);
           //console.log(result);
         })
         .catch((error) => {
-          err.push(error.data);
-          console.log(error);
+          err.push({error: {rollno: ele[1],name: ele[0], err: error.response.data.err}});
+          console.log(err);
         });
-      //catch: {fullname:"ele[0]", userId: "ele[2]", "rollno": ele[1], "errmsg":res.err}
-    });
-    //console.log(result)
+    }
     showNotification({
       title: "Success",
-      message: "Roll numbers updated successfully",
+      message: `Updated ${result.length} out of ${sortedRows.length}`,
       icon: <IconCheck />,
       color: "teal",
       autoClose: 2000,
       radius: "xl",
     });
-    //console.log("result:", result);
-    //log for response: results chi len inserted out of sorted chi lent
+    if(err.length > 0){
+      const rows = err.map((item)=> 
+        <tr >
+          <td>{item.error.name}</td>
+          <td>{item.error.rollno}</td>
+          <td>
+            <Badge color="red">{item.error.err}</Badge>
+            </td>
+        </tr>
+      )
+      
+      openModal({
+        title: "The following errors were encountered",
+        children: (
+          <Table striped highlightOnHover withColumnBorders>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Roll Number</th>
+                <th>Error</th>
+              </tr>
+            </thead>
+            <tbody>{rows}</tbody>
+          </Table>
+        ),
+        size: "auto",
+      });
+    }
+    console.log(result);
+    console.log("result:", result.length);
   };
+
+  
   return (
     <>
       <Grid gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
@@ -180,14 +211,19 @@ export default function RollNoManagement() {
             colHeaders={["Student Name", "Roll number", "UserId"]}
             columns={[
               { data: "User.fullname", readOnly: true },
-              { data: "rollno", readOnly: true },
+              { data: "rollno"},
               { data: "userId", readOnly: true},
             ]}
           />
-          <Button mt={12} fullWidth onClick={handleSubmit}>
+
+<SimpleGrid cols={2}>
+      <div>
+      <Button mt={12} fullWidth onClick={handleSubmit}>
             Update roll numbers
           </Button>
-          <Button
+      </div>
+      <div>
+      <Button
           mt={12}
           fullWidth
           onClick={handleDownloadCSV}
@@ -195,6 +231,8 @@ export default function RollNoManagement() {
         >
           Download as CSV
         </Button>
+      </div>
+    </SimpleGrid>
         </Paper>
       </Container>
     </>
