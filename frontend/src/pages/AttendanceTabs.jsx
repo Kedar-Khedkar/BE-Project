@@ -8,6 +8,8 @@ import AttendanceDash from "../component/Attendance/AttendanceDash";
 import { useNavigate, useParams } from "react-router-dom";
 import AttendanceReport from "../component/Spreadsheets/AttendanceReport";
 import EditAttendance from "../component/Attendance/EditAttendance";
+import Attendancescribe from "../component/Scribe/Attendancescribe";
+
 
 export default function AttendanceTabs() {
   const navigate = useNavigate();
@@ -64,6 +66,7 @@ export default function AttendanceTabs() {
           </Tabs.Tab>
           <Tabs.Tab value="3">Edit Attendance</Tabs.Tab>
           <Tabs.Tab value="4">Report Generation</Tabs.Tab>
+          <Tabs.Tab value="5">How to use</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="1" pt="xs">
@@ -96,6 +99,11 @@ export default function AttendanceTabs() {
             data={attendData}
             filters={filters}
           ></AttendanceReport>
+        </Tabs.Panel>
+
+        <Tabs.Panel value="5" pt="xs">
+          How to use
+          <Attendancescribe/>
         </Tabs.Panel>
       </Tabs>
     </Container>
