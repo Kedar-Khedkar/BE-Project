@@ -163,11 +163,10 @@ iteration. */
         </td>
         <td>
           <Group spacing="sm">
-            <Avatar
-              size={26}
-              src={`https://source.boringavatars.com/beam/120/${item.User.fullname}/?colors=339AF0,138EB4,E7E0D4,CEC23E,C7792C`}
-              radius={26}
-            />
+          <Avatar size={"md"} radius="xl" color="blue">
+          {item.User.fullname.split(" ")[0][0] +
+            item.User.fullname.split(" ")[1][0]}
+        </Avatar>
             <Text size="sm" weight={500}>
               {item.User.fullname}
             </Text>
