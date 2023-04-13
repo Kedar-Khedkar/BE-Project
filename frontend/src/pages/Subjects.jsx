@@ -5,6 +5,7 @@ import ClaimSubjects from "../component/Claim Subjects/ClaimSubjects";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Subjectscribe from "../component/Scribe/Subjectscribe";
 
 import Editsubject from "../component/Edit Subject/Editsubject";
 export default function Subjects() {
@@ -31,6 +32,10 @@ export default function Subjects() {
       });
   };
 
+  const handleClick = () => {
+    getSubjects();
+  }
+
   useEffect(() => {
     getSubjects();
   }, []);
@@ -52,7 +57,8 @@ export default function Subjects() {
         <Tabs.List>
           <Tabs.Tab value="1">Create Subject</Tabs.Tab>
           <Tabs.Tab value="2">Edit Subject</Tabs.Tab>
-          <Tabs.Tab value="3">Claim/Unclaim Subject</Tabs.Tab>
+          <Tabs.Tab value="3" onClick={handleClick}>Claim/Unclaim Subject</Tabs.Tab>
+          <Tabs.Tab value="4">How to use</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="1" pt="xs">
@@ -68,6 +74,10 @@ export default function Subjects() {
             data={subjectData}
             reqRefresh={getSubjects}
           ></ClaimSubjects>
+        </Tabs.Panel>
+          
+        <Tabs.Panel value="4" pt="xs">
+        <Subjectscribe/>
         </Tabs.Panel>
       </Tabs>
     </Container>
