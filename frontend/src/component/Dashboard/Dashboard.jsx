@@ -63,7 +63,7 @@ export default function Dashboard() {
             {role !== "student" && (
               <NavigationCard
                 title={"Miscellaneous"}
-                link={"/miscellaneous"}
+                link={"/miscellaneous-mgmt/1"}
                 image={miscellaneous}
               />
             )}
