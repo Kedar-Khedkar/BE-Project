@@ -37,7 +37,7 @@ export default function MiscellaneousTabs() {
         >
           <Tabs.List>
             <Tabs.Tab value="1">Student Promotion</Tabs.Tab>
-            <Tabs.Tab value="2">Attendance Notification</Tabs.Tab>
+            <Tabs.Tab value="2">Notification</Tabs.Tab>
             <Tabs.Tab value="3">Map Seatnos</Tabs.Tab>
             <Tabs.Tab value="4">Roll No Management</Tabs.Tab>
           </Tabs.List>

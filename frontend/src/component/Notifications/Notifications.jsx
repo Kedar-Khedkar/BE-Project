@@ -1,5 +1,5 @@
-import { Grid } from '@mantine/core';
-import { Container, NativeSelect,ScrollArea, Button, Checkbox,Table, SimpleGrid } from '@mantine/core';
+import { Grid} from '@mantine/core';
+import { Container, NativeSelect,ScrollArea, Button, Checkbox,Table, SimpleGrid, Paper  } from '@mantine/core';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import React from "react";
@@ -79,8 +79,9 @@ export default function Notifications () {
     />
         </Grid.Col>
       </Grid>
-    
-
+      <Paper shadow="md" p="md" mt={3}>
+    <ScrollArea h={500}>
+      
       <Table sx={{ minWidth: 800 }} verticalSpacing="sm" highlightOnHover>
         <thead>
           <tr>
@@ -113,7 +114,9 @@ export default function Notifications () {
             ))}
         </tbody>
       </Table>
-
+      
+      </ScrollArea>
+      </Paper>
       <div>
       <h3>Enter the message</h3>
       <RichTextEditor  update={setMessage}/>

@@ -33,7 +33,6 @@ export default function RollNoManagement() {
   const hotTableRef = useRef(null);
 
   useEffect(() => {
-    //request
     axios
       .get("http://localhost:5000/student/search", {
         withCredentials: true,
@@ -42,49 +41,42 @@ export default function RollNoManagement() {
       .then((res) => {
         setData(res.data.objects);
         console.log(res.data.objects);
-
-        //console.log(data)
       });
   }, [filter]);
- 
+
   const handleDownloadCSV = () => {
-    hotTableRef.current.hotInstance.getPlugin('exportFile').downloadFile('csv', {
-      bom: true,
-      columnHeaders: true,
-      columnDelimiter: ',',
-      rowDelimiter: '\r\n',
-      filename: 'RollNumbers',
-      mimeType: 'text/csv',
-      data: hotTableRef.current.hotInstance.getData(),
-    });
+    hotTableRef.current.hotInstance
+      .getPlugin("exportFile")
+      .downloadFile("csv", {
+        bom: true,
+        columnHeaders: true,
+        columnDelimiter: ",",
+        rowDelimiter: "\r\n",
+        filename: "RollNumbers",
+        mimeType: "text/csv",
+        data: hotTableRef.current.hotInstance.getData(),
+      });
   };
 
   const handleAfterColumnSort = (currentSortConfig, destinationSortConfigs) => {
-    // Get the Handsontable instance from the ref
     const hot = hotTableRef.current.hotInstance;
-
-    // Get the sorted rows
     const sortedRows = hot.getData();
-    // Loop through the sorted rows and update the roll number column
     sortedRows.forEach((rowData, rowIndex) => {
-      //   hot.setDataAtCell(rowIndex, 1, rowIndex + 1); // Update the roll number column
-      const rollno = rowIndex + 1; // Calculate the roll number for this row
-      hot.setDataAtCell(rowIndex, 1, rollno); // Update the roll number column
-      //console.log(`Updated row ${rowIndex + 1}: Roll number = ${rollno}, Name = ${rowData[0]}`);
+      const rollno = rowIndex + 1;
+      hot.setDataAtCell(rowIndex, 1, rollno); 
+      
     });
   };
- 
-  // let result = [];
-  // let err = [];
-  const handleSubmit = async() => {
+
+  const handleSubmit = async () => {
     let result = [];
     let err = [];
     const hot = hotTableRef.current.hotInstance;
     const sortedRows = hot.getData();
 
-    for(let i=0; i< sortedRows.length; i++){
+    for (let i = 0; i < sortedRows.length; i++) {
       const ele = sortedRows[i];
-      const id = ele[2]
+      const id = ele[2];
       await axios
         .put(
           `http://localhost:5000/student/${id}`,
@@ -92,12 +84,16 @@ export default function RollNoManagement() {
           { withCredentials: true }
         )
         .then((res) => {
-          //console.log(res);
           result.push(res.data);
-          //console.log(result);
         })
         .catch((error) => {
-          err.push({error: {rollno: ele[1],name: ele[0], err: error.response.data.err}});
+          err.push({
+            error: {
+              rollno: ele[1],
+              name: ele[0],
+              err: error.response.data.err,
+            },
+          });
           console.log(err);
         });
     }
@@ -109,17 +105,17 @@ export default function RollNoManagement() {
       autoClose: 2000,
       radius: "xl",
     });
-    if(err.length > 0){
-      const rows = err.map((item)=> 
-        <tr >
+    if (err.length > 0) {
+      const rows = err.map((item) => (
+        <tr>
           <td>{item.error.name}</td>
           <td>{item.error.rollno}</td>
           <td>
             <Badge color="red">{item.error.err}</Badge>
-            </td>
+          </td>
         </tr>
-      )
-      
+      ));
+
       openModal({
         title: "The following errors were encountered",
         children: (
@@ -141,7 +137,6 @@ export default function RollNoManagement() {
     console.log("result:", result.length);
   };
 
-  
   return (
     <>
       <Grid gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
@@ -175,71 +170,68 @@ export default function RollNoManagement() {
 
       <Container mt={40}>
         <Paper shadow={"md"} p="md">
-          <Title order={3}>Manage Roll Numbers</Title>
+          <ScrollArea>
+            <Title order={3}>Manage Roll Numbers</Title>
 
-          <HotTable
-            contextMenu
-            manualColumnMove
-            manualColumnResize
-            manualRowMove
-            manualRowResize
-            allowInsertColumn
-            allowInsertRow
-            allowRemoveColumn
-            allowRemoveRow
-            ref={hotTableRef}
-            formulas={{
-              engine: HyperFormula,
-            }}
-            licenseKey="non-commercial-and-evaluation"
-            dataSchema={{
-              userId: null,
-              rollno: null,
-              User: {
-                fullname: null,
-              },
-            }}
-            data={data}
-            height="auto"
-            width="100%"
-            stretchH="all"
-            dropdownMenu
-            rowHeaders={true}
-            multiplecolumnSorting={true}
-            columnSorting={true}
-            afterColumnSort={handleAfterColumnSort}
-            colHeaders={["Student Name", "Roll number", "UserId"]}
-            columns={[
-              { data: "User.fullname", readOnly: true },
-              { data: "rollno"},
-              { data: "userId", readOnly: true},
-            ]}
-          />
+            <HotTable
+              contextMenu
+              manualColumnMove
+              manualColumnResize
+              manualRowMove
+              manualRowResize
+              allowInsertColumn
+              allowInsertRow
+              allowRemoveColumn
+              allowRemoveRow
+              ref={hotTableRef}
+              formulas={{
+                engine: HyperFormula,
+              }}
+              licenseKey="non-commercial-and-evaluation"
+              dataSchema={{
+                userId: null,
+                rollno: null,
+                User: {
+                  fullname: null,
+                },
+              }}
+              data={data}
+              height="auto"
+              width="100%"
+              stretchH="all"
+              dropdownMenu
+              rowHeaders={true}
+              multiplecolumnSorting={true}
+              columnSorting={true}
+              afterColumnSort={handleAfterColumnSort}
+              colHeaders={["Student Name", "Roll number", "UserId"]}
+              columns={[
+                { data: "User.fullname", readOnly: true },
+                { data: "rollno" },
+                { data: "userId", readOnly: true },
+              ]}
+            />
 
-<SimpleGrid cols={2}>
-      <div>
-      <Button mt={12} fullWidth onClick={handleSubmit}>
-            Update roll numbers
-          </Button>
-      </div>
-      <div>
-      <Button
-          mt={12}
-          fullWidth
-          onClick={handleDownloadCSV}
-          leftIcon={<IconDownload />}
-        >
-          Download as CSV
-        </Button>
-      </div>
-    </SimpleGrid>
+            <SimpleGrid cols={2}>
+              <div>
+                <Button mt={12} fullWidth onClick={handleSubmit}>
+                  Update roll numbers
+                </Button>
+              </div>
+              <div>
+                <Button
+                  mt={12}
+                  fullWidth
+                  onClick={handleDownloadCSV}
+                  leftIcon={<IconDownload />}
+                >
+                  Download as CSV
+                </Button>
+              </div>
+            </SimpleGrid>
+          </ScrollArea>
         </Paper>
       </Container>
     </>
   );
 }
-
-
-
-
-

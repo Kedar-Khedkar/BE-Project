@@ -78,7 +78,7 @@ export default function UserTabs() {
           <Tabs.Tab value="1">Create Users</Tabs.Tab>
           <Tabs.Tab value="2">Manage Faculty</Tabs.Tab>
           <Tabs.Tab value="3">Manage Students</Tabs.Tab>
-          <Tabs.Tab value="4">Restore Deleted accounts</Tabs.Tab>
+          {/* <Tabs.Tab value="4">Restore Deleted accounts</Tabs.Tab> */}
           <Tabs.Tab value="5">How to use</Tabs.Tab>
         </Tabs.List>
 

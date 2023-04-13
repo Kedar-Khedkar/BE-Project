@@ -165,7 +165,7 @@ function Editsubject() {
   return (
     <>
       <Paper shadow="md" p="md">
-        <ScrollArea>
+        <ScrollArea h={700}>
           {opened && (
             <EditSubjectForm
               opened={opened != undefined}

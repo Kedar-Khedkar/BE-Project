@@ -146,7 +146,7 @@ export default function StudentManagementTable({ data, reqRefresh }) {
     });
   return (
     <Paper shadow="md" p="md">
-      <ScrollArea>
+      <ScrollArea h={700}>
         {studentData && (
           <EditStudentForm
             opened={studentData != undefined}
