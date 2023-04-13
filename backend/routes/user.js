@@ -6,6 +6,7 @@ const passport = require("passport");
 const fs = require("fs");
 const { upload } = require("../computationalUnit/fileupload");
 const { extractUsers } = require("../computationalUnit/extractExcel");
+const { validateLoginReq } = require("../validations/user");
 const {
   validateStudent,
   validateFaculty,
@@ -15,17 +16,15 @@ const {
   isAdmin,
   validateUser,
 } = require("../middleware");
-const { sequelize, Sequelize } = require("../utils/database");
 const path = require("path");
-const Op = Sequelize.Op;
 
 router
   .route("/:id")
   .put(isLoggedIn, validateUser, isAdmin, catchAsync(user.editUser))
   .delete(isLoggedIn, isAdmin, catchAsync(user.deleteUser));
 
-/* This is a route for login. It is using passport.js for authentication. */
 router.route("/login").post(
+  validateLoginReq,
   passport.authenticate("local", {
     failureMessage: true,
   }),
@@ -34,34 +33,28 @@ router.route("/login").post(
 
 router.route("/trash").get(catchAsync(user.getTrashed));
 
-/* This is a route for logout. It is using passport.js for authentication. */
 router.route("/logout").post(isLoggedIn, user.logout);
 
-/* This is a route for student registration. It is using `validateStudent` middleware for validation
-and `catchAsync` for error handling. */
 router.route("/studentRegister").post(
+  isLoggedIn,
   //validateStudent,
   catchAsync(user.studentRegister)
 );
 
-/* This is a route for faculty registration. It is using `validateFaculty` middleware for validation
-and `catchAsync` for error handling. */
 router
   .route("/facultyRegister")
-  .post(validateFaculty, catchAsync(user.facultyRegister));
+  .post(isLoggedIn, validateFaculty, catchAsync(user.facultyRegister));
 
-/* This is a route for uploading a file. It is using `upload.single("file")` middleware for uploading a
-file. */
-router.route("/download").get((req, res) => {
+router.route("/download").get(isLoggedIn, isAdmin, (req, res) => {
   res.download(
     path.join(__dirname + "/../public/templates/addUserTemplate.xlsx")
   );
 });
 router.route("/upload").post(
-  // isLoggedIn,
+  isLoggedIn,
+  isAdmin,
   upload.single("file"),
   catchAsync(async (req, res) => {
-    /* This handler is used to pass the uploaded files to extractUsers and delete the file using `fs.unlink()` */
     const uploadPath = req.file.path;
     const result = await extractUsers(uploadPath);
     fs.unlink(uploadPath, (err) => {
@@ -72,14 +65,10 @@ router.route("/upload").post(
   })
 );
 
-/* This is a route for forgot password. It is using `validateForgetRequest` middleware for validation
-and `catchAsync` for error handling. */
 router
   .route("/forgotPassword")
   .post(validateForgetRequest, catchAsync(user.forgotPassword));
 
-/* This is a route for reset password. It is using `validateResetRequest` middleware for validation
-and `catchAsync` for error handling. */
 router
   .route("/reset-password")
   .post(validateResetRequest, catchAsync(user.reset_password));

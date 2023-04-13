@@ -309,13 +309,8 @@ const account_information = async (req, res) => {
 
 const editUser = async (req, res) => {
   const { id } = req.params;
-  await User.update({ ...req.body.user }, { where: { id: id } })
-    .then((res) => {
-      res.send({ status: "success", objects: null, err: null });
-    })
-    .catch((err) => {
-      res.send({ status: "error", objects: null, err: err });
-    });
+  await User.update({ ...req.body.user }, { where: { id: id } });
+  res.send({ status: "success", objects: null, err: null });
 };
 
 module.exports = {
