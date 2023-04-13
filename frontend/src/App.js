@@ -25,6 +25,7 @@ const ErrorPage = React.lazy(() => import("./component/Error/ErrorPage"));
 const Dashboard = React.lazy(() => import("./component/Dashboard/Dashboard"));
 const MyAccount = React.lazy(() => import("./pages/MyAccount"));
 const HeaderAction = React.lazy(() => import("./component/Dashboard/Header"));
+const Footer = React.lazy(() => import("./component/Dashboard/Footer"));
 const UserTabs = React.lazy(() => import("./pages/UserTabs"));
 const AttendanceTabs = React.lazy(() => import("./pages/AttendanceTabs"));
 const Subjects = React.lazy(() => import("./pages/Subjects"));
@@ -136,6 +137,7 @@ function App() {
             />
           </Routes>
         </BrowserRouter>
+        <Footer/>
       </Suspense>
     </div>
   );
