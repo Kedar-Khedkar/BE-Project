@@ -168,11 +168,11 @@ module.exports.validateUnitTest = (req, res, next) => {
     next();
   }
 };
-module.exports.validateStudentProfile = async(req, res, next) => {
+module.exports.validateStudentProfile = async (req, res, next) => {
   console.log(req.body);
-  const {error} = studentSchema.validate(req.body);
-  if (error){
+  const { error } = studentSchema.validate(req.body);
+  if (error) {
     const message = error.details.map((el) => el.message).join(",");
     throw new ExpressError(message, 400);
   }
-}
+};
