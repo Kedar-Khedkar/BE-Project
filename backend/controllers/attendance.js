@@ -13,7 +13,11 @@ module.exports.readAttendance =
       attributes: ["presentee", "createdAt", "StudentUserId", "SubjectSubCode"],
       where: {
         SubjectSubCode: `${filters.subject}`,
-        createdAt: `${filters.for}`,
+        [Op.and]: sequelize.where(
+          sequelize.fn("date", sequelize.col("Attendance.createdAt")),
+          "=",
+          new Date(filters.for).toISOString().slice(0, 10)
+        ),
       },
       /* A way to include the data from other tables in the result. */
       include: [
@@ -63,7 +67,7 @@ records and adds them to the database. */
   async (req, res) => {
     const attendList = req.body;
     const result = await Attendance.bulkCreate(attendList);
-    res.send(result);
+    res.send({ status: "success", objects: null, err: null });
   };
 
 module.exports.studStats = async (req, res) => {

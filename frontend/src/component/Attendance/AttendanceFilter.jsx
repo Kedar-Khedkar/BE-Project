@@ -9,7 +9,6 @@ export default function AttendanceFilter({ children, onChange, reqData }) {
   const [date, setDate] = useState(new Date());
   const [filters, setFilters] = useState({
     for: new Date(),
-    year: "2",
     subject: "",
   });
   const getData = (filters) => {
