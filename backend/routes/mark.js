@@ -13,9 +13,16 @@ const { Mark } = require("../models/mark");
 const { Student } = require("../models/student");
 const { Subject } = require("../models/subject");
 const { User } = require("../models/user");
+const { validateCoords } = require("../validations/mark");
+const { checkFile, fileReqValidator } = require("../validations/files");
+const ExpressError = require("../utils/ExpressError");
 
-router.route("/upload").post(isLoggedIn, isFacultyOrAdmin,
+router.route("/upload").post(
+  isLoggedIn,
+  isFacultyOrAdmin,
   upload.single("file"),
+  fileReqValidator,
+  checkFile,
   catchAsync(async (req, res) => {
     const filePath = req.file.path;
     const imageProps = await convertToImage(filePath);
@@ -33,9 +40,18 @@ router.route("/upload").post(isLoggedIn, isFacultyOrAdmin,
   })
 );
 
-router.route("/cropCoordinates").post(isLoggedIn, isFacultyOrAdmin,
+router.route("/cropCoordinates").post(
+  isLoggedIn,
+  isFacultyOrAdmin,
+  validateCoords,
   catchAsync(async (req, res) => {
     const { coords, seatnos, pages, name, image } = req.body;
+    if (!fs.existsSync(name) || !fs.existsSync(image)) {
+      throw new ExpressError(
+        (message = "File not on Path"),
+        (statusCode = 404)
+      );
+    }
     const { result, errors } = await cleanResult(
       await spawnProcess(coords, seatnos, pages, name)
     );
@@ -56,14 +72,20 @@ router.route("/cropCoordinates").post(isLoggedIn, isFacultyOrAdmin,
         "ORD",
       ],
     });
-    fs.unlink(name, (err) => {
-      if (err) throw err;
-      console.log("deleted:", name);
-    });
-    fs.unlink(`public/temp/${image}`, (err) => {
-      if (err) throw err;
-      console.log("deleted", "image");
-    });
+    fs.unlink(
+      name,
+      catchAsync((err) => {
+        if (err) throw err;
+        console.log("deleted:", name);
+      })
+    );
+    fs.unlink(
+      `public/temp/${image}`,
+      catchAsync((err) => {
+        if (err) throw err;
+        console.log("deleted", "image");
+      })
+    );
 
     const report = await Student.findAll({
       attributes: ["examseatno"],
