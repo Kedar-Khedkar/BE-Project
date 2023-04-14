@@ -12,9 +12,10 @@ const {
   validateForgetRequest,
   validateResetRequest,
 } = require("../validations/user");
+const { validateFaculty } = require("../validations/faculty");
 const {
   validateStudent,
-  validateFaculty,
+
   isLoggedIn,
   isAdmin,
 } = require("../middleware");

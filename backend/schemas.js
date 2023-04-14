@@ -36,40 +36,6 @@ const extension = (joi) => ({
 
 const Joi = BaseJoi.extend(extension);
 
-module.exports.studentRegister = Joi.object({
-  /* A validation schema for student register. */
-  user: Joi.object({
-    fullname: Joi.string().trim().required().escapeHTML(),
-    // .pattern(/^[a-zA-Z]+\s[a-zA-Z]+$/, {
-    //   name: "firstname<space>lastname [Alphabets Only]",
-    // }),
-    email: Joi.string().trim().lowercase().email().required().escapeHTML(),
-    role: Joi.string()
-      .trim()
-      .lowercase()
-      .valid("student")
-      .required()
-      .escapeHTML(),
-  }).required(),
-}).required();
-
-module.exports.facultyRegister = Joi.object({
-  /* A validation schema for faculty register. */
-  user: Joi.object({
-    fullname: Joi.string().trim().required().escapeHTML(),
-    // .pattern(/^[a-zA-Z]+\s[a-zA-Z]+$/, {
-    //   name: "firstname<space>lastname [Alphabets Only]",
-    // }),
-    email: Joi.string().trim().lowercase().email().required().escapeHTML(),
-    role: Joi.string()
-      .trim()
-      .lowercase()
-      .valid("faculty")
-      .required()
-      .escapeHTML(),
-  }).required(),
-}).required();
-
 module.exports.utSchema = Joi.object({
   unitTest: Joi.object({
     UT1: Joi.number().integer().max(50).allow(null),
@@ -86,15 +52,3 @@ module.exports.utSchema = Joi.object({
     StudentUserId: Joi.number().required(),
   }).required(),
 }).required();
-
-module.exports.studentSchema = Joi.object({
-  student: Joi.object({
-    rollno: Joi.number().integer().required(),
-    curr_sem: Joi.number().integer().max(8).required(),
-    curryear: Joi.number().integer().max(5).required(),
-    examseatno: Joi.string().escapeHTML().allow(null),
-    prn: Joi.string().escapeHTML(),
-    parents_mob_no: Joi.number(),
-    parents_email: Joi.string().trim().lowercase().email().escapeHTML(),
-  }),
-});

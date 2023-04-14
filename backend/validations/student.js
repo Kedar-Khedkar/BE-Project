@@ -1,6 +1,5 @@
 const BaseJoi = require("joi");
 const sanitizeHtml = require("sanitize-html");
-const ExpressError = require("../utils/ExpressError");
 
 const extension = (joi) => ({
   /**
@@ -37,8 +36,8 @@ const extension = (joi) => ({
 
 const Joi = BaseJoi.extend(extension);
 
-const facultyRegister = Joi.object({
-  /* A validation schema for faculty register. */
+const studentRegister = Joi.object({
+  /* A validation schema for student register. */
   user: Joi.object({
     fullname: Joi.string().trim().required().escapeHTML(),
     // .pattern(/^[a-zA-Z]+\s[a-zA-Z]+$/, {
@@ -48,14 +47,14 @@ const facultyRegister = Joi.object({
     role: Joi.string()
       .trim()
       .lowercase()
-      .valid("faculty")
+      .valid("student")
       .required()
       .escapeHTML(),
   }).required(),
 }).required();
 
-module.exports.validateFaculty = (req, res, next) => {
-  const { error } = facultyRegister.validate(req.body);
+module.exports.validateStudent = (req, res, next) => {
+  const { error } = studentRegister.validate(req.body);
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(msg, 400);
@@ -64,25 +63,23 @@ module.exports.validateFaculty = (req, res, next) => {
   }
 };
 
-const claimSchema = Joi.object({
-  subIds: Joi.array()
-    .items(
-      Joi.string()
-        .trim()
-        .required()
-        .escapeHTML()
-        .pattern(/^[0-9]+$|^[0-9]+[A-Za-z]$/, { name: "subject code" })
-        .required()
-    )
-    .required(),
+const studentSchema = Joi.object({
+  student: Joi.object({
+    rollno: Joi.number().integer().required(),
+    curr_sem: Joi.number().integer().max(8).required(),
+    curryear: Joi.number().integer().max(5).required(),
+    examseatno: Joi.string().escapeHTML().allow(null),
+    prn: Joi.string().escapeHTML(),
+    parents_mob_no: Joi.number(),
+    parents_email: Joi.string().trim().lowercase().email().escapeHTML(),
+  }),
 });
 
-module.exports.validateClaimReq = (req, res, next) => {
-  const { error } = claimSchema.validate(req.body);
+module.exports.validateStudentProfile = async (req, res, next) => {
+  console.log(req.body);
+  const { error } = studentSchema.validate(req.body);
   if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
+    const message = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(message, 400);
   }
 };

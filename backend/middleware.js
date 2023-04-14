@@ -1,25 +1,10 @@
-const {
-  studentRegister,
-  facultyRegister,
-  subjectSchema,
-  utSchema,
-  studentSchema,
-} = require("./schemas");
+const { studentRegister, utSchema, studentSchema } = require("./schemas");
 
 const { User } = require("./models/user");
 const ExpressError = require("./utils/ExpressError");
 const { Subject } = require("./models/subject");
 
 /* This is a middleware function that validates the student registration form. */
-module.exports.validateStudent = (req, res, next) => {
-  const { error } = studentRegister.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
 
 /* This is a middleware function that checks if the user is logged in or not. If the user is not logged
 in, it will redirect the user to the login page. */
@@ -34,17 +19,6 @@ module.exports.isLoggedIn = (req, res, next) => {
     });
   } else {
     console.log(req.user);
-    next();
-  }
-};
-
-/* This is a middleware function that validates the faculty registration form. */
-module.exports.validateFaculty = (req, res, next) => {
-  const { error } = facultyRegister.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
     next();
   }
 };
@@ -114,13 +88,5 @@ module.exports.validateUnitTest = (req, res, next) => {
     throw new ExpressError(msg, 400);
   } else {
     next();
-  }
-};
-module.exports.validateStudentProfile = async (req, res, next) => {
-  console.log(req.body);
-  const { error } = studentSchema.validate(req.body);
-  if (error) {
-    const message = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(message, 400);
   }
 };
