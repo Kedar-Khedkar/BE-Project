@@ -14,6 +14,7 @@ const fs = require("fs");
 const { Student } = require("../models/student");
 const { User } = require("../models/user");
 const { Op } = require("sequelize");
+const { fileReqValidator } = require("../validations/files");
 
 router
   .route("/search")
@@ -27,6 +28,7 @@ router
 
 router.route("/mapSeatnos").post(
   upload.single("file"),
+  fileReqValidator,
   catchAsync(async (req, res) => {
     const errors = [];
     const response = [];

@@ -13,6 +13,7 @@ const {
   validateResetRequest,
 } = require("../validations/user");
 const { validateFaculty } = require("../validations/faculty");
+const { fileReqValidator } = require("../validations/files");
 const {
   validateStudent,
 
@@ -57,6 +58,7 @@ router.route("/upload").post(
   isLoggedIn,
   isAdmin,
   upload.single("file"),
+  fileReqValidator,
   catchAsync(async (req, res) => {
     const uploadPath = req.file.path;
     const result = await extractUsers(uploadPath);
