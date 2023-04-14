@@ -8,7 +8,6 @@ const { Mark } = require("./mark");
 const { UnitTest } = require("./unitTest");
 const { Parent } = require("./parents");
 
-/* Creating the relationships between the tables. */
 //ONE-TO-ONE USER-FACULTY
 User.hasOne(Faculty, {
   foreignKey: {

@@ -2,19 +2,11 @@ const { Faculty } = require("../models/faculty");
 const { Subject } = require("../models/subject");
 const { User } = require("../models/user");
 
-const sample = (array /* Returning a random element from the array. */) =>
-  array[Math.floor(Math.random() * array.length)];
-
-module.exports.seedSubjects = async () => {
-  /* Creating a new table in the database with the name `Subjects` and inserting the data from the
-  `subjectData` array into the table. */
-  await Subject.bulkCreate(subjectData);
+const sample = (array    await Subject.bulkCreate(subjectData);
 };
 
 module.exports.associateSubjects = async () => {
-  /* This is a for loop which is iterating over the faculty table and assigning a random subject to
-  each faculty. */
-  for (let id = 1; id < 9; id++) {
+     for (let id = 1; id < 9; id++) {
     let subid = sample(subjectData).subCode;
     await Faculty.create({
       userId: id,
@@ -23,8 +15,7 @@ module.exports.associateSubjects = async () => {
   }
 };
 
-/* This is an array of objects. Each object represents a subject. */
-subjectData = [
+ subjectData = [
   {
     subCode: "414441",
     subName: "Information and Storage Retrieval",

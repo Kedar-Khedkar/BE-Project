@@ -15,25 +15,19 @@ const { Student } = require("../models/student");
 const { User } = require("../models/user");
 const { Op } = require("sequelize");
 
-/* Creating a route for the search function in the student controller. */
 router
   .route("/search")
   .get(isLoggedIn, isFacultyOrAdmin, catchAsync(student.search));
 
 router
-  .route(
-    "/:id"
-  ) /* Calling the getProfileData function in the student controller. */
+  .route("/:id")
   .get(isLoggedIn, catchAsync(student.getProfileData))
-  /* Calling the updateProfileData function in the student controller. */
   .put(isLoggedIn, catchAsync(student.updateProfileData))
   .delete(isLoggedIn, isFacultyOrAdmin, catchAsync(student.deleteStudent));
 
 router.route("/mapSeatnos").post(
   upload.single("file"),
   catchAsync(async (req, res) => {
-    /* This is a function that extracts the seat numbers from the uploaded file and then deletes the
-  file. */
     const errors = [];
     const response = [];
     const result = await extract_seatno(req.file.path);

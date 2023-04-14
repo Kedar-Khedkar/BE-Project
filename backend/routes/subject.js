@@ -9,7 +9,6 @@ const {
 const { validateSubject } = require("../validations/subject");
 const subject = require("../controllers/subject");
 
-/* This is a route for creating a subject. */
 router
   .route("/create")
   .post(
@@ -23,7 +22,6 @@ router
   .route("/all")
   .get(isLoggedIn, isFacultyOrAdmin, catchAsync(subject.getAll));
 
-/* This is a route for updating and deleting a subject. */
 router
   .route("/:id")
   .get(isLoggedIn, isFacultyOrAdmin, catchAsync(subject.showSubject))

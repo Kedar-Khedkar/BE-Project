@@ -2,7 +2,6 @@ const ExpressError = require("../utils/ExpressError");
 const { Joi } = require("./joiExtension");
 
 const subjectSchema = Joi.object({
-  /* A validation schema for subject. */
   subject: Joi.object({
     subCode: Joi.string()
       .trim()

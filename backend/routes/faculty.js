@@ -7,7 +7,6 @@ const { validateClaimReq } = require("../validations/faculty");
 
 router.use(isLoggedIn, isFacultyOrAdmin);
 
-/* Defining the routes for the faculty. */
 router
   .route("/all")
   .get(isLoggedIn, isFacultyOrAdmin, catchAsync(faculty.getAllFaculty));

@@ -2,7 +2,6 @@ const ExpressError = require("../utils/ExpressError");
 const { Joi } = require("./joiExtension");
 
 const facultyRegister = Joi.object({
-  /* A validation schema for faculty register. */
   user: Joi.object({
     fullname: Joi.string().trim().required().escapeHTML(),
     // .pattern(/^[a-zA-Z]+\s[a-zA-Z]+$/, {

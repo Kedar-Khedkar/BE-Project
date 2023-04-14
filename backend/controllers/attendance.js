@@ -5,41 +5,38 @@ const { Subject } = require("../models/subject");
 const { Op, Sequelize } = require("sequelize");
 const { sequelize } = require("../utils/database");
 
-module.exports.readAttendance =
-  /* A function to find all the attendance records between two dates. */
-  async (req, res) => {
-    const { filters } = req.body;
-    const result = await Attendance.findAll({
-      attributes: ["presentee", "createdAt", "StudentUserId", "SubjectSubCode"],
-      where: {
-        SubjectSubCode: `${filters.subject}`,
-        [Op.and]: sequelize.where(
-          sequelize.fn("date", sequelize.col("Attendance.createdAt")),
-          "=",
-          new Date(filters.for).toISOString().slice(0, 10)
-        ),
-      },
-      /* A way to include the data from other tables in the result. */
-      include: [
-        {
-          model: Student,
+module.exports.readAttendance = async (req, res) => {
+  const { filters } = req.body;
+  const result = await Attendance.findAll({
+    attributes: ["presentee", "createdAt", "StudentUserId", "SubjectSubCode"],
+    where: {
+      SubjectSubCode: `${filters.subject}`,
+      [Op.and]: sequelize.where(
+        sequelize.fn("date", sequelize.col("Attendance.createdAt")),
+        "=",
+        new Date(filters.for).toISOString().slice(0, 10)
+      ),
+    },
+    include: [
+      {
+        model: Student,
+        required: true,
+        attributes: ["rollno"],
+        order: ["rollno"],
+        include: {
+          model: User,
           required: true,
-          attributes: ["rollno"],
-          order: ["rollno"],
-          include: {
-            model: User,
-            required: true,
-            attributes: ["fullname"],
-          },
+          attributes: ["fullname"],
         },
-      ],
-    });
-    res.send({
-      status: "success",
-      objects: result,
-      err: null,
-    });
-  };
+      },
+    ],
+  });
+  res.send({
+    status: "success",
+    objects: result,
+    err: null,
+  });
+};
 
 module.exports.editAttendance = async (req, res) => {
   await Attendance.update(
@@ -60,15 +57,11 @@ module.exports.editAttendance = async (req, res) => {
     });
 };
 
-module.exports.markMultiple =
-  /* A function that is called when a request is made to the server at the
-url `/api/attendance/markMultiple`. It takes a list of attendance
-records and adds them to the database. */
-  async (req, res) => {
-    const attendList = req.body;
-    const result = await Attendance.bulkCreate(attendList);
-    res.send({ status: "success", objects: null, err: null });
-  };
+module.exports.markMultiple = async (req, res) => {
+  const attendList = req.body;
+  const result = await Attendance.bulkCreate(attendList);
+  res.send({ status: "success", objects: null, err: null });
+};
 
 module.exports.studStats = async (req, res) => {
   const user = req.user;

@@ -2,7 +2,6 @@ const ExpressError = require("../utils/ExpressError");
 const { Joi } = require("./joiExtension");
 
 module.exports.userUploadSchema = Joi.object({
-  /* A validation schema for user upload. */
   fullname: Joi.string().trim().required().escapeHTML(),
   // .pattern(/^[a-zA-Z]+\s[a-zA-Z]+$/, {
   //   name: "firstname<space>lastname [Alphabets Only]",
@@ -16,7 +15,6 @@ module.exports.userUploadSchema = Joi.object({
 }).required();
 
 const forgotpassword = Joi.object({
-  /* A validation schema for email. */
   email: Joi.string().trim().lowercase().required().email().escapeHTML(),
 });
 
@@ -32,7 +30,6 @@ module.exports.validateForgetRequest = (req, res, next) => {
 };
 
 const resetpassword = Joi.object({
-  /* A validation schema for email and token. */
   email: Joi.string().trim().lowercase().required().email().escapeHTML(),
   token: Joi.string().trim().lowercase().required().escapeHTML(),
   password1: Joi.string().trim().lowercase().required().escapeHTML(),
