@@ -7,6 +7,7 @@ import { ImageWithRectangles } from "../component/ImageCrop/ImageCropper";
 import SubjectFilter from "../component/Unit Tests/SubjectFilter";
 import UnitTest from "../component/Unit Tests/UnitTest";
 import ExtractMarks from "../component/Extract Marks/ExtractMarks";
+import InSem from "../component/InSem/InSem";
 export default function MarksTabs() {
   const navigate = useNavigate();
   const { tabValue } = useParams();
@@ -52,7 +53,9 @@ export default function MarksTabs() {
         </Tabs.Panel>
 
         <Tabs.Panel value="2" pt="xs">
-          <ImageWithRectangles />
+          {/* <ImageWithRectangles /> */}
+          <SubjectFilter/>
+          <InSem/>
         </Tabs.Panel>
 
         <Tabs.Panel value="3" pt="xs">

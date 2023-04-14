@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NativeSelect } from "@mantine/core";
+import { Container, NativeSelect } from "@mantine/core";
 import axios from "axios";
 export default function SubjectFilter({ onChange }) {
   const [subjectList, setSubjectList] = useState([]);
@@ -32,7 +32,7 @@ export default function SubjectFilter({ onChange }) {
     }
   };
   return (
-    <>
+    <Container>
       <NativeSelect
         data={selectData}
         label="Select Subject"
@@ -43,6 +43,6 @@ export default function SubjectFilter({ onChange }) {
         withAsterisk
         onChange={fetchStudents}
       />
-    </>
+    </Container>
   );
 }
