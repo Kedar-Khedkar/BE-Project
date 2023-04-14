@@ -6,15 +6,17 @@ const passport = require("passport");
 const fs = require("fs");
 const { upload } = require("../computationalUnit/fileupload");
 const { extractUsers } = require("../computationalUnit/extractExcel");
-const { validateLoginReq } = require("../validations/user");
+const {
+  validateLoginReq,
+  validateUser,
+  validateForgetRequest,
+  validateResetRequest,
+} = require("../validations/user");
 const {
   validateStudent,
   validateFaculty,
   isLoggedIn,
-  validateForgetRequest,
-  validateResetRequest,
   isAdmin,
-  validateUser,
 } = require("../middleware");
 const path = require("path");
 

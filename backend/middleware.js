@@ -2,9 +2,6 @@ const {
   studentRegister,
   facultyRegister,
   subjectSchema,
-  forgotpassword,
-  resetpassword,
-  userSchema,
   utSchema,
   studentSchema,
 } = require("./schemas");
@@ -19,21 +16,6 @@ module.exports.validateStudent = (req, res, next) => {
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
-
-module.exports.validateUser = (req, res, next) => {
-  const { error } = userSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-    // res.status(400).send({
-    //   status: "error",
-    //   objects: null,
-    //   err: msg
-    // })
   } else {
     next();
   }
@@ -59,29 +41,6 @@ module.exports.isLoggedIn = (req, res, next) => {
 /* This is a middleware function that validates the faculty registration form. */
 module.exports.validateFaculty = (req, res, next) => {
   const { error } = facultyRegister.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
-
-/* This is a middleware function that validates the forgot password form. */
-module.exports.validateForgetRequest = (req, res, next) => {
-  console.log(req.body);
-  const { error } = forgotpassword.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
-
-/* This is a middleware function that validates the reset password form. */
-module.exports.validateResetRequest = (req, res, next) => {
-  const { error } = resetpassword.validate(req.body);
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(msg, 400);
