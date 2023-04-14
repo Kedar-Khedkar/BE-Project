@@ -49,17 +49,6 @@ module.exports.validateFaculty = (req, res, next) => {
   }
 };
 
-/* This is a middleware function that validates the subject form. */
-module.exports.validateSubject = (req, res, next) => {
-  const { error } = subjectSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
-
 /* This is a middleware function that checks if the user is a faculty or admin. If the user is not a
 faculty or admin, it will throw an error. */
 module.exports.isFacultyOrAdmin = async (req, res, next) => {

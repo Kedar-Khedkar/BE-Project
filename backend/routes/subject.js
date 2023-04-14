@@ -3,9 +3,10 @@ const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
 const {
   isLoggedIn,
-  validateSubject,
+
   isFacultyOrAdmin,
 } = require("../middleware");
+const { validateSubject } = require("../validations/subject");
 const subject = require("../controllers/subject");
 
 /* This is a route for creating a subject. */
@@ -18,12 +19,14 @@ router
     catchAsync(subject.createSubject)
   );
 
-router.route("/all").get(isLoggedIn,isFacultyOrAdmin, catchAsync(subject.getAll));
+router
+  .route("/all")
+  .get(isLoggedIn, isFacultyOrAdmin, catchAsync(subject.getAll));
 
 /* This is a route for updating and deleting a subject. */
 router
   .route("/:id")
-  .get(isLoggedIn,isFacultyOrAdmin, catchAsync(subject.showSubject))
+  .get(isLoggedIn, isFacultyOrAdmin, catchAsync(subject.showSubject))
   .put(
     isLoggedIn,
     isFacultyOrAdmin,

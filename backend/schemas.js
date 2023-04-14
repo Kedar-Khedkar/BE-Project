@@ -70,28 +70,6 @@ module.exports.facultyRegister = Joi.object({
   }).required(),
 }).required();
 
-module.exports.subjectSchema = Joi.object({
-  /* A validation schema for subject. */
-  subject: Joi.object({
-    subCode: Joi.string()
-      .trim()
-      .required()
-      .escapeHTML()
-      .pattern(/^[0-9]+$|^[0-9]+[A-Za-z]$/, { name: "subject code" }),
-    subName: Joi.string()
-      .trim()
-      .required()
-      .escapeHTML()
-      .pattern(/^(?![0-9]*$)[A-z- 0-9]+$/, {
-        name: "AlphaNumeric but not only numeric ('-' allowed)",
-      }),
-    pract: Joi.number().integer(),
-    oral: Joi.number().integer(),
-    termWork: Joi.number().integer(),
-    sem: Joi.number().integer().max(8).required(),
-  }),
-});
-
 module.exports.utSchema = Joi.object({
   unitTest: Joi.object({
     UT1: Joi.number().integer().max(50).allow(null),
