@@ -1,8 +1,4 @@
-const { studentRegister, utSchema, studentSchema } = require("./schemas");
-
 const { User } = require("./models/user");
-const ExpressError = require("./utils/ExpressError");
-const { Subject } = require("./models/subject");
 
 /* This is a middleware function that validates the student registration form. */
 
@@ -18,8 +14,11 @@ module.exports.isLoggedIn = (req, res, next) => {
       data: { redirectLink: "/login" },
     });
   } else {
-    console.log(req.user);
-    next();
+    if (!req.user) {
+      res.redirect("/users/logout");
+    } else {
+      next();
+    }
   }
 };
 
@@ -62,31 +61,5 @@ module.exports.isAdmin = async (req, res, next) => {
       data: null,
       err: "You Don't have the required permissions",
     });
-  }
-};
-
-module.exports.validateUTquery = async (req, res, next) => {
-  const subject = await Subject.findOne({
-    where: { subCode: req.query.SubjectSubCode },
-    attributes: ["sem"],
-  });
-  if (subject.sem == req.query.sem) {
-    next();
-  } else {
-    res.status(400).send({
-      status: "error",
-      objects: null,
-      err: "Subject Code and sem do not match Invalid query",
-    });
-  }
-};
-
-module.exports.validateUnitTest = (req, res, next) => {
-  const { error } = utSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
   }
 };

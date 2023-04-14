@@ -1,6 +1,6 @@
 const Excel = require("exceljs");
 const { User } = require("../models/user");
-const { userUploadSchema } = require("../schemas");
+const { userUploadSchema } = require("../validations/user");
 const controller = require("../controllers/user");
 const { sendMail } = require("../utils/email");
 

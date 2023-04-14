@@ -2,12 +2,11 @@ const express = require("express");
 const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
 const unitTest = require("../controllers/unitTest");
+const { isLoggedIn, isFacultyOrAdmin } = require("../middleware");
 const {
-  isLoggedIn,
-  isFacultyOrAdmin,
   validateUTquery,
   validateUnitTest,
-} = require("../middleware");
+} = require("../validations/unitTest");
 
 router
   .route("/")
