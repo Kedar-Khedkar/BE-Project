@@ -8,6 +8,7 @@ import SubjectFilter from "../component/Unit Tests/SubjectFilter";
 import UnitTest from "../component/Unit Tests/UnitTest";
 import ExtractMarks from "../component/Extract Marks/ExtractMarks";
 import InSem from "../component/InSem/InSem";
+import Marksscribe from "../component/Scribe/Marksscribe";
 export default function MarksTabs() {
   const navigate = useNavigate();
   const { tabValue } = useParams();
@@ -45,6 +46,7 @@ export default function MarksTabs() {
           <Tabs.Tab value="1">Unit Tests</Tabs.Tab>
           <Tabs.Tab value="2">In-sem</Tabs.Tab>
           <Tabs.Tab value="3">Extract Marks</Tabs.Tab>
+          <Tabs.Tab value="4">How to use</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="1" pt="xs">
@@ -60,6 +62,10 @@ export default function MarksTabs() {
 
         <Tabs.Panel value="3" pt="xs">
           <ExtractMarks />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="4" pt="xs">
+          <Marksscribe/>
         </Tabs.Panel>
       </Tabs>
     </Container>
