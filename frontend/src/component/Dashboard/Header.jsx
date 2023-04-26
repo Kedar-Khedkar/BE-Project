@@ -192,7 +192,7 @@ export default function HeaderAction({ links }) {
                       size={40}
                       color={user.role === "admin" ? "red" : "yellow"}
                     >
-                      {user.fullname.split(" ").length === 2
+                      {user.fullname.split(" ").length >= 2
                         ? user.fullname.split(" ")[0][0].toUpperCase() +
                           user.fullname.split(" ")[1][0].toUpperCase()
                         : user.fullname.split(" ")[0][0].toUpperCase() +
