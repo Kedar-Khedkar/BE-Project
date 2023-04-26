@@ -188,10 +188,16 @@ export default function HeaderAction({ links }) {
               <Menu.Target>
                 <UnstyledButton>
                   <Group>
-                    {/* <Avatar size={40}  color={user.role === "admin" ? "red" : "yellow"}>
-                      {user.fullname.split(" ")[0][0] +
-                        user.fullname.split(" ")[1][0]}
-                    </Avatar> */}
+                    <Avatar
+                      size={40}
+                      color={user.role === "admin" ? "red" : "yellow"}
+                    >
+                      {user.fullname.split(" ").length === 2
+                        ? user.fullname.split(" ")[0][0].toUpperCase() +
+                          user.fullname.split(" ")[1][0].toUpperCase()
+                        : user.fullname.split(" ")[0][0].toUpperCase() +
+                          user.fullname.split(" ")[0][1].toUpperCase()}
+                    </Avatar>
                     <div>
                       <Text>{user.fullname}</Text>
                       <Text size="xs" color="dimmed">
