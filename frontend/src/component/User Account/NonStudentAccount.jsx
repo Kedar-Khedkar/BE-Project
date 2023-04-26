@@ -41,12 +41,12 @@ export default function NonStudentAccount({ data }) {
   const form = useForm({ initialValues });
   const { classes, theme } = useStyles();
   console.log("inside component", data);
-  const updateUser = (event, id) => {
+  const updatedata = (event, id) => {
     event.preventDefault();
     axios
       .put(
-        `/users/${id}`,
-        { user: form.values },
+        `/datas/${id}`,
+        { data: form.values },
         { withCredentials: true }
       )
       .then((res) => {
@@ -80,7 +80,11 @@ export default function NonStudentAccount({ data }) {
           radius="xl"
           color={data.role === "admin" ? "red" : "yellow"}
         >
-          {data.fullname.split(" ")[0][0] + data.fullname.split(" ")[1][0]}
+          {data.fullname.split(" ").length >= 2
+                        ? data.fullname.split(" ")[0][0].toUpperCase() +
+                          data.fullname.split(" ")[1][0].toUpperCase()
+                        : data.fullname.split(" ")[0][0].toUpperCase() +
+                          data.fullname.split(" ")[0][1].toUpperCase()}
         </Avatar>
          
       </Center>
@@ -116,7 +120,7 @@ export default function NonStudentAccount({ data }) {
           </ActionIcon>
           <form
             onSubmit={(e) => {
-              updateUser(e, data.id);
+              updatedata(e, data.id);
             }}
           >
             <TextInput
