@@ -2,12 +2,13 @@ const { Faculty } = require("../models/faculty");
 const { Subject } = require("../models/subject");
 const { User } = require("../models/user");
 
-const sample = (array    await Subject.bulkCreate(subjectData);
+module.exports.seedSubjects = async (array) => {
+  await Subject.bulkCreate(subjectData);
 };
 
 module.exports.associateSubjects = async () => {
-     for (let id = 1; id < 9; id++) {
-    let subid = sample(subjectData).subCode;
+  for (let id = 1; id < 9; id++) {
+    let subid = subjectData[id].subCode;
     await Faculty.create({
       userId: id,
       SubjectSubCode: subid,
@@ -15,7 +16,7 @@ module.exports.associateSubjects = async () => {
   }
 };
 
- subjectData = [
+subjectData = [
   {
     subCode: "414441",
     subName: "Information and Storage Retrieval",
