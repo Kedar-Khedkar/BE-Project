@@ -11,7 +11,7 @@ import {
   Paper,
 } from "@mantine/core";
 import { IconCheck, IconX , IconSquareRoundedX } from "@tabler/icons-react";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { showNotification } from "@mantine/notifications";
 import { closeAllModals, openConfirmModal } from "@mantine/modals";
 export default function UnclaimSubjects({ data, reqRefresh }) {
@@ -19,9 +19,7 @@ export default function UnclaimSubjects({ data, reqRefresh }) {
 
   const unclaimsubject = (subCode) => {
     axios
-      .delete(`http://localhost:5000/faculty/subject/${subCode}`, {
-        withCredentials: true,
-      })
+      .delete(`/faculty/subject/${subCode}`)
       .then((res) => {
         showNotification({
           title: "Success!",

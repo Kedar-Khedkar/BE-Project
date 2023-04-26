@@ -10,7 +10,7 @@ import {
   Tooltip,
   Paper,
 } from "@mantine/core";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { IconPencil, IconTrash, IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 import { closeAllModals, openModal, openConfirmModal } from "@mantine/modals";
@@ -23,9 +23,7 @@ export default function StudentManagementTable({ data, reqRefresh }) {
   const [studentData, setStudentData] = useState(undefined);
   const deleteUser = (id) => {
     axios
-      .delete(`http://localhost:5000/users/${id}`, {
-        withCredentials: true,
-      })
+      .delete(`/users/${id}`)
       .then((res) => {
         showNotification({
           title: "Success",

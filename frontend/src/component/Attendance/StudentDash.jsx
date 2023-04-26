@@ -2,14 +2,14 @@ import { Divider, Grid } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import AnimatedProgressBarCircle from "../Charts/AnimatedProgressBarCircle";
 import AreaChart from "../Charts/AreaChart";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import BarChart from "../Charts/BarChart";
 
 export default function StudentDash() {
   const [data, setData] = useState(undefined);
   useEffect(() => {
     axios
-      .get("http://localhost:5000/attend/stud-stats", { withCredentials: true })
+      .get("/attend/stud-stats")
       .then((res) => {
         setData(res.data.objects);
       });

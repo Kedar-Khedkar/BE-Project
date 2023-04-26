@@ -15,7 +15,7 @@ import {
 import { useForm } from "@mantine/form";
 import { IconPencil, IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { useEffect, useState } from "react";
 
 const useStyles = createStyles((theme) => ({
@@ -45,7 +45,7 @@ export default function NonStudentAccount({ data }) {
     event.preventDefault();
     axios
       .put(
-        `http://localhost:5000/users/${id}`,
+        `/users/${id}`,
         { user: form.values },
         { withCredentials: true }
       )

@@ -1,6 +1,6 @@
 import { Tabs, Container, Anchor, Box, Center } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
-import axios from "axios";
+import axios from "../axiosConfig";
 import { useEffect, useState } from "react";
 import AddUser from "../component/Add User/AddUser";
 import FacultyManagementTable from "../component/UserManagement/FacultyManagementTable";
@@ -18,7 +18,7 @@ export default function UserTabs() {
   const [refresh, setRefresh] = useState("first-render");
   const getFaculty = () => {
     axios
-      .get("http://localhost:5000/faculty/all", { withCredentials: true })
+      .get("/faculty/all")
       .then((res) => {
         setFacultyData(res.data.objects);
       });
@@ -26,7 +26,7 @@ export default function UserTabs() {
 
   const getStudents = () => {
     axios
-      .get("http://localhost:5000/student/search", { withCredentials: true })
+      .get("/student/search")
       .then((res) => {
         setStudentData(res.data.objects);
       });
@@ -34,7 +34,7 @@ export default function UserTabs() {
 
   const getTrash = () => {
     axios
-      .get("http://localhost:5000/users/trash", { withCredentials: true })
+      .get("/users/trash")
       .then((res) => {
         setTrashedUsers(res.data.objects);
       });

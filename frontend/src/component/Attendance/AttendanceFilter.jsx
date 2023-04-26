@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, NativeSelect, Grid } from "@mantine/core";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { DatePicker } from "@mantine/dates";
 import { IconCalendarEvent, IconBooks, IconSchool } from "@tabler/icons-react";
 
@@ -16,9 +16,8 @@ export default function AttendanceFilter({ children, onChange, reqData }) {
       console.log({ filters: { ...filters } });
       axios
         .post(
-          "http://localhost:5000/attend",
+          "/attend",
           { filters: { ...filters } },
-          { withCredentials: true }
         )
         .then((res) => {
           console.log(res);

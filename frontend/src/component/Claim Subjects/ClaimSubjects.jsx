@@ -1,5 +1,5 @@
 import { Button, MultiSelect } from "@mantine/core";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { useEffect, useState } from "react";
 import { showNotification } from "@mantine/notifications";
 import UnclaimSubjects from "./UnclaimSubjects";
@@ -10,7 +10,7 @@ export default function ClaimSubjects(props) {
 
   const getClaimed = () => {
     axios
-      .get("http://localhost:5000/faculty/", { withCredentials: true })
+      .get("/faculty/")
       .then((res) => {
         setAlreadyClaimed(res.data.objects);
         props.reqRefresh();

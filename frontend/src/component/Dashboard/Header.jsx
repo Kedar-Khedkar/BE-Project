@@ -24,7 +24,7 @@ import {
   IconX,
   IconLogout,
 } from "@tabler/icons-react";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { showNotification } from "@mantine/notifications";
 import { redirect } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
@@ -86,9 +86,7 @@ export default function HeaderAction({ links }) {
   console.log(user);
   const logout = () => {
     axios
-      .post("http://localhost:5000/users/logout", null, {
-        withCredentials: true,
-      })
+      .post("/users/logout", null)
       .then((res) => {
         navigate("/");
         secureLocalStorage.removeItem("user");
@@ -190,10 +188,10 @@ export default function HeaderAction({ links }) {
               <Menu.Target>
                 <UnstyledButton>
                   <Group>
-                    <Avatar size={40}  color={user.role === "admin" ? "red" : "yellow"}>
+                    {/* <Avatar size={40}  color={user.role === "admin" ? "red" : "yellow"}>
                       {user.fullname.split(" ")[0][0] +
                         user.fullname.split(" ")[1][0]}
-                    </Avatar>
+                    </Avatar> */}
                     <div>
                       <Text>{user.fullname}</Text>
                       <Text size="xs" color="dimmed">

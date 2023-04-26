@@ -8,7 +8,7 @@ import {
   NumberInput,
 } from "@mantine/core";
 import React, { useState, useRef } from "react";
-import axios from "axios";
+import axios from "../../axiosConfig";
 
 export function ImageWithRectangles(props) {
   const image = props.image;
@@ -136,9 +136,7 @@ export function ImageWithRectangles(props) {
     };
     console.log(JSON.stringify(reqBody));
     axios
-      .post("http://localhost:5000/marks/cropCoordinates", reqBody, {
-        withCredentials: true,
-      })
+      .post("/marks/cropCoordinates", reqBody)
       .then((res) => {
         props.response(res.data.objects);
       });

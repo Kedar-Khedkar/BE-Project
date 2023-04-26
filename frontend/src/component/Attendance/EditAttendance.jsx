@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Badge, NativeSelect, Table } from "@mantine/core";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 
@@ -13,9 +13,8 @@ export default function EditAttendance({ data, reqRefresh, filters }) {
     obj.presentee = obj.presentee == "Present" ? true : false;
     axios
       .put(
-        "http://localhost:5000/attend",
-        { ...obj },
-        { withCredentials: true }
+        "/attend",
+        { ...obj }
       )
       .then((res) => {
         showNotification({

@@ -16,7 +16,7 @@ import {
   Paper,
 } from "@mantine/core";
 import { IconPencil, IconTrash, IconCheck, IconX } from "@tabler/icons-react";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import EditSubjectForm from "./EditSubjectForm";
@@ -40,7 +40,7 @@ function Editsubject() {
   console.log(tempState);
   const getSubjects = () => {
     axios
-      .get("http://localhost:5000/subjects/all", { withCredentials: true })
+      .get("/subjects/all")
       .then((res) => {
         setResult(res.data.objects);
       })

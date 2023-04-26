@@ -1,6 +1,6 @@
 import { Tabs, Container, Anchor, Box, Center } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
-import axios from "axios";
+import axios from "../axiosConfig";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ImageWithRectangles } from "../component/ImageCrop/ImageCropper";
@@ -18,7 +18,7 @@ export default function MarksTabs() {
     setFilters({ subcode: subcode, sem: sem });
     axios
       .get(
-        `http://localhost:5000/unitTest?SubjectSubCode=${subcode}&sem=${sem}`,
+        `/unitTest?SubjectSubCode=${subcode}&sem=${sem}`,
         {
           withCredentials: true,
         }

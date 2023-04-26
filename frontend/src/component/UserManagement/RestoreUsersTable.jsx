@@ -8,7 +8,7 @@ import {
   ScrollArea,
   useMantineTheme,
 } from "@mantine/core";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { IconPencil, IconTrash, IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 
@@ -17,9 +17,9 @@ export default function RestoreUsersTable({ data }) {
   const theme = useMantineTheme();
   const deleteUser = (id) => {
     axios
-      .delete(`http://localhost:5000/users/${id}`, {
+      .delete(`/users/${id}`, {
         data: { hardDelete: true },
-        withCredentials: true,
+        
       })
       .then((res) => {
         showNotification({

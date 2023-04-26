@@ -185,7 +185,7 @@ import { showNotification } from "@mantine/notifications";
 import loginImg from "../../assets/Images/computer-login-animate.svg";
 import { useForm , isEmail} from "@mantine/form";
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import secureLocalStorage from "react-secure-storage";
 const useStyles = createStyles((theme) => ({
@@ -220,9 +220,7 @@ export default function AuthenticationTitle() {
   //   };
   const handleSubmit = (event, values) => {
     axios
-      .post("http://localhost:5000/users/login", form.values, {
-        withCredentials: true,
-      })
+      .post("/users/login", form.values)
       // .then(function (response) {
       //   console.log(response.status);
       //   // auth.login(response.data.user);

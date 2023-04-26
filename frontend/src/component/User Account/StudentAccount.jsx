@@ -12,9 +12,9 @@ import {
   ActionIcon,
   Button,
 } from "@mantine/core";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "@mantine/form";
+import axios from "../../axiosConfig";
 import { IconPencil, IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 
@@ -59,9 +59,9 @@ export default function StudentAccount({ data }) {
     event.preventDefault();
     axios
       .put(
-        `http://localhost:5000/student/${id}`,
+        `/student/${id}`,
         { student: form.values },
-        { withCredentials: true }
+       
       )
       .then((res) => {
         showNotification({

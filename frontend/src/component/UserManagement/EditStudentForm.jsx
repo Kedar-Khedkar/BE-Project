@@ -1,7 +1,7 @@
 import { useForm } from "@mantine/form";
 import React, { useState } from "react";
 import { Button, Modal, NativeSelect, TextInput } from "@mantine/core";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 
@@ -57,23 +57,22 @@ export default function EditStudentForm({ data, onClose, opened, reqRefresh }) {
     console.log(formValue);
     axios
       .put(
-        `http://localhost:5000/users/${data.userId}`,
+        `/users/${data.userId}`,
         { user: formValue.User },
-        { withCredentials: true }
+    
       )
       .then((res) => {
         axios
           .put(
-            `http://localhost:5000/student/${data.userId}`,
+            `/student/${data.userId}`,
             { student: formValue.student },
-            { withCredentials: true }
+          
           )
           .then((res) => {
             axios
               .put(
-                `http://localhost:5000/parents/${data.userId}`,
+                `/parents/${data.userId}`,
                 { ...formValue.parent },
-                { withCredentials: true }
               )
               .then((res) => {
                 showNotification({

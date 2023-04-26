@@ -21,7 +21,7 @@ export default function ExtractMarks() {
     <>
       <Container>
         <DropzoneButton
-          uploadLink={"http://localhost:5000/marks/upload"}
+          uploadLink={"/marks/upload"}
           onResponse={handleResponse}
           icon={<IconPdf color="#1a7fdb" size={36} />}
           accept={PDF_MIME_TYPE}

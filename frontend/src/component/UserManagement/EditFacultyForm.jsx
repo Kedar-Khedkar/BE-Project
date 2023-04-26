@@ -1,7 +1,7 @@
 import { useForm } from "@mantine/form";
 import React, { useState } from "react";
 import { Button, Modal, NativeSelect, TextInput } from "@mantine/core";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 
@@ -15,9 +15,9 @@ export default function EditFacultyForm({ data, onClose, opened, reqRefresh }) {
     e.preventDefault();
     axios
       .put(
-        `http://localhost:5000/users/${data.id}`,
+        `/users/${data.id}`,
         { user: formValue },
-        { withCredentials: true }
+       
       )
       .then((res) => {
         showNotification({

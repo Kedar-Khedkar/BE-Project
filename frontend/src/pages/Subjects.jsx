@@ -2,7 +2,7 @@ import { Tabs, Container, Anchor, Box, Center } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
 import CreateSubject from "../component/Create Subject/CreateSubject";
 import ClaimSubjects from "../component/Claim Subjects/ClaimSubjects";
-import axios from "axios";
+import axios from "../axiosConfig";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Subjectscribe from "../component/Scribe/Subjectscribe";
@@ -15,9 +15,7 @@ export default function Subjects() {
 
   const getSubjects = () => {
     axios
-      .get("http://localhost:5000/faculty/UnclaimedSubjects", {
-        withCredentials: true,
-      })
+      .get("/faculty/UnclaimedSubjects")
       .then((res) => {
         console.log(res.data.objects);
         const objects = res.data.objects;

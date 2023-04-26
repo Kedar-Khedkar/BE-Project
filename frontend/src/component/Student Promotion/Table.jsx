@@ -16,7 +16,7 @@ import {
   Container,
   Stack,
 } from "@mantine/core";
-import axios from "axios";
+import axios from "../../axiosConfig";
 // import { closeAllModals, openModal } from "@mantine/modals";
 const useStyles = createStyles((theme) => ({
   rowSelected: {
@@ -48,7 +48,6 @@ iteration. */
     promotionList.push(promoteObj);
     console.log("promotionList");
   });
-
 
   const toggleRow = (id) =>
     setSelection((current) =>
@@ -118,11 +117,8 @@ iteration. */
         count.push(obj.userId);
         axios
           .put(
-            `http://localhost:5000/student/${obj.userId}`,
-            { student: obj },
-            {
-              withCredentials: true,
-            }
+            `/student/${obj.userId}`,
+            { student: obj }
           )
           .then((res) => {
             console.log("then", res.data);
@@ -163,10 +159,10 @@ iteration. */
         </td>
         <td>
           <Group spacing="sm">
-          <Avatar size={"md"} radius="xl" color="blue">
-          {item.User.fullname.split(" ")[0][0] +
-            item.User.fullname.split(" ")[1][0]}
-        </Avatar>
+            <Avatar size={"md"} radius="xl" color="blue">
+              {item.User.fullname.split(" ")[0][0] +
+                item.User.fullname.split(" ")[1][0]}
+            </Avatar>
             <Text size="sm" weight={500}>
               {item.User.fullname}
             </Text>
@@ -202,7 +198,12 @@ iteration. */
             </thead>
             <tbody>{rows}</tbody>
           </Table>
-          <Modal opened={opened} onClose={() => setOpened(false)}  title="Select semester" centered>
+          <Modal
+            opened={opened}
+            onClose={() => setOpened(false)}
+            title="Select semester"
+            centered
+          >
             <Stack>
               <NativeSelect
                 data={["Select Semester", "3", "4", "5", "6", "7", "8"]}

@@ -73,7 +73,7 @@ export default function ExtractUsers() {
         </Center>
         <Space h="sm"/>
         <DropzoneButton
-          uploadLink={"http://localhost:5000/users/upload"}
+          uploadLink={"/users/upload"}
           accept={MS_EXCEL_MIME_TYPE}
           onResponse={handleResponse}
           onError={console.log}

@@ -8,7 +8,7 @@ import {
   NativeSelect,
 } from "@mantine/core";
 import { IconUserPlus, IconCheck, IconX } from "@tabler/icons-react";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { showNotification } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
 
@@ -45,7 +45,7 @@ export function StudentForm() {
   const handleSubmitStudent = (event, values) => {
     console.log(form.values);
     axios
-      .post("http://localhost:5000/users/studentRegister", form.values)
+      .post("/users/studentRegister", form.values)
       .then(function (response) {
         if (response.data.status === "success") {
           showNotification({

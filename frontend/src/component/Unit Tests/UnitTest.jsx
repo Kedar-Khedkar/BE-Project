@@ -3,7 +3,7 @@ import { Table, NumberInput, Text, Paper } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
-import axios from "axios";
+import axios from "../../axiosConfig";
 
 export default function UnitTest({ data, refresh, filters }) {
   console.log(data);
@@ -14,7 +14,7 @@ export default function UnitTest({ data, refresh, filters }) {
     if (debounced) {
       axios
         .put(
-          "http://localhost:5000/unitTest",
+          "/unitTest",
           { unitTest: { ...debounced } },
           { withCredentials: true }
         )

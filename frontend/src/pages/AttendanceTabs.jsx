@@ -2,7 +2,7 @@ import { Tabs, Container, Anchor, Center, Box, Text } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
 import AttendanceFilter from "../component/Attendance/AttendanceFilter";
 import Attendance from "../component/Attendance/Layout";
-import axios from "axios";
+import axios from "../axiosConfig";
 import { useEffect, useState } from "react";
 import AttendanceDash from "../component/Attendance/AttendanceDash";
 import { useNavigate, useParams } from "react-router-dom";
@@ -23,7 +23,7 @@ export default function AttendanceTabs() {
   });
   const getSubjects = () => {
     axios
-      .get("http://localhost:5000/faculty", { withCredentials: true })
+      .get("/faculty", { withCredentials: true })
       .then((res) => {
         const objects = res.data.objects;
         setSubjectList(objects);
@@ -36,7 +36,7 @@ export default function AttendanceTabs() {
 
   useEffect(() => {
     axios
-      .post(`http://localhost:5000/attend/stats?date=${filters.date}`, null, {
+      .post(`/attend/stats?date=${filters.date}`, null, {
         withCredentials: true,
       })
       .then((res) => {

@@ -1,7 +1,7 @@
 import { useForm } from "@mantine/form";
 import React, { useState } from "react";
 import { Button, Modal, NativeSelect, TextInput } from "@mantine/core";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { showNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons-react";
 
@@ -19,9 +19,9 @@ export default function EditSubjectForm({ data, onClose, opened, reqRefresh }) {
     e.preventDefault();
     axios
       .put(
-        `http://localhost:5000/subjects/${data.subCode}`,
+        `/subjects/${data.subCode}`,
         { subject: formValue },
-        { withCredentials: true }
+        
       )
       .then((res) => {
         showNotification({

@@ -13,7 +13,7 @@ import {
     Box,
   } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import axios from 'axios';
+import axios from "../../axiosConfig";
 import { showNotification } from "@mantine/notifications";
   
   const useStyles = createStyles((theme) => ({
@@ -47,9 +47,7 @@ import { showNotification } from "@mantine/notifications";
     })
 
     const handleSubmit = (event, values) =>{
-      axios.post("http://localhost:5000/users/forgotPassword", form.values,{
-        withCredentials: true,
-      })
+      axios.post("/users/forgotPassword", form.values)
       .then(
         function(response){
           showNotification({

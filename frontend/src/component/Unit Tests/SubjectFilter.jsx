@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container, NativeSelect } from "@mantine/core";
-import axios from "axios";
+import axios from "../../axiosConfig";
 export default function SubjectFilter({ onChange }) {
   const [subjectList, setSubjectList] = useState([]);
   const [selectData, setSelectData] = useState(["fetching data..."]);
   useEffect(() => {
     axios
-      .get("http://localhost:5000/faculty", { withCredentials: true })
+      .get("/faculty")
       .then((res) => {
         const objects = res.data.objects;
         setSubjectList(objects);

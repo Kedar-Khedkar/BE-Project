@@ -6,7 +6,7 @@ import {
   Button
 } from "@mantine/core";
 import { IconUserPlus, IconCheck, IconX } from "@tabler/icons-react";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { showNotification } from "@mantine/notifications";
 import { useForm, isEmail, isNotEmpty } from "@mantine/form";
 
@@ -38,7 +38,7 @@ export function FacultyForm() {
     // form.setFieldValue('role',"faculty")
     console.log(form.values);
     axios
-      .post("http://localhost:5000/users/facultyRegister", form.values)
+      .post("/users/facultyRegister", form.values)
       .then(function (response) {
         if (response.data.status === "success") {
           showNotification({

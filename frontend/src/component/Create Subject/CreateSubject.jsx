@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { TextInput, Button, Box, Code, NativeSelect } from "@mantine/core";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { IconUserPlus, IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
 
@@ -26,9 +26,9 @@ export default function CreateSubject() {
     console.log(form.values);
     axios
       .post(
-        "http://localhost:5000/subjects/create",
+        "/subjects/create",
         { subject: form.values },
-        { withCredentials: true }
+    
       )
       .then(function (response) {
         if (response.data.status === "success") {

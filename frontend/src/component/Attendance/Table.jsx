@@ -11,7 +11,7 @@ import {
   Text,
   Button,
 } from "@mantine/core";
-import axios from "axios";
+import axios from "../../axiosConfig";
 
 const useStyles = createStyles((theme) => ({
   rowSelected: {
@@ -75,9 +75,7 @@ export default function TableSelection({
       }
     });
     axios
-      .post("http://localhost:5000/attend/multiple", presenteeList, {
-        withCredentials: true,
-      })
+      .post("/attend/multiple", presenteeList)
       .then((res) => {
         showNotification({
           title: "Success!",

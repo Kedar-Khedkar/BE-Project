@@ -11,7 +11,7 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { useRef, useEffect, useState } from "react";
 import React from "react";
 import { IconDownload } from "@tabler/icons-react";
@@ -34,8 +34,7 @@ export default function RollNoManagement() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/student/search", {
-        withCredentials: true,
+      .get("/student/search", {
         params: filter,
       })
       .then((res) => {
@@ -79,9 +78,8 @@ export default function RollNoManagement() {
       const id = ele[2];
       await axios
         .put(
-          `http://localhost:5000/student/${id}`,
+          `/student/${id}`,
           { student: { rollno: ele[1] } },
-          { withCredentials: true }
         )
         .then((res) => {
           result.push(res.data);

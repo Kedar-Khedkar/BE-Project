@@ -12,7 +12,7 @@ import {
   Box,
 } from '@mantine/core';
 import { IconArrowLeft } from '@tabler/icons-react';
-import axios  from 'axios';
+import axios from "../../axiosConfig";
 import { useSearchParams } from 'react-router-dom';
 import { PasswordInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
@@ -60,8 +60,7 @@ export function ResetPassword() {
   const token = searchParams.get("token");
 
   const handleSubmit = (event, values) => {
-    axios.post("http://localhost:5000/users/reset-password", {email: email, token: token,...form.values}, { 
-    withCredentials:true},
+    axios.post("/users/reset-password", {email: email, token: token,...form.values}
   ).then(
     function(res){
       showNotification({

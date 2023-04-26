@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import StudentAccount from "../component/User Account/StudentAccount";
-import axios from "axios";
+import axios from "../axiosConfig";
 import { Anchor, Center, Box } from "@mantine/core";
 import NonStudentAccount from "../component/User Account/NonStudentAccount";
 import { IconArrowLeft } from "@tabler/icons-react";
@@ -11,7 +11,7 @@ export default function MyAccount() {
   const user = JSON.parse(secureLocalStorage.getItem("user"));
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/users/my-account`, { withCredentials: true })
+      .get(`/users/my-account`)
       .then((res) => {
         setUserData(res.data.objects);
       });

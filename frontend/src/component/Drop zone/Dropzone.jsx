@@ -2,7 +2,7 @@ import { Button, Grid, Text, Stack } from "@mantine/core";
 import { Dropzone } from "@mantine/dropzone";
 import { showNotification } from "@mantine/notifications";
 import { IconAlertTriangleFilled, IconUpload } from "@tabler/icons-react";
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { useState } from "react";
 
 export default function DropzoneButton({
@@ -39,7 +39,6 @@ export default function DropzoneButton({
         headers: {
           "Content-Type": "multipart/form-data",
         },
-        withCredentials: true,
       })
       .then((res) => onResponse(res))
       .catch((err) => {

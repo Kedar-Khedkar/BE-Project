@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, NativeSelect, Grid } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { IconCalendarEvent } from "@tabler/icons-react";
-import axios from "axios";
+import axios from "../../axiosConfig";
 
 import Table from "./Table";
 
@@ -16,7 +16,7 @@ export default function Attendance({ reqRefresh }) {
   /* Fetching data from the server and setting the state of the component. */
   useEffect(() => {
     axios
-      .get("http://localhost:5000/faculty", { withCredentials: true })
+      .get("/faculty")
       .then((res) => {
         const objects = res.data.objects;
         setSubjectList(objects);
