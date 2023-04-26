@@ -30,7 +30,7 @@ module.exports.validateUTquery = async (req, res, next) => {
     res.status(400).send({
       status: "error",
       objects: null,
-      err: "Subject Code and sem do not match Invalid query",
+      err: `Subject with code: ${req.query.SubjectSubCode} does not belong to sem: ${req.query.sem}\nInvalid query!`,
     });
   }
 };
