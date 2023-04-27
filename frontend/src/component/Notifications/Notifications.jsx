@@ -70,7 +70,6 @@ export default function Notifications() {
           <NativeSelect
             data={["2", "3", "4"]}
             label="Select year"
-            description="This is anonymous"
             radius="lg"
             withAsterisk
             value={filter.curryear}
@@ -83,7 +82,6 @@ export default function Notifications() {
           <NativeSelect
             data={["3", "4", "5", "6", "7", "8"]}
             label="Select semester"
-            description="This is anonymous"
             radius="lg"
             withAsterisk
             value={filter.curr_sem}
