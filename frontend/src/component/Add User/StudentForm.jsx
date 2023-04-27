@@ -28,8 +28,8 @@ export function StudentForm() {
         curryear: "2",
       },
       parent: {
-        email: "",
-        phone: "",
+        email: "undefined",
+        phone: "0",
       },
     },
 
