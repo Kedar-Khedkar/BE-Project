@@ -39,7 +39,8 @@ module.exports.validateMarksquery = async (req, res, next) => {
     where: { subCode: req.query.SubjectSubCode },
     attributes: ["sem"],
   });
-  if (subject.sem == req.query.sem) {
+  console.log(req.query)
+  if (subject && subject.sem == req.query.sem) {
     next();
   } else {
     res.status(400).send({

@@ -14,6 +14,8 @@ export default function MarksTabs() {
   const { tabValue } = useParams();
   const [unitTestData, setUnitTestData] = useState([]);
   const [filters, setFilters] = useState({ subcode: null, sem: null });
+  const [insemFilters, setinsemFilters] = useState({subcode: null, sem:null});
+  const [insemData, setInsemData] = useState([]);
   const getUTData = (subcode, sem) => {
     setFilters({ subcode: subcode, sem: sem });
     axios
@@ -27,6 +29,15 @@ export default function MarksTabs() {
         setUnitTestData(res.data.objects);
       });
   };
+
+  const getInsemData = (subcode, sem) => {
+    setinsemFilters({sem: sem, subcode: subcode});
+    axios.get(`http://localhost:5000/marks?SubjectSubCode=${subcode}&sem=${sem}`, {withCredentials:true})
+    .then((res)=>{
+      setInsemData(res.data.objects);
+    });
+  };
+
   return (
     <Container fluid>
       <Anchor href="/dashboard" mt={24}>
@@ -56,8 +67,8 @@ export default function MarksTabs() {
 
         <Tabs.Panel value="2" pt="xs">
           {/* <ImageWithRectangles /> */}
-          <SubjectFilter/>
-          <InSem/>
+          <SubjectFilter onChange={getInsemData}/>
+          <InSem data={insemData} refresh={getInsemData} insemFilters={insemFilters}/>
         </Tabs.Panel>
 
         <Tabs.Panel value="3" pt="xs">
