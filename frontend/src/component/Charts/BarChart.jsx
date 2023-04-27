@@ -34,11 +34,11 @@ export default function BarChart({ data, title, x, y, y_tickValues, color }) {
           />
           {/* <VictoryAxis dependentAxis tickValues={y_tickValues} /> */}
         </VictoryChart>
-        <Center>
+        {/* <Center>
           <Text size={"xl"} weight={"bold"}>
             {title}
           </Text>
-        </Center>
+        </Center> */}
       </Paper>
     </>
   );

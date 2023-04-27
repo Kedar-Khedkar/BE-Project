@@ -1,4 +1,4 @@
-import { Center, Paper, SimpleGrid, Title, Divider } from "@mantine/core";
+import { Center, Paper, SimpleGrid, Title, Divider,Space } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import React from "react";
 import AnimatedProgressBarCircle from "./AnimatedProgressBarCircle";
@@ -52,7 +52,8 @@ export default function YearlyStats({ data, currFilters, setFilters }) {
           dataDisplay={`${Number(data[1].avg[0].deptAvg)}%`}
         />
       </SimpleGrid>
-      <h1>Subjectwise Distribution (SE, TE, BE)</h1>
+      <Space h="lg" />
+      <h1 >Subjectwise Distribution (SE, TE, BE)</h1>
       <Divider mb={6} />
       <SimpleGrid cols={2}>
         <BarChart
