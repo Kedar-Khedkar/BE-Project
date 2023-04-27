@@ -123,7 +123,7 @@ export default function HeaderAction({ links }) {
   ]);
 
   return (
-    <Header height={HEADER_HEIGHT} mb={20}>
+    <Header height={HEADER_HEIGHT} >
       <Container className={classes.inner} fluid>
         <Group>
           <Burger

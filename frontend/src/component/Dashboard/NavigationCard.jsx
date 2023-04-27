@@ -65,7 +65,7 @@ export default function NavigationCard(props) {
   //   ));
   return (
     <Anchor href={props.link} underline={false}>
-      <Card withBorder shadow="sm" p="lg" radius="md" className={classes.card}>
+      <Card withBorder shadow="sm" p="lg" radius="md" className={classes.card} mt={10}>
         <Card.Section>
           <Image
             src={props.image}
