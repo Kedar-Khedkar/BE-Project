@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const session = require("express-session");
 const flash = require("connect-flash");
+const compression = require("compression");
 
 const sessionStore = require("connect-session-sequelize")(session.Store);
 const ExpressError = require("./utils/ExpressError");
@@ -98,6 +99,7 @@ app.use((req, res, next) => {
   res.locals.error = req.flash("error");
   next();
 });
+app.use(compression());
 
 app.use("/users", userRoutes);
 app.use("/subjects", subjectRoutes);
