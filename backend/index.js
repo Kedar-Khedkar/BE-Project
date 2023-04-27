@@ -3,6 +3,8 @@ const morgan = require("morgan");
 const cors = require("cors");
 const session = require("express-session");
 const flash = require("connect-flash");
+const compression = require("compression");
+
 
 const sessionStore = require("connect-session-sequelize")(session.Store);
 const ExpressError = require("./utils/ExpressError");
@@ -42,6 +44,7 @@ app.use(
 );
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static("build"));
 
 try {
   sequelize.authenticate();
@@ -88,6 +91,7 @@ const initialize = async () => {
     });
   }
 };
+
 app.use(passport.initialize());
 app.use(passport.session());
 auth(passport);
@@ -98,6 +102,7 @@ app.use((req, res, next) => {
   res.locals.error = req.flash("error");
   next();
 });
+app.use(compression());
 
 app.use("/users", userRoutes);
 app.use("/subjects", subjectRoutes);
@@ -109,6 +114,10 @@ app.use("/unitTest", unitTestRoutes);
 app.use("/parents", parentRoutes);
 app.use("/notify", notifRoutes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(documentation));
+
+app.get('/*', (req,res) => {
+  res.sendFile(__dirname + '/./build/index.html')
+})
 
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));
@@ -123,6 +132,8 @@ app.use((err, req, res, next) => {
     .status(statusCode)
     .send({ status: "error", objects: null, err: err.message });
 });
+
+
 
 app.listen(5000, async () => {
   await initialize();
