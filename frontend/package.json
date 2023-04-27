@@ -36,7 +36,7 @@
     "react-scripts": "5.0.1",
     "react-secure-storage": "^1.1.0",
     "react-super-responsive-table": "^5.2.1",
-    "serve": "^14.0.1",
+    "serve": "^14.2.0",
     "slate": "^0.93.0",
     "slate-react": "^0.93.0",
     "victory": "^36.6.8",
@@ -44,6 +44,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "deploy": "serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
