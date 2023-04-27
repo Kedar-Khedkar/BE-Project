@@ -3,7 +3,7 @@ import { Table, NumberInput, Text, Paper, Container, ScrollArea } from "@mantine
 import { useDebouncedValue } from "@mantine/hooks";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import { showNotification } from "@mantine/notifications";
-import axios from "axios";
+import axios from "../../axiosConfig";
 
 export default function InSem({data, refresh, insemFilters}){
   console.log(data);
@@ -12,7 +12,7 @@ export default function InSem({data, refresh, insemFilters}){
 
   useEffect(()=>{
     if(debounced){
-      axios.put("http://localhost:5000/marks",{mark: {...debounced}}, {withCredentials:true})
+      axios.put("/marks",{mark: {...debounced}})
       .then((res)=>{
         console.log(res)
         showNotification({

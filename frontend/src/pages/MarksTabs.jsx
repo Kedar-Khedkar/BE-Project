@@ -32,7 +32,7 @@ export default function MarksTabs() {
 
   const getInsemData = (subcode, sem) => {
     setinsemFilters({sem: sem, subcode: subcode});
-    axios.get(`http://localhost:5000/marks?SubjectSubCode=${subcode}&sem=${sem}`, {withCredentials:true})
+    axios.get(`/marks?SubjectSubCode=${subcode}&sem=${sem}`)
     .then((res)=>{
       setInsemData(res.data.objects);
     });
