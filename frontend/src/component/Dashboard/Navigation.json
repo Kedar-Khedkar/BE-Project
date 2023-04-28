@@ -94,5 +94,32 @@
     "group": "Marks management",
     "value": "Generate Report",
     "description": "generate marks report marks result analysis"
+  },
+  {
+    "link": "/miscellaneous-mgmt/1",
+    "group": "Miscellaneous",
+    "value": "Student Promotion",
+    "description": "Student promotion"
+  }
+  ,
+  {
+    "link": "/miscellaneous-mgmt/2",
+    "group": "Miscellaneous",
+    "value": "Notification",
+    "description": "Send notification"
+  }
+  ,
+  {
+    "link": "/miscellaneous-mgmt/3",
+    "group": "Miscellaneous",
+    "value": "Map Seat Number",
+    "description": "Map Seat number"
+  }
+  ,
+  {
+    "link": "/miscellaneous-mgmt/4",
+    "group": "Miscellaneous",
+    "value": "Roll Number Management",
+    "description": "Roll number management"
   }
 ]
