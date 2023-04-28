@@ -8,7 +8,7 @@ let config = {
   db_name: "ddms",
 };
 
-if (process.env == "production") {
+if (process.env.NODE_ENV == "production") {
   console.log("PRODUCTION ENVIRONMENT VARIABLES SET");
   config.db_host = process.env.DB_HOST;
   config.db_port = process.env.DB_PORT;

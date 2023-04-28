@@ -4,7 +4,7 @@ let config = {
   baseURL: "http://localhost:5000",
   withCredentials: true,
 };
-if (process.env === "production") {
+if (process.env.NODE_ENV === "production") {
   console.log("PRODUCTION ENVIRONMENT VARIABLES SET");
   config.baseURL = `http://${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}`;
 }
