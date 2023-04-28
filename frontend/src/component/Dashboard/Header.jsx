@@ -13,6 +13,7 @@ import {
   Anchor,
   Kbd,
   Autocomplete,
+  Paper
 } from "@mantine/core";
 import { useDisclosure, useHotkeys, useFocusTrap } from "@mantine/hooks";
 import { useNavigate } from "react-router-dom";
@@ -123,8 +124,15 @@ export default function HeaderAction({ links }) {
   ]);
 
   return (
+    <Paper sx={{ 
+      backgroundColor: 'transparent',
+      backdropFilter: 'blur(200px) saturate(180%)' 
+    }}>
     <Header height={HEADER_HEIGHT} >
-      <Container className={classes.inner} fluid>
+      <Container className={classes.inner} fluid sx={{ 
+      backgroundColor: 'transparent',
+      backdropFilter: 'blur(100px)' 
+    }}>
         <Group>
           <Burger
             opened={opened}
@@ -229,5 +237,6 @@ export default function HeaderAction({ links }) {
         )}
       </Container>
     </Header>
+    </Paper>
   );
 }
