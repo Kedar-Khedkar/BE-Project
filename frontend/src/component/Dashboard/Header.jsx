@@ -124,15 +124,8 @@ export default function HeaderAction({ links }) {
   ]);
 
   return (
-    <Paper sx={{ 
-      backgroundColor: 'transparent',
-      backdropFilter: 'blur(200px) saturate(180%)' 
-    }}>
     <Header height={HEADER_HEIGHT} >
-      <Container className={classes.inner} fluid sx={{ 
-      backgroundColor: 'transparent',
-      backdropFilter: 'blur(100px)' 
-    }}>
+      <Container className={classes.inner} fluid>
         <Group>
           <Burger
             opened={opened}
@@ -237,6 +230,5 @@ export default function HeaderAction({ links }) {
         )}
       </Container>
     </Header>
-    </Paper>
   );
 }
