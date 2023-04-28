@@ -73,21 +73,6 @@ export default function AttendanceFilter({ children, onChange, reqData }) {
             placeholder="select a range"
           />
         </Grid.Col>
-        {/* <Grid.Col span={4}>
-          <NativeSelect
-            data={["2", "3", "4"]}
-            label="Select Year"
-            description="Choose which year students need to be displayed"
-            defaultValue={"2"}
-            onChange={(e) => {
-              setFilters({ ...filters, year: e.target.value });
-            }}
-            radius="lg"
-            size="md"
-            icon={<IconSchool size={24} />}
-            withAsterisk
-          />
-        </Grid.Col> */}
       </Grid>
       {children}
     </Container>

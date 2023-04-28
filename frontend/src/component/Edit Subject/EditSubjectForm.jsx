@@ -121,21 +121,6 @@ export default function EditSubjectForm({ data, onClose, opened, reqRefresh }) {
           }}
           withAsterisk
         />
-
-        {/* <TextInput
-          type="number"
-          label="Termwork"
-          placeholder="Termwork"
-          mt="md"
-          withAsterisk
-          required
-          min={0}
-          max={50}
-          value={formValue.termWork}
-          onChange={(e) => {
-            setFormValue({ ...formValue, termWork: e.target.value });
-          }}
-        /> */}
         <Button
           onClick={() => {
             console.log();

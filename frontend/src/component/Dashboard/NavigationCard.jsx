@@ -30,39 +30,10 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-// const NavigationCardData = [
-//   {
-//     image: `${attendance}`,
-//     title: "Attendance",
-//     link: "string",
-//     description: "Mark attendance",
-//   },
-//   {
-//     image: `${user}`,
-//     title: "User",
-//     link: "string",
-//     description: "",
-//   },
-//   {
-//     image: `${user}`,
-//     title: "User",
-//     link: "string",
-//     description: "",
-//   },
-//   {
-//     image: `${user}`,
-//     title: "User",
-//     link: "string",
-//     description: "",
-//   },
-// ];
-
 export default function NavigationCard(props) {
   const { classes } = useStyles();
 
-  //   const cards = NavigationCardData.map((card, id) => (
 
-  //   ));
   return (
     <Anchor href={props.link} underline={false}>
       <Card withBorder shadow="sm" p="lg" radius="md" className={classes.card} mt={10}>
