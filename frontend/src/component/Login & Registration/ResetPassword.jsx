@@ -124,7 +124,7 @@ export function ResetPassword() {
           >Reset password</Button>
         </Group>
       </Paper>
-      <Anchor href="http://localhost:3000" color="dimmed" size="sm" className={classes.control}>
+      <Anchor href="/" color="dimmed" size="sm" className={classes.control}>
               <Center inline>
                 {<IconArrowLeft size={12} stroke={1.5} />}
                 <Box ml={5}>Back to login page</Box>
