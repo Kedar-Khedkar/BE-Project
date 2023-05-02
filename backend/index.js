@@ -35,12 +35,17 @@ const notifRoutes = require("./routes/notification");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
-);
+
+const CORSconfig = {
+  credentials: true,
+};
+
+CORSconfig["origin"] =
+  process.env.NODE_ENV === "production"
+    ? `http://${process.env.FRONTEND_IP}:3000`
+    : "http://localhost:3000";
+
+app.use(cors(CORSconfig));
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -64,12 +69,16 @@ const sessionConfig = {
   proxy: true,
   saveUninitialized: true,
   cookie: {
-    // httpOnly: true,
-    // secure: true,     UNCOMMENT BEFORE DEPLOYMENT
+    httpOnly: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 };
+
+if (process.env.NODE_ENV === "production") {
+  sessionConfig.cookie["secure"] = true;
+  sessionConfig.cookie["sameSite"] = "None";
+}
 
 app.use(session(sessionConfig));
 app.use(flash());
@@ -127,8 +136,9 @@ app.use((err, req, res, next) => {
     .status(statusCode)
     .send({ status: "error", objects: null, err: err.message });
 });
-
+const PORT =
+  process.env.NODE_ENV === "production" ? process.env.BACKEND_PORT : 5000;
 app.listen(5000, async () => {
   await initialize();
-  console.log("Listening on Port 5000");
+  console.log(`Listening on Port ${PORT}`);
 });

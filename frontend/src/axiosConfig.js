@@ -1,13 +1,9 @@
 import axios from "axios";
 
-let config = {
-  baseURL: "http://localhost:5000",
-  withCredentials: true,
-};
-if (process.env.NODE_ENV === "production") {
-  console.log("PRODUCTION ENVIRONMENT VARIABLES SET");
-  config.baseURL = `http://${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}`;
-}
-const axiosInstance = axios.create(config);
-
+const axiosInstance = axios.create({});
+axiosInstance.defaults.withCredentials = true;
+axiosInstance.defaults.baseURL =
+  process.env.NODE_ENV === "production"
+    ? `http://${process.env.REACT_APP_API_HOST}:5000`
+    : "http://localhost:5000";
 export default axiosInstance;
