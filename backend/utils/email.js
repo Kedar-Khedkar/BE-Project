@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
 
 const sendMail = (email, subject, msg) => {
   message = {
-    from: "mitalichougule21@gmail.com",
+    from: "mitalichougule2019.it@mmcoe.edu.in",
     to: email,
     subject: subject,
     text: msg,
@@ -26,3 +26,44 @@ const sendMail = (email, subject, msg) => {
 };
 
 module.exports = { sendMail };
+
+// const client = require('twilio')('your_twilio_account_sid', 'your_twilio_auth_token');
+// const sgMail = require('@sendgrid/mail');
+// sgMail.setApiKey('your_sendgrid_api_key');
+
+// const sgMail = require('@sendgrid/mail');
+// sgMail.setApiKey("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");
+
+// const sendMail = (email, subject, msg) => {
+    // const message = {
+    //     to: "mitalichougule21@gmail.com",
+    //     from: "mitalichougule21@gmail.com",
+    //     subject: "ddms",
+    //     text: "msg",
+    // };
+    // sgMail
+    // .send(message)
+    // .then(()=>{
+    //     console.log("email sent");
+    // })
+    // .catch((error)=>{
+    //     console.log(error);
+    // })
+// };
+
+// module.exports = { sendMail };
+
+// const message = {
+//       to: "ddmsIt@yahoo.com",
+//       from: "ddmsIt@yahoo.com",
+//       subject: "ddms",
+//       text: "msg",
+//   };
+//   sgMail
+//   .send(message)
+//   .then(()=>{
+//       console.log("email sent");
+//   })
+//   .catch((error)=>{
+//       console.log(error);
+//   })

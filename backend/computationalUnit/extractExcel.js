@@ -73,7 +73,17 @@ const extractUsers = async (filename) => {
       } else {
         // let password = controller.genPassword();
         let password = "password";
-        await controller.register(user, password);
+        if(user.role != 'student'){
+          await controller.register(user, password);
+        }else{
+          let prn = row.values[5];
+          if(!prn){
+            user.errmsg = "PRN is Missing"
+            errorValues.push(user)
+          }else{
+            await controller.register(user, password,{student:{"prn": prn}})
+          }
+        }
         await informUser(user);
         successCount++;
       }
